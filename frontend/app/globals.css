@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300;400;600;700;900&display=swap");
+
+:root {
+  --background: #000000; /* Set default background to black */
+  --foreground: #ffffff; /* Set default foreground to white */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000; /* Ensure dark mode background remains black */
+    --foreground: #ffffff; /* Ensure dark mode text color remains white */
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+@keyframes loopGif {
+  0% {
+    background-image: url("/R1WZ.gif");
+  }
+  100% {
+    background-image: url("/R1WZ.gif");
+  }
+}
