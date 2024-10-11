@@ -1,14 +1,7 @@
 const multer = require("multer");
-const path = require("path");
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
+// Use memoryStorage instead of diskStorage
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.post("/:id/submit-answers", upload.single("cv"), async (req, res) => {
@@ -23,9 +16,15 @@ router.post("/:id/submit-answers", upload.single("cv"), async (req, res) => {
     candidate.quizzes.forEach((quiz, index) => {
       quiz.answer = answers[index];
     });
+
     if (req.file) {
-      candidate.cv = req.file.filename;
+      // You can access file buffer via req.file.buffer and upload it to an external storage service
+      const cvBuffer = req.file.buffer;
+
+      // For demonstration purposes, save the filename in the database (you may need to upload the file to a remote service here)
+      candidate.cv = req.file.originalname;  // Or use a generated name, depending on your requirement
     }
+
     await candidate.save();
 
     res.status(200).json({ message: "Answers and CV submitted successfully" });
