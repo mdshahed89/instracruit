@@ -5,7 +5,7 @@ router.post("/send-email", async (req, res) => {
   const { to, subject, body } = req.body;
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.EMAIL_CONTACT,
     to,
     subject,
     text: body,

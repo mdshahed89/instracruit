@@ -94,7 +94,7 @@ export default function UserProfile() {
     const fetchCandidatesAndScreening = async () => {
       try {
         const response = await fetch(
-          "https://instacruit-backend.vercel.app/api/candidates"
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates`
         );
         const data = await response.json();
         const candidate = data[0];

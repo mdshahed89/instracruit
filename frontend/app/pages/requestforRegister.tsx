@@ -32,7 +32,7 @@ export default function Register() {
 
     try {
       const response = await fetch(
-        "https://instacruit-backend.vercel.app/api/send-email",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/send-email`,
         {
           method: "POST",
           headers: {

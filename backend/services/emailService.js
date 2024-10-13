@@ -39,14 +39,14 @@ const sendContactEmail = async (
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
-        user: process.env.EMAIL_USER,
+        user: process.env.EMAIL_CONTACT,
         pass: process.env.EMAIL_PASS,
       },
     });
     const mailOptions = {
       from: email,
-      to: process.env.RECEIVER_EMAIL,
-      subject: "New Contact Form Submission",
+      to: process.env.EMAIL_CONTACT,
+      subject: "Ny innsendelse av kontaktskjema",
       text: `
         Bedriftsnavn: ${companyName}
         E-post: ${email}
@@ -82,7 +82,7 @@ const sideOneContact = async (
 
     const mailOptions = {
       from: email,
-      to: process.env.RECEIVER_EMAIL,
+      to: process.env.EMAIL_USER,
       subject: "New Contact Form Submission",
       text: `
         Bedriftsnavn: ${companyName}

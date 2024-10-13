@@ -31,7 +31,7 @@ const RegisterPage = () => {
 
     try {
       const response = await fetch(
-        `https://instacruit-backend.vercel.app/api/auth/register-invitation`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register-invitation`,
         {
           method: "POST",
           headers: {

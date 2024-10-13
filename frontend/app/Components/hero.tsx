@@ -23,7 +23,7 @@ const letter = {
 };
 
 const Hero: React.FC = () => {
-  const text = "Velkommen til instacruit";
+  const text = "Velkommen til instacruit";
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
     <section
       className="relative text-black py-10 overflow-hidden bg-black bg-cover bg-center"
       style={{
-        height: "80vh",
+        height: "100vh",
       }}
     >
       <video
@@ -65,8 +65,8 @@ const Hero: React.FC = () => {
         Your browser does not support the video tag.
       </video>
 
-      <div className="container mx-auto px-6 flex flex-col md:flex-row items-center justify-end relative z-10 h-full">
-        <div className="w-full md:w-auto mb-6 md:mb-0 flex flex-col justify-center items-start md:pr-8 lg:pr-16 lg:pl-8 text-left">
+      <div className="container mx-auto px-3 flex flex-col md:flex-row items-center justify-center md:mt-0 mt-[5%] md:justify-end relative z-10 h-full">
+        <div className="w-full md:w-auto mb-6 md:mb-0 flex flex-col justify-center md:items-start items-center md:pr-8 lg:pr-0 lg:pl-8 text-left">
           <motion.h1
             className="text-2xl sm:text-3xl md:text-4xl font-titillium font-bold leading-tight mb-4"
             variants={sentence}
@@ -76,12 +76,12 @@ const Hero: React.FC = () => {
           >
             {text.split("").map((char, index) => {
               // Apply purple color starting from the index where "instacruit" starts
-              const isPurple = index >= text.indexOf("Instacruit");
+              const isPurple = index >= text.indexOf("instacruit");
 
               return (
                 <motion.span
                   key={index}
-                  className={isPurple ? "text-[#181317]" : "text-white"}
+                  className={`${isPurple ? "text-[#830e70]" : "text-white"} md:text-[2.6rem] text-[1.8rem] lg:text-[3rem] `}
                   variants={letter}
                 >
                   {char}
@@ -91,14 +91,14 @@ const Hero: React.FC = () => {
           </motion.h1>
 
           <motion.p
-            className="w-full text-sm sm:text-base md:text-lg lg:text-xl font-mingzat mb-6 text-white leading-normal md:leading-relaxed"
+            className="w-full md:text-start text-center text-sm sm:text-base md:text-lg lg:text-xl font-mingzat mb-6 text-white leading-normal md:leading-relaxed"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             viewport={{ once: false, amount: 0.2 }}
           >
             InstaCruit: Sikre deg kvalifiserte kandidater med <br />
-            InstaCruiter – ditt pålitelige verktøy for rekruttering!
+            InstaCruiter - ditt pålitelige verktøy for rekruttering!
           </motion.p>
 
           <div className="flex flex-row justify-start space-x-4 mt-1">

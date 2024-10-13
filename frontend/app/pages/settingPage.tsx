@@ -30,7 +30,7 @@ export default function SettingsPage() {
   const saveFormData = async () => {
     try {
       const response = await fetch(
-        "https://instacruit-backend.vercel.app/api/form/save",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/form/save`,
         {
           method: "POST",
           headers: {
@@ -76,7 +76,7 @@ export default function SettingsPage() {
 
     try {
       const response = await fetch(
-        "https://instacruit-backend.vercel.app/api/invitations/invite",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/invitations/invite`,
         {
           method: "POST",
           headers: {

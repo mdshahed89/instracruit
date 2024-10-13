@@ -41,8 +41,8 @@ router.post("/signup", async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Welcome to Our instacruit!",
-      text: `Hello ${name},\n\nYour account has been successfully created.\n\nHere are your credentials:\n\nEmail: ${email}\nPassword: ${password}\n\nPlease change your password after your first login for security reasons.\n\nBest regards,\nYour Team`,
+      subject: "Velkommen til vår Instacruit!",
+      text: `Hei ${name},\n\nDin konto har blitt opprettet.\n\nHer er dine påloggingsdetaljer:\n\nE-post: ${email}\nPassord: ${password}\n\nVennligst endre passordet ditt etter din første pålogging av sikkerhetsmessige årsaker.\n\nVennlig hilsen,\nDitt team`,
     };
 
     await transporter.sendMail(mailOptions);

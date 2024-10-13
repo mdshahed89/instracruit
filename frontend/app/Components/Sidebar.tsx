@@ -15,6 +15,7 @@ import { CgOrganisation } from "react-icons/cg";
 import { RxExit } from "react-icons/rx";
 
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 interface Item {
   id: string;
@@ -142,11 +143,13 @@ const Sidebar: React.FC = () => {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="flex items-center"
           >
-            <img
+           <Link href={'/'} >
+           <img
               src="/logo.png"
               alt="InstaCruit Logo"
               className="h-12 md:h-16"
             />
+           </Link>
           </motion.div>
 
           {isAnimationComplete && isOpen && (
@@ -289,7 +292,7 @@ const fetchCandidates = async (): Promise<Candidate[] | undefined> => {
 
   try {
     const response = await fetch(
-      "https://instacruit-backend.vercel.app/api/candidates",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -318,7 +321,7 @@ const fetchCandidates = async (): Promise<Candidate[] | undefined> => {
 
         try {
           const screeningsResponse = await fetch(
-            `https://instacruit-backend.vercel.app/api/candidates/${candidateId}/screening-answers`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${candidateId}/screening-answers`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -731,7 +734,7 @@ const MainDashboard = () => {
         try {
           const token = localStorage.getItem("authToken");
           await fetch(
-            `https://instacruit-backend.vercel.app/api/candidates/${movedItem.id}/position`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${movedItem.id}/position`,
             {
               method: "PUT",
               headers: {
@@ -772,11 +775,12 @@ const MainDashboard = () => {
 
           <div className="overflow-x-hidden">
             <div className="overflow-x-auto ">
-              <div className="flex gap-4">
+              <div style={{ pointerEvents: "none" }} className="flex gap-4">
                 {Object.entries(columns).map(([columnId, column], index) => (
-                  <DroppableColumn key={columnId} id={columnId}>
+                  <DroppableColumn  key={columnId} id={columnId}>
                     <div
-                      className={`rounded-lg p-2 min-h-[500px] min-w-[220px] ${
+                     style={{ pointerEvents: "none" }}
+                      className={`rounded-lg p-2 min-h-[500px] min-w-[220px] z-30 ${
                         index < Object.entries(columns).length - 1 ? " " : ""
                       }`}
                     >
@@ -784,18 +788,19 @@ const MainDashboard = () => {
                         {column.name}
                       </h2>
                       {column.items.map((item) => (
-                        <DraggableItem key={item.id} id={item.id}>
+                        <DraggableItem  key={item.id} id={item.id}>
                           <div className="relative bg-white text-black p-2 rounded-lg mb-4 cursor-pointer">
                             <div
                               className={`bg-white ${
                                 columnId === "ikke-kvalifisert" ? "p-1" : "p-2"
                               } rounded-lg w-full`}
-                              style={{ zIndex: 999 }}
-                              onClick={(e) => {
+                              
+                              style={{ zIndex: 9999999999999, pointerEvents: "auto" }} onClick={(e) => {
                                 e.stopPropagation();
                                 e.preventDefault();
                                 handleCandidateClick(item.id);
-                              }}
+                              }} 
+                              
                             >
                               <div
                                 className={`flex items-center ${

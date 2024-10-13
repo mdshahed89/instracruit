@@ -15,7 +15,7 @@ const MessageForm: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/messages/save-message",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/messages/save-message`,
         {
           method: "POST",
           headers: {

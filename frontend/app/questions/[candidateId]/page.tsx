@@ -23,7 +23,7 @@ export default function CandidateQuestions() {
 
       try {
         const res = await fetch(
-          `https://instacruit-backend.vercel.app/api/candidates/${candidateId}/get-questions`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${candidateId}/get-questions`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -74,7 +74,7 @@ export default function CandidateQuestions() {
     try {
       const token = localStorage.getItem("authToken");
       const response = await fetch(
-        `https://instacruit-backend.vercel.app/api/candidates/${candidateId}/submit-answers`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${candidateId}/submit-answers`,
         {
           method: "POST",
           headers: {

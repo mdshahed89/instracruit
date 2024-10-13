@@ -127,7 +127,7 @@ export default function CandidateForm() {
 
     try {
       const response = await fetch(
-        "https://instacruit-backend.vercel.app/api/candidates",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates`,
         {
           method: "POST",
           headers: {

@@ -115,7 +115,7 @@ export default function CandidateProfile() {
 
         // Update the candidate's column position on the back-end
         const response = await fetch(
-          `https://instacruit-backend.vercel.app/api/candidates/${data._id}/position`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${data._id}/position`,
           {
             method: "PUT",
             headers: {
@@ -185,7 +185,7 @@ export default function CandidateProfile() {
       text: `Kjære ${candidateName},
             Vennligst send din CV ved å klikke på lenken under og besvare følgende spørsmål:
             ${questions.join("\n")}
-            http://localhost:3000/questions/${id}
+            ${process.env.NEXT_PUBLIC_FRONTEND_URL}/questions/${id}
           `,
       candidateId: id,
       questions,
@@ -193,7 +193,7 @@ export default function CandidateProfile() {
 
     try {
       const response = await fetch(
-        "https://instacruit-backend.vercel.app/api/candidates/send-email",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/send-email`,
         {
           method: "POST",
           headers: {
@@ -234,7 +234,7 @@ export default function CandidateProfile() {
 
       try {
         const response1 = await fetch(
-          `https://instacruit-backend.vercel.app/api/candidates/${id}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -268,7 +268,7 @@ export default function CandidateProfile() {
         setProgress(data1.jobMatchProgress || 0);
 
         const response2 = await fetch(
-          `https://instacruit-backend.vercel.app/api/candidates/${id}/screening-answers`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${id}/screening-answers`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -363,7 +363,7 @@ export default function CandidateProfile() {
       }
 
       const response = await fetch(
-        `https://instacruit-backend.vercel.app/api/candidates/${id}/job-match`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${id}/job-match`,
         {
           method: "PUT",
           headers: {
