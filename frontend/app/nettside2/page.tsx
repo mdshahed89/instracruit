@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 
+
 interface FormData {
   companyName: string;
   email: string;
@@ -80,7 +81,8 @@ const ContactForm = () => {
         <div className="flex flex-col gap-10 md:flex-row items-stretch justify-center mt-20 pt-10 w-full max-w-6xl mx-auto">
           <div className="bg-[#222121] p-8 rounded-lg w-full md:w-1/2 text-white mb-8 md:mb-0 flex flex-col justify-between">
             <h1 className="text-xl font-bold mb-4 text-center">
-            Ønsker du en profesjonell nettside som tiltrekker kunder? I samarbeid med Sidesone gjør vi det enkelt! Sidesone tilbyr kreativt design og brukervennlige løsninger. La oss sammen realisere din visjon!
+              Ønsker du en profesjonell logo for din bedrift? Kontakt oss i
+              Sidesone for skreddersydde løsninger!
             </h1>
 
             <div className="flex items-center mb-4 justify-between">
@@ -114,13 +116,13 @@ const ContactForm = () => {
                 placeholder="Epost"
                 required
               />
-              <label className="block mb-2">Beskriv din nettside</label>
+              <label className="block mb-2">Beskriv din logo</label>
               <textarea
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
                 className="w-full mb-4 p-3 rounded-3xl bg-gray-700 text-white outline-none"
-                placeholder="Beskriv din nettside"
+                placeholder="Beskriv din logo"
                 rows={4}
                 required
               ></textarea>

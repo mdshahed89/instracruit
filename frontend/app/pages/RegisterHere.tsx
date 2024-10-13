@@ -40,7 +40,7 @@ export default function ContactUsPage() {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://instacruit-backend.vercel.app/api/contact/send-email",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contact/send-email`,
         {
           method: "POST",
           headers: {

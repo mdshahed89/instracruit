@@ -53,7 +53,7 @@ const Sidebar: React.FC = () => {
 
   const handleLogout = () => {
     const token = localStorage.getItem("authToken");
-    fetch("http://localhost:5000/api/auth/logout", {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const Sidebar: React.FC = () => {
     const token = localStorage.getItem("authToken");
 
     if (token) {
-      fetch("http://localhost:5000/api/auth/user-info", {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user-info`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

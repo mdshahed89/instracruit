@@ -20,7 +20,7 @@ export default function Login() {
 
     try {
       const response = await fetch(
-        "https://instacruit-backend.vercel.app/api/auth/login",
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,
         {
           method: "POST",
           headers: {

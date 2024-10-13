@@ -27,7 +27,7 @@ const services = [
     title: "Logo",
     description: "Design av unike logoer som representerer ditt merke.",
     icon: FaPencilAlt,
-    route: "/nettside1",
+    route: "/nettside2",
   },
 ];
 

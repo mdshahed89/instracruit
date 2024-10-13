@@ -60,6 +60,11 @@ app.use("/api/messages", messageRoutes);
 app.use("/api", registrationRequestRoute);
 
 const PORT = process.env.PORT || 5000;
+
+app.get('/', (req, res) => {
+  res.send('Backend is running correctly');
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   console.log("CLIENT_URL from .env:", process.env.CLIENT_URL);
