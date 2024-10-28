@@ -81,6 +81,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         titillium: ['"Titillium Web"', "sans-serif"], // Add Titillium Web font
+        Montserrat: ["Montserrat", "sans-serif"]
       },
       colors: {
         background: "#000000",

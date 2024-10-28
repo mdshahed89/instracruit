@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUsers, FaBuilding, FaBell, FaCommentDots } from "react-icons/fa";
 import Navbar from "../Components/bar";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,6 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import CompanyForm from "../Components/companyform";
 import MessageForm from "../Components/message";
 import Forespørselsinformasjonsfelt from "../Components/Forespørselsinformasjonsfelt";
+import { jwtDecode } from "jwt-decode";
+// import { log } from "console";
 
 interface DynamicField {
   value: string;
@@ -18,6 +20,7 @@ export default function SettingsPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState<string | ''>('')
   const [dynamicFields, setDynamicFields] = useState<DynamicField[]>([
     { value: "" },
   ]);
@@ -26,6 +29,22 @@ export default function SettingsPage() {
   const addNewDynamicField = () => {
     setDynamicFields((prevFields) => [...prevFields, { value: "" }]);
   };
+
+  useEffect(()=> {
+    const token  = localStorage.getItem("authToken")
+    console.log(token);
+    if(token){
+      const data: any = jwtDecode(token)
+
+      // console.log(data);
+      if(data?.id){
+        setUserId(data?.id)
+      }
+    }
+  }, [])
+
+  console.log(userId);
+  
 
   const saveFormData = async () => {
     try {
@@ -82,7 +101,7 @@ export default function SettingsPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, email }),
+          body: JSON.stringify({ name, email, userId }),
         }
       );
 
@@ -115,11 +134,15 @@ export default function SettingsPage() {
   const renderContent = () => {
     switch (selectedMenu) {
       case "Bedriftsinformasjon":
-        return <CompanyForm />;
+        return <CompanyForm id={userId} />;
       case "Brukere":
         return (
           <div className="relative text-black p-4 h-48">
-            <h2 className="text-xl font-bold">Brukere og invitere brukere</h2>
+            <h2 onClick={()=>{
+              console.log("working");
+              
+              toast.success("hi")
+            }} className="text-xl font-bold">Brukere og invitere brukere</h2>
             <p>Inviter nye brukere til bedriften din som rekrutterere.</p>
             <button
               onClick={openPopup}
@@ -131,7 +154,14 @@ export default function SettingsPage() {
             {isPopupOpen && (
               <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
-                  <h2 className="text-xl font-bold text-black mb-4">
+                  <h2
+                    onClick={() => {
+                      console.log("hello");
+                      
+                      toast.success("hello");
+                    }}
+                    className="text-xl font-bold text-black mb-4"
+                  >
                     Inviter bruker
                   </h2>
                   <p className="text-gray-600 mb-4">
@@ -229,9 +259,9 @@ export default function SettingsPage() {
 
         <div className="flex-grow bg-white shadow-lg rounded-lg p-6">
           {renderContent()}
+      <ToastContainer />
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

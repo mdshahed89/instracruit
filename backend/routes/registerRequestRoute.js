@@ -3,11 +3,13 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
+  host: "smtp.gmail.com",
+      port: 587, // typically 587 for TLS
+      secure: false, // true for port 465, false for other ports
+      auth: {
+        user: process.env.EMAIL_CONTACT,
+        pass: process.env.EMAIL_CONTACT_PASS,
+      },
 });
 
 router.post("/send-email", async (req, res) => {
@@ -15,7 +17,7 @@ router.post("/send-email", async (req, res) => {
 
   const mailOptions = {
     from: email,
-    to: process.env.RECEIVER_EMAIL,
+    to: "kontakt@instacruit.no",
     subject: "New Contact Form Submission",
     text: `Company Name: ${companyName}\nEmail: ${email}`,
   };

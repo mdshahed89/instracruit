@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { log } from "util";
+import { CiLock } from "react-icons/ci";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -12,6 +14,7 @@ const RegisterPage = () => {
 
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [loading, setLoading] = useState<Boolean>(false)
 
   useEffect(() => {
     if (!token) {
@@ -23,9 +26,10 @@ const RegisterPage = () => {
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    setLoading(true)
     if (password !== confirmPassword) {
       toast.error("Passwords do not match!");
+      setLoading(false)
       return;
     }
 
@@ -42,6 +46,8 @@ const RegisterPage = () => {
       );
 
       const data = await response.json();
+      console.log(data);
+      
 
       if (!response.ok) {
         if (data.error === "Invitation expired") {
@@ -53,66 +59,83 @@ const RegisterPage = () => {
         } else {
           toast.error("Registration failed. Please try again.");
         }
+        setLoading(false)
         return;
       }
 
       toast.success("Your profile is activated successfully!");
 
-      router.push(`/dashboard/${data._id}`);
+      router.push(`/login`);
+      setLoading(false)
     } catch (error) {
       console.error("Error during registration:", error);
       toast.error("Registration failed. Please try again.");
+      setLoading(false)
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
-          Activate Your Profile
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-3 ">
+      <div className="w-full max-w-[600px] lg:px-14 md:px-7 px-4 py-6 lg:py-12 space-y-16 bg-transparent border border-[#830e70]  rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold text-center text-white">
+        Aktiver profilen din
         </h2>
-        <form onSubmit={handleRegister} className="space-y-6">
+        <form onSubmit={handleRegister} className="space-y-6 text-[1rem] md:text-[1.2rem]  ">
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block font-medium mb-2 text-[#fff]"
             >
-              Enter Password
+              Skriv inn passord*
             </label>
+            <div className=" relative ">
             <input
               type="password"
               id="password"
               value={password}
+              
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              className="mt-1 block w-full px-4 py-2 border text-black border-gray-300 rounded-md shadow-sm focus:ring-[#830e70] focus:border-[#830e70] sm:text-sm"
+              placeholder="Skriv inn passordet ditt"
+              className="mt-1 block w-full pl-10 pr-4 py-3 border text-[#fff] outline-none bg-transparent border-gray-300 rounded-full shadow-sm focus:ring-[#830e70] focus:border-[#830e70] hover:border-[#830e70] "
               required
             />
+            <div className=" absolute top-0 left-2 h-full flex items-center  ">
+            <CiLock className=" text-[1.3rem] text-gray-300 " />
+            </div>
+            </div>
           </div>
 
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
+              className="block font-medium text-white mb-2 "
             >
-              Confirm Password
+              Bekreft passord*
             </label>
+            <div className=" relative ">
             <input
               type="password"
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm password"
-              className="mt-1 block w-full px-4 py-2 border text-black border-gray-300 rounded-md shadow-sm focus:ring-[#830e70] focus:border-[#830e70] sm:text-sm"
+              placeholder="Skriv inn bekreftelsespassordet ditt"
+              className="mt-1 block w-full bg-transparent outline-none pl-10 pr-4 py-3 border text-[#fff] border-gray-200 rounded-full shadow-sm focus:ring-[#830e70] hover:border-[#830e70] focus:border-[#830e70]"
               required
             />
+            <div className=" absolute top-0 left-2 h-full flex items-center  ">
+            <CiLock className=" text-[1.3rem] text-gray-300 " />
+            </div>
+            </div>
+
           </div>
 
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#830e70]  focus:outline-none focus:ring-2 focus:ring-offset-2"
+            className="w-full flex justify-center py-3 outline-none px-4 border border-transparent rounded-full font-semibold shadow-sm text-white bg-[#830e70]  "
           >
-            Activate Profile
+            {
+              loading ? "Laster..." : "Aktiver profil"
+            }
           </button>
         </form>
       </div>

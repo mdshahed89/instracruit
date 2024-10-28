@@ -1,24 +1,24 @@
 const mongoose = require("mongoose");
 
 const quizSchema = new mongoose.Schema({
-  question: { type: String, required: true },
-  answer: { type: String, required: true },
+  question: { type: String },
+  answer: { type: String },
 });
 
 const candidateSchema = new mongoose.Schema(
   {
     campaignInfo: {
-      stillingsbetegnelse: { type: String, required: true },
-      kilde: { type: String, required: true },
-      kampanje: { type: String, required: true },
+      stillingsbetegnelse: { type: String },
+      kilde: { type: String },
+      kampanje: { type: String },
     },
     customerInfo: {
-      fulltNavn: { type: String, required: true },
-      epost: { type: String, required: true },
-      telefonnummer: { type: String, required: true },
-      by: { type: String, required: true },
-      adresse: { type: String, required: true },
-      postnummer: { type: String, required: true },
+      fulltNavn: { type: String },
+      epost: { type: String },
+      telefonnummer: { type: String },
+      by: { type: String },
+      adresse: { type: String },
+      postnummer: { type: String },
     },
     quizzes: [quizSchema],
     jobMatchProgress: { type: Number, default: 0 },
@@ -27,9 +27,9 @@ const candidateSchema = new mongoose.Schema(
     questions: [String],
     answers: [String],
     resumeUrl: { type: String },
-    userId: {
+    dashboardId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Company",
       required: true,
     },
   },

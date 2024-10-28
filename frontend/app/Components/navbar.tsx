@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="bg-[#222121] text-white fixed top-0  w-full z-50 shadow-md">
-  <div className="max-w-[1400px] mx-auto flex justify-between items-center h-[110px] px-4">
+  <div className="max-w-[1400px] mx-auto flex justify-between items-center h-[80px] px-4">
     {/* Logo */}
     <Link href={'/'} className="text-2xl font-bold">
       <img src="/logo.png" alt="InstaCruit Logo" className="h-12 md:h-16" />

@@ -1,4 +1,5 @@
 "use client";
+import { log } from "console";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,6 +11,7 @@ export default function CandidateQuestions() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [submitLoadingStatus, setSubmitLoadingStatus] = useState<Boolean>(false)
 
   useEffect(() => {
     if (!candidateId) return;
@@ -61,6 +63,7 @@ export default function CandidateQuestions() {
   };
 
   const handleSubmit = async () => {
+    setSubmitLoadingStatus(true)
     if (!resumeFile) {
       toast.error("Please upload your resume.");
       return;
@@ -73,6 +76,8 @@ export default function CandidateQuestions() {
 
     try {
       const token = localStorage.getItem("authToken");
+      console.log("hihi");
+      
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${candidateId}/submit-answers`,
         {
@@ -81,17 +86,25 @@ export default function CandidateQuestions() {
             Authorization: `Bearer ${token}`,
           },
           body: formData,
+          credentials: "include"
         }
       );
+      // const data = await response.json()
+      console.log(response);
+      
 
       if (response.ok) {
         toast.success("Answers and resume submitted successfully!");
       } else {
         toast.error("Error submitting the form.");
       }
+      console.log("how");
+      setSubmitLoadingStatus(false)
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("An error occurred. Please try again.");
+      console.log("what");
+      setSubmitLoadingStatus(false)
     }
   };
 
@@ -128,7 +141,7 @@ export default function CandidateQuestions() {
             className="bg-purple-700 text-white py-2 px-8 rounded"
             onClick={handleSubmit}
           >
-            Submit
+            {submitLoadingStatus ? "Loading..." : "Submit"}
           </button>
         </div>
       </div>

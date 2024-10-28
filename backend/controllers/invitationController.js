@@ -6,7 +6,7 @@ const emailService = require("../services/emailService");
 const generateToken = require("../utils/generateTokens");
 dotenv.config();
 exports.sendInvitation = async (req, res) => {
-  const { name, email } = req.body;
+  const { name, email, userId } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -21,7 +21,9 @@ exports.sendInvitation = async (req, res) => {
     const token = generateToken();
     const expiresAt = Date.now() + 3600000 * 24;
 
-    const invitation = new Invitation({ name, email, token, expiresAt });
+    const user = await User.findById(userId)
+
+    const invitation = new Invitation({ name, email, dashboardId: user?.dashboardId, token, expiresAt });
     await invitation.save();
 
     const registrationLink = `${process.env.CLIENT_URL}/invitation/${token}`;

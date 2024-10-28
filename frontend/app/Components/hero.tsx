@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 const sentence = {
   hidden: { opacity: 1 },
@@ -26,20 +27,28 @@ const Hero: React.FC = () => {
   const text = "Velkommen til instacruit";
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>('')
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
     if (token) {
       setIsAuthenticated(true);
+      const decodedToken = jwtDecode<{ id: string }>(token);
+      setUserId(decodedToken?.id)
     } else {
       setIsAuthenticated(false);
     }
   }, []);
 
+  console.log(userId);
+  
+
   const handleDashboardClick = () => {
     if (isAuthenticated) {
-      router.push("/Dashboard");
+      // console.log("not authenticated");
+      
+      router.push(`/dashboard/${userId}`);
     } else {
       router.push("/login");
     }

@@ -3,18 +3,45 @@ const router = express.Router();
 const Candidate = require("../models/Candidate");
 const nodemailer = require("nodemailer");
 const { protect } = require("../middleware/authMiddleware");
-
+const User = require("../models/user")
 const upload = require("../config/cloudinary");
+const Jobs = require("../models/Jobs");
 
 const createTransporter = () => {
   return nodemailer.createTransport({
-    service: "Gmail",
+    host: "send.one.com", // one.com SMTP server
+    port: 587, // Secure port for SSL
+    secure: false, // SSL for encryption
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.EMAIL_TEAM, // Your one.com email
+      pass: process.env.EMAIL_TEAM_PASS, // Your one.com password (from environment variables)
     },
   });
 };
+
+router.get("/jobs/:id", async (req, res) => {
+  try {
+    const {id} = req.params
+    if(!id){
+      return res.status(400).json({
+        success: false,
+        message: "Job Id is required"
+      })
+    }
+    const job = await Jobs.findById(id)
+    if(!job){
+      return res.status(404).json({ success: false,message: "Job not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Job found successfully",
+      data: job
+    })
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false, message: "Server Error when getting job" });
+  }
+} )
 
 router.post("/", protect, async (req, res) => {
   const { campaignInfo, customerInfo, quizzes } = req.body;
@@ -22,13 +49,23 @@ router.post("/", protect, async (req, res) => {
   if (!campaignInfo || !customerInfo || !quizzes) {
     return res.status(400).json({ message: "Missing required fields" });
   }
+console.log(req.user);
 
   try {
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
     const newCandidate = new Candidate({
       campaignInfo,
       customerInfo,
       quizzes,
-      userId: req.user.id,
+      dashboardId: user?.dashboardId,
     });
 
     await newCandidate.save();
@@ -41,9 +78,47 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
+router.post("/create-job", async (req, res) => {
+  try {
+    const {customerInfo, questions, answers, dashboardId} = req.body
+    if(!customerInfo || !questions || !answers || !dashboardId){
+      return res.status(400).json({
+        success: false,
+        message: "Required field missing"
+      })
+    }
+    const newCandidate = new Candidate({
+      customerInfo,
+      questions,
+      answers,
+      dashboardId
+    })
+
+    newCandidate.save()
+
+    res.status(201).json({
+      success: true,
+      message: "Candidate created successfully",
+      data: newCandidate
+    })
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ success: false,message: "Server Error of creat-job" });
+  }
+})
+
 router.get("/", protect, async (req, res) => {
   try {
-    const candidates = await Candidate.find({ userId: req.user.id });
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
+    const candidates = await Candidate.find({ dashboardId: user?.dashboardId });
     res.status(200).json(candidates);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
@@ -52,12 +127,21 @@ router.get("/", protect, async (req, res) => {
 
 router.get("/:id", protect, async (req, res) => {
   try {
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
     console.log("Candidate ID:", req.params.id);
-    console.log("User ID:", req.user.id);
+    console.log("Dashboard ID:", user?.dashboardId);
 
     const candidate = await Candidate.findOne({
       _id: req.params.id,
-      userId: req.user.id,
+      dashboardId: user?.dashboardId,
     });
 
     console.log("Fetched candidate:", candidate);
@@ -77,9 +161,18 @@ router.put("/:id/job-match", protect, async (req, res) => {
   const { progress } = req.body;
 
   try {
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
     const candidate = await Candidate.findOne({
       _id: req.params.id,
-      userId: req.user.id,
+      dashboardId: user?.dashboardId,
     });
 
     if (!candidate) {
@@ -100,9 +193,18 @@ router.put("/:id/position", protect, async (req, res) => {
   const { columnPosition } = req.body;
 
   try {
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
     const candidate = await Candidate.findOne({
       _id: req.params.id,
-      userId: req.user.id,
+      dashboardId: user?.dashboardId,
     });
 
     if (!candidate) {
@@ -131,15 +233,24 @@ router.post("/send-email", protect, async (req, res) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: "team@instacruit.no",
       to,
       subject,
       text,
     };
     await transporter.sendMail(mailOptions);
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
     const candidate = await Candidate.findOne({
       _id: candidateId,
-      userId: req.user.id,
+      dashboardId: user?.dashboardId,
     });
 
     if (!candidate) {
@@ -157,9 +268,18 @@ router.post("/send-email", protect, async (req, res) => {
 
 router.get("/:id/get-questions", protect, async (req, res) => {
   try {
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
     const candidate = await Candidate.findOne({
       _id: req.params.id,
-      userId: req.user.id,
+      dashboardId: user?.dashboardId,
     });
 
     if (!candidate) {
@@ -174,9 +294,18 @@ router.get("/:id/get-questions", protect, async (req, res) => {
 
 router.get("/:id/screening-answers", protect, async (req, res) => {
   try {
+
+    const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
     const candidate = await Candidate.findOne({
       _id: req.params.id,
-      userId: req.user.id,
+      dashboardId: user?.dashboardId,
     });
 
     if (!candidate) {
@@ -201,11 +330,21 @@ router.post(
   async (req, res) => {
     const { questions, answers } = req.body;
     const candidateId = req.params.id;
-
+    console.log("working")
+    
     try {
+      
+      const user = await User.findById(req?.user?.id)
+
+    if(!user){
+      res
+      .status(404)
+      .json({ message: "User not found" });
+    }
+
       const candidate = await Candidate.findOne({
         _id: candidateId,
-        userId: req.user.id,
+        dashboardId: user?.dashboardId,
       });
 
       if (!candidate) {

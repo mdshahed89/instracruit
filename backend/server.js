@@ -14,6 +14,9 @@ const registrationRequestRoute = require("./routes/registerRequestRoute");
 const invitationRoute = require("./routes/invitationRoutes");
 const companyRoutes = require("./routes/companyRoute");
 const messageRoutes = require("./routes/messageRoute");
+const userRoutes = require("./routes/userRoutes")
+const adminRoutes = require("./routes/adminRoutes")
+
 dotenv.config();
 
 const app = express();
@@ -58,6 +61,8 @@ app.use("/api/messages", messageRoutes);
 
 // Use the email routes at /api/send-email
 app.use("/api", registrationRequestRoute);
+app.use("/api/user", userRoutes)
+app.use("/api/admin", adminRoutes)
 
 const PORT = process.env.PORT || 5000;
 

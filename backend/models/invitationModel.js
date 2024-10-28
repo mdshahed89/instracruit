@@ -11,6 +11,10 @@ const invitationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  dashboardId: {
+    type: String,
+    required: true
+  },
   invitedAt: {
     type: Date,
     default: Date.now,

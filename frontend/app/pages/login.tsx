@@ -49,7 +49,7 @@ export default function Login() {
         setIsLoginSuccessful(true); // Disable button after success
 
         setTimeout(() => {
-          router.push(`/dashboard/${data._id}`);
+          router.push(`/dashboard/${data?.dashboardId}`);
         }, 1000);
       } else {
         setError(data.message || "Login failed.");

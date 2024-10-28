@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,9 +12,26 @@ interface FormDataState {
   youtube: string;
   linkedin: string;
   file: File | null;
+  userId: string
 }
 
-const CompanyForm: React.FC = () => {
+interface CompanyFormProps {
+  id: string; // Define the type of the 'id' prop
+}
+
+const CompanyForm: React.FC<CompanyFormProps> = ({id}) => {
+
+  // useEffect(()=> {
+  //   const token = localStorage.getItem("authToken")
+  //   console.log("hello token",token);
+    
+  // }, [])
+
+  console.log("idid", id);
+  
+  
+  
+
   const [formData, setFormData] = useState<FormDataState>({
     companyName: "",
     about: "",
@@ -25,7 +42,20 @@ const CompanyForm: React.FC = () => {
     youtube: "",
     linkedin: "",
     file: null,
+    userId: ""
   });
+
+  useEffect(() => {
+    if (id) {
+      setFormData((prevData) => ({
+        ...prevData,
+        userId: id // Set the userId dynamically when id prop is available
+      }));
+    }
+  }, [id]);
+
+  console.log("formdata", formData);
+  
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -57,6 +87,7 @@ const CompanyForm: React.FC = () => {
     formDataToSend.append("instagram", formData.instagram);
     formDataToSend.append("youtube", formData.youtube);
     formDataToSend.append("linkedin", formData.linkedin);
+    formDataToSend.append("userId", formData.userId);
 
     if (formData.file) {
       formDataToSend.append("file", formData.file);

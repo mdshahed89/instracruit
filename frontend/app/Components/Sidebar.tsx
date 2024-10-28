@@ -374,6 +374,8 @@ const DraggableItem = (props: { id: string; children: React.ReactNode }) => {
     transform: `translate3d(${transform?.x ?? 0}px, ${transform?.y ?? 0}px, 0)`,
   };
 
+ 
+
   return (
     <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
       {props.children}
@@ -393,6 +395,7 @@ const DroppableColumn = (props: { id: string; children: React.ReactNode }) => {
 
   return (
     <div
+    
       ref={setNodeRef}
       className="rounded-lg p-2 min-h-[500px]"
       style={style}
@@ -648,6 +651,8 @@ const MainDashboard = () => {
   const router = useRouter();
 
   const handleCandidateClick = (candidateId: string) => {
+    console.log('clicked');
+    
     router.push(`/candidate/${candidateId}`);
   };
 
@@ -775,31 +780,39 @@ const MainDashboard = () => {
 
           <div className="overflow-x-hidden">
             <div className="overflow-x-auto ">
-              <div style={{ pointerEvents: "none" }} className="flex gap-4">
+              <div className="flex gap-4">
                 {Object.entries(columns).map(([columnId, column], index) => (
                   <DroppableColumn  key={columnId} id={columnId}>
                     <div
-                     style={{ pointerEvents: "none" }}
+                     onClick={()=> {
+                      console.log("column clicking");
+                      
+                     }}
                       className={`rounded-lg p-2 min-h-[500px] min-w-[220px] z-30 ${
                         index < Object.entries(columns).length - 1 ? " " : ""
                       }`}
                     >
-                      <h2 className="font-semibold mb-4 text-center">
+                      <h2 onClick={()=>{console.log("column name clicking");
+                      }} className="font-semibold mb-4 text-center">
                         {column.name}
                       </h2>
                       {column.items.map((item) => (
-                        <DraggableItem  key={item.id} id={item.id}>
-                          <div className="relative bg-white text-black p-2 rounded-lg mb-4 cursor-pointer">
+                        <DraggableItem   key={item.id} id={item.id}>
+                          <div 
+                          style={{ zIndex: 9999999999999, pointerEvents: 'auto', }}
+                           onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            console.log("cicking");
+                            
+                            handleCandidateClick(item.id);
+                          }}  className="relative bg-white text-black p-2 rounded-lg mb-4 cursor-pointer">
                             <div
                               className={`bg-white ${
                                 columnId === "ikke-kvalifisert" ? "p-1" : "p-2"
                               } rounded-lg w-full`}
                               
-                              style={{ zIndex: 9999999999999, pointerEvents: "auto" }} onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                handleCandidateClick(item.id);
-                              }} 
+                              
                               
                             >
                               <div
@@ -829,7 +842,8 @@ const MainDashboard = () => {
                                   <div className="border-l-4 border-gray-900 rounded-lg pl-2 mb-2">
                                     <ul className="list-none text-gray-500 space-y-1">
                                       <li className="flex items-center justify-start">
-                                        <span className="mr-2">
+                                        <span onClick={()=>{console.log("clicking on ss");
+                                        }} className="mr-2">
                                           Screening Part 1
                                         </span>
                                         {item.screenings &&

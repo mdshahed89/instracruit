@@ -8,6 +8,10 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const Blacklist = require("../models/Blacklist");
 const { protect } = require("../middleware/authMiddleware");
+const axios = require('axios');
+const Company = require("../models/Company");
+const mongoose = require('mongoose');
+
 dotenv.config();
 
 const generateToken = (id) => {
@@ -15,10 +19,12 @@ const generateToken = (id) => {
 };
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587, // typically 587 for TLS
+  secure: false, // true for port 465, false for other ports
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.EMAIL_CONTACT,
+    pass: process.env.EMAIL_CONTACT_PASS,
   },
 });
 
@@ -38,19 +44,49 @@ router.post("/signup", async (req, res) => {
       password,
     });
 
+    const newCompany = new Company({
+      userIds: [new mongoose.Types.ObjectId(user?._id)]
+    })
+
+    const savedCompany = await newCompany.save();
+
+    const updatedUser = await User.findByIdAndUpdate(
+      user?._id,
+      { dashboardId: savedCompany?._id }, // Set the dashboardId to the updated company's ID
+      { new: true } // Optional: get the updated user object back
+    );
+
+    console.log(savedCompany);
+    
+
+    console.log(updatedUser);
+    
+
+    const transporterSignUp = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587, // typically 587 for TLS
+      secure: false, // true for port 465, false for other ports
+      auth: {
+        user: process.env.EMAIL_ADMIN,
+        pass: process.env.EMAIL_ADMIN_PASS,
+      },
+    });
+
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: "admin@instacruit.no",
       to: email,
       subject: "Velkommen til vår Instacruit!",
       text: `Hei ${name},\n\nDin konto har blitt opprettet.\n\nHer er dine påloggingsdetaljer:\n\nE-post: ${email}\nPassord: ${password}\n\nVennligst endre passordet ditt etter din første pålogging av sikkerhetsmessige årsaker.\n\nVennlig hilsen,\nDitt team`,
     };
 
-    await transporter.sendMail(mailOptions);
+    await transporterSignUp.sendMail(mailOptions);
+
 
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      dashboardId: user?.dashboardId,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -60,7 +96,8 @@ router.post("/signup", async (req, res) => {
 
 router.post("/register-invitation", async (req, res) => {
   const { token, password, confirmPassword } = req.body;
-
+  console.log("comes in route");
+  
   try {
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords do not match" });
@@ -77,7 +114,7 @@ router.post("/register-invitation", async (req, res) => {
       return res.status(400).json({ error: "Invitation expired" });
     }
 
-    const { name, email } = invitation;
+    const { name, email, dashboardId } = invitation;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -89,13 +126,19 @@ router.post("/register-invitation", async (req, res) => {
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      password,
+      dashboardId
     });
+
+    await Company.updateOne(
+      { _id: dashboardId }, // The company you want to update
+      { $push: { userIds: new mongoose.Types.ObjectId(user?._id) } } // Add another user ID
+    );
 
     await Invitation.deleteOne({ token });
 
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.EMAIL_CONTACT,
       to: email,
       subject: "Welcome to Our instacruit!",
       text: `Hello ${name},\n\nYour account has been successfully activated. You can now log in with your credentials.\n\nBest regards,\nYour Team`,
@@ -125,8 +168,56 @@ router.post("/login", async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
+        dashboardId: user?.dashboardId,
         token: generateToken(user._id),
       });
+    } else {
+      res.status(401).json({ message: "Invalid email or password" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post("/admin-login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (user && (await user.matchPassword(password))) {
+      if(user?.role === "ADMIN"){
+
+        const token = generateToken(user._id);
+
+        res.cookie("authToken", token, {
+          httpOnly: true, 
+          secure: process.env.NODE_ENV === "production", // Only use secure in production
+          sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // Use lax during development
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
+
+        // Send the user data in the response
+        
+        console.log("worked");
+        
+        res.json({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          token: token
+        });
+
+        // res.json({
+        //   _id: user._id,
+        //   name: user.name,
+        //   email: user.email,
+        //   token: generateToken(user._id),
+        // });
+      }
+      else{
+        res.status(401).json({ message: "Only admin can login" });
+      }
     } else {
       res.status(401).json({ message: "Invalid email or password" });
     }
@@ -159,6 +250,23 @@ router.post("/logout", protect, async (req, res) => {
   try {
     const token = req.header("Authorization").split(" ")[1];
     await Blacklist.create({ token });
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error logging out" });
+  }
+
+});
+router.post("/admin-logout", protect, async (req, res) => {
+  try {
+    const token = req.header("Authorization").split(" ")[1];
+    await Blacklist.create({ token });
+
+    res.clearCookie("authToken", {
+      httpOnly: true, // Helps prevent XSS attacks
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // Use lax during development
+    });
 
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
