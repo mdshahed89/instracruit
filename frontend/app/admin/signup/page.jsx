@@ -6,7 +6,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-const page = () => {
+const Page = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
