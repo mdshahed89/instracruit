@@ -30,6 +30,6 @@ export const config = {
   matcher: [
     "/admin_login",
     "/admin_dashboard/:path*",
-    "/admin_only"
+    // "/admin_only"
   ],
 };
