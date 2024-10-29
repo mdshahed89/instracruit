@@ -79,10 +79,10 @@ const Page = () => {
   return (
     <div className="mx-auto flex w-72 items-center justify-center">
       <div
-        className={`fixed z-[100] flex items-center justify-center $ inset-0 h-full w-full bg-black/20 backdrop-blur-sm duration-100`}
+        className={`fixed z-[100] flex items-center justify-center $ inset-0 h-full w-full  bg-black/20 backdrop-blur-sm duration-100`}
       >
         <div
-          className={`absolute w-full rounded-lg text-white bg-[#454545] drop-shadow-2xl sm:w-[500px] `}
+          className={`absolute w-full rounded-lg text-white  bg-[#454545] drop-shadow-2xl sm:w-[500px] `}
         >
           <form onSubmit={handleSubmit} className="px-5 pb-5 pt-3 lg:pb-10 lg:pt-5 lg:px-10">
             <div className=" mb-8 flex items-center justify-between ">
@@ -148,7 +148,7 @@ const Page = () => {
                     id="password"
                     type="password"
                     required
-                    placeholder="Enter your email"
+                    placeholder="Enter your password"
                     className="block text-black w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white"
                   />
                   <span className="absolute left-2 flex items-center top-0 h-full  text-[1.2rem]">
@@ -169,7 +169,7 @@ const Page = () => {
                     id="password"
                     type="password"
                     required
-                    placeholder="Enter your email"
+                    placeholder="Enter confirm password"
                     className="block text-black w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white"
                   />
                   <span className="absolute left-2 flex items-center top-0 h-full  text-[1.2rem]">

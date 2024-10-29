@@ -11,8 +11,8 @@ import CompanyTable from "../../Components/CompanyTable"
 
 const page = async () => {
 
-  const cookieStore = cookies();
-  const token = cookieStore.get("authToken")?.value;
+  const cookieStore = await cookies();
+  const token = await cookieStore.get("authToken")?.value;
 
   // console.log(`token : ${token}`);
 

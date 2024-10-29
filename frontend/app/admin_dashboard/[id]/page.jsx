@@ -15,18 +15,18 @@ import AdminDashboard from '../../Components/AdminDashboard'
 
 const page = async ({params}) => {
 
-  const cookieStore = cookies();
-  const token = cookieStore.get("authToken")?.value;
+  const cookieStore = await cookies();
+  const token = await cookieStore.get("authToken")?.value;
 
   // console.log(`token : ${token}`);
 
-  const {id} = params
+  const {id} = await params
   console.log("idid");
   
   console.log(id)
   
 
-  const data = jwt.decode(token);
+  const data =  jwt.decode(token);
 
   console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
 

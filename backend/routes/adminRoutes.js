@@ -148,9 +148,10 @@ router.post("/login", async (req, res) => {
 
       res.cookie("authToken", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // Only use secure in production
-        sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax", // Use lax during development
+        secure: process.env.NODE_ENV === 'production', // true for production
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        domain: process.env.NODE_ENV === 'production' ? 'instacruit.no' : 'localhost',
       });
 
       // Send the user data in the response

@@ -3,7 +3,7 @@ import CompanyEdit from '../../../Components/CompanyEdit'
 
 const page = async ({params}) => {
 
-  const { id } = params;
+  const { id } = await params;
 let companyData;
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/companydetails`,

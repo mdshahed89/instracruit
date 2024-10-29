@@ -73,7 +73,7 @@ export default function Login() {
     <motion.div
       className="relative flex items-center justify-center min-h-screen bg-black text-white"
       style={{
-        backgroundImage: 'url("/path-to-your-gif.gif")',
+        // backgroundImage: 'url("/path-to-your-gif.gif")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
