@@ -29,7 +29,7 @@ export function middleware(request) {
 export const config = {
   matcher: [
     "/admin_login",
-    "/admin_dashboard/:path*",
+    // "/admin_dashboard/:path*",
     // "/admin_only"
   ],
 };
