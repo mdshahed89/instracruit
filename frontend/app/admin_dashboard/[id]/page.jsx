@@ -72,7 +72,7 @@ const page = async ({params}) => {
   
 
   return (
-    <AdminDashboard userData ={userData} companies = {companies} />
+    <AdminDashboard userData ={userData} companies = {companies} id={id} />
   )
 }
 

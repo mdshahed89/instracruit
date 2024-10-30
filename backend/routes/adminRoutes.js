@@ -157,6 +157,8 @@ router.post("/login", async (req, res) => {
       // Send the user data in the response
 
       console.log("worked");
+      console.log(process.env.NODE_ENV);
+      
 
       return res.status(200).json({
         success: true,

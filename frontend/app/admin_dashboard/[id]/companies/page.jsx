@@ -1,18 +1,20 @@
 import React from "react";
 import { CiEdit } from "react-icons/ci";
-import CompanyDeleteModal from "../../Components/CompanyDeleteModal";
+import CompanyDeleteModal from "../../../Components/CompanyDeleteModal";
 import Link from "next/link";
 import { BsJournalText } from "react-icons/bs";
 import { MdEventAvailable, MdOutlineArrowBackIos } from "react-icons/md";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken'
-import CompanyTable from "../../Components/CompanyTable"
+import CompanyTable from "../../../Components/CompanyTable"
 
 
-const page = async () => {
+const page = async ({params}) => {
 
-  const cookieStore = await cookies();
-  const token = await cookieStore.get("authToken")?.value;
+  const {id} = params
+
+  const cookieStore = cookies();
+  const token = cookieStore.get("authToken")?.value;
 
   // console.log(`token : ${token}`);
 
@@ -48,13 +50,13 @@ const page = async () => {
     <div className=" bg-[#830e70]/20 min-h-[100vh]  ">
       <div className="  w-full flex bg-[#830e70] items-center py-5 px-5 justify-between ">
       <h2 className=" text-[2rem]  ">Bedrifter</h2>
-      <Link href={`/admin_dashboard/${adminData?.id}`} className="bg-[#fff] p-2 rounded-full">
+      <Link href={`/admin_dashboard/${id}`} className="bg-[#fff] p-2 rounded-full">
             <MdOutlineArrowBackIos className="text-[#830e70] text-[1.2rem]" />
           </Link>
       </div>
 
 
-      <CompanyTable data={data} />
+      <CompanyTable data={data} id={id} />
 
 
     </div>

@@ -1,12 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Logo from "../../public/logo.png";
 import AdminUserIcon from "../Components/AdminUserIcon.jsx";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
-export default function AdminProfileModal({ userData }) {
+export default function AdminProfileModal({ userData, id }) {
+
+  const router = useRouter()
+
+  useEffect(()=> {
+    const token = localStorage.getItem('authToken');
+    if(!token){
+      router.push("/admin_login")
+      return 
+    }
+  
+    const tokenData = jwtDecode(token);
+    console.log(tokenData.id);
+    
+    if(tokenData?.id !== id){
+      router.push("/admin_login")
+      return 
+    }
+  
+  }, [])
+
   console.log(userData);
   const [formData, setFormData] = useState({
     name: userData?.name,
@@ -26,7 +48,7 @@ export default function AdminProfileModal({ userData }) {
     e.preventDefault();
     setloading(true);
     try {
-      if (formData?.password !== confirmPassword) {
+      if ( formData?.password && confirmPassword && formData?.password !== confirmPassword) {
         toast.error("password and confirm password should be match");
         setloading(false)
         return;

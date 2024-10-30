@@ -1,21 +1,22 @@
 import Link from "next/link";
 import React from "react";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import JobPosition from "../../../../Components/JobPosition"
-import JobPositions from "../../../../Components/JobPositions"
+import JobPosition from "../../../../../Components/JobPosition"
+import JobPositions from "../../../../../Components/JobPositions"
 
 const page = async ({ params }) => {
-  const { id } = params;
+  const { cid, id } = params;
 
-  console.log(id);
+  console.log(cid);
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/company/${id}/job-positions`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/company/${cid}/job-positions`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       cache: "no-store",
     }
   );
@@ -31,7 +32,7 @@ const page = async ({ params }) => {
 //   console.log("job data",data);
 
   return (
-    <JobPositions data={data} />
+    <JobPositions data={data} id={id} />
   );
 };
 

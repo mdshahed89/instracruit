@@ -1,11 +1,33 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import JobPosition from "./JobPosition";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
-const JobPositions = ({ data }) => {
+const JobPositions = ({ data, id }) => {
+
+  const router = useRouter()
+
+useEffect(()=> {
+  const token = localStorage.getItem('authToken');
+  if(!token){
+    router.push("/admin_login")
+    return 
+  }
+
+  const tokenData = jwtDecode(token);
+  console.log(tokenData.id);
+  
+  if(tokenData?.id !== id){
+    router.push("/admin_login")
+    return 
+  }
+
+}, [])
+
   return (
     <div className=" flex items-center justify-center min-h-[100vh] py-10 ">
       <motion.div
@@ -19,7 +41,7 @@ const JobPositions = ({ data }) => {
             Tilgjengelig stilling({data?.length})
           </h2>
           <Link
-            href={`/admin_dashboard/companies`}
+            href={`/admin_dashboard/${id}/companies`}
             className="bg-[#fff] p-2 rounded-full"
           >
             <MdOutlineArrowBackIos className="text-[#830e70] text-[1.2rem]" />

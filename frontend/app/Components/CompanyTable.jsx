@@ -1,13 +1,35 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from "framer-motion";
 import CompanyDeleteModal from '../Components/CompanyDeleteModal'
 import { BsJournalText } from 'react-icons/bs';
 import { MdEventAvailable } from 'react-icons/md';
 import { CiEdit } from 'react-icons/ci';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { jwtDecode } from 'jwt-decode';
 
-const CompanyTable = ({data}) => {
+const CompanyTable = ({data, id}) => {
+
+  const router = useRouter()
+
+useEffect(()=> {
+  const token = localStorage.getItem('authToken');
+  if(!token){
+    router.push("/admin_login")
+    return 
+  }
+
+  const tokenData = jwtDecode(token);
+  console.log(tokenData.id);
+  
+  if(tokenData?.id !== id){
+    router.push("/admin_login")
+    return 
+  }
+
+}, [])
+
   return (
     <div className=" px-3 lg:px-5 overflow-x-auto ">
       <motion.table initial={{ opacity: 0, y: 25 }}
@@ -54,7 +76,7 @@ const CompanyTable = ({data}) => {
                   <Link href={`companies/${dt?.companyId}/job-positions`}>
                     <MdEventAvailable className="text-[1.4rem] hover:text-[#830e70] transition-colors duration-300 ease-in-out cursor-pointer" />
                   </Link>
-                  <Link href={`/admin_dashboard/companies/${dt?.companyId}`}>
+                  <Link href={`/admin_dashboard/${id}/companies/${dt?.companyId}`}>
                     <CiEdit className="cursor-pointer hover:text-[#830e70] transition-colors duration-300 ease-in-out" />
                   </Link>
                 </div>

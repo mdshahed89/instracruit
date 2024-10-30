@@ -1,19 +1,39 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
 import { FiTrash } from "react-icons/fi"; // Icon for delete button
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { toast } from "react-toastify";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { jwtDecode } from "jwt-decode";
 
 const Page = ({ params }) => {
-  const { id } = params;
+  const { cid, id } = params;
 
-  console.log("id", id);
+  console.log("id", cid);
+
+  const router = useRouter()
+
+useEffect(()=> {
+  const token = localStorage.getItem('authToken');
+  if(!token){
+    router.push("/admin_login")
+    return 
+  }
+
+  const tokenData = jwtDecode(token);
+  console.log(tokenData.id);
+  
+  if(tokenData?.id !== id){
+    router.push("/admin_login")
+    return 
+  }
+
+}, [])
 
   const [loading, setLoading] = useState(false);
 
@@ -66,7 +86,7 @@ const Page = ({ params }) => {
           },
           body: JSON.stringify({
             questions: questionsData,
-            dashboardId: id,
+            dashboardId: cid,
           }),
         }
       );
@@ -104,7 +124,7 @@ const Page = ({ params }) => {
           <div className=" flex items-center justify-between ">
             <h2 className=" text-[2rem] mb-5 ">Opprett stilling</h2>
             <Link
-              href="/admin_dashboard/companies"
+              href={`/admin_dashboard/${id}/companies`}
               className="bg-[#fff] p-2 rounded-full"
             >
               <MdOutlineArrowBackIos className="text-[#830e70] text-[1.2rem]" />

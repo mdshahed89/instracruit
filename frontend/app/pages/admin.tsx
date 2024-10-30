@@ -1,8 +1,10 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
 
 interface FormData {
   companyName: string;
@@ -12,7 +14,37 @@ interface FormData {
   rememberMe: boolean;
 }
 
-export default function AdminRegister() {
+interface AdminRegisterProps {
+  id: string;
+}
+
+interface DecodedToken {
+  id: string;
+}
+
+export default function AdminRegister({ id }: AdminRegisterProps) {
+
+
+  const router = useRouter()
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      router.push("/admin_login");
+      return;
+    }
+
+    // Decode the token and specify the type for `jwtDecode`
+    const tokenData = jwtDecode<DecodedToken>(token);
+    console.log(tokenData.id);
+
+    if (tokenData?.id !== id) {
+      router.push("/admin_login");
+      return;
+    }
+  }, [router]);
+
+
   const [formData, setFormData] = useState<FormData>({
     companyName: "",
     email: "",
@@ -21,7 +53,7 @@ export default function AdminRegister() {
     rememberMe: false,
   });
 
-  console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
+  console.log("hi",id);
   
 
   const [loading, setLoading] = useState(false);
@@ -86,7 +118,7 @@ export default function AdminRegister() {
       <motion.div
         className="relative flex flex-col justify-center items-center text-center"
         style={{
-          backgroundImage: 'url("/path-to-your-background.gif")',
+          // backgroundImage: 'url("/path-to-your-background.gif")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

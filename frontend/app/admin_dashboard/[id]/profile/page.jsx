@@ -45,7 +45,7 @@ let userData;
 
   return (
     <div>
-        <AdminProfileModal  userData ={userData}  />
+        <AdminProfileModal  userData ={userData} id={id}  />
     </div>
   )
 }

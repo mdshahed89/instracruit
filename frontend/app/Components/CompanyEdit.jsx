@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import CandidateDeleteModal from '../Components/CandidateDeleteModal';
 import { motion } from "framer-motion";
 
-const CompanyEdit = ({ id, companyData }) => {
+const CompanyEdit = ({ cid, id, companyData }) => {
     console.log(companyData);
     
   const [companyDetails, setCompanyDetails] = useState({
@@ -26,7 +26,7 @@ const CompanyEdit = ({ id, companyData }) => {
     e.preventDefault();
     setLoading1(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/edit/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/edit/${cid}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const CompanyEdit = ({ id, companyData }) => {
         e.preventDefault();
         setLoading2(true);
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/edit-company-emails/${id}`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/edit-company-emails/${cid}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -89,7 +89,7 @@ const CompanyEdit = ({ id, companyData }) => {
       <form onSubmit={handleSubmitCompanyDetails} className="mb-10 flex flex-col gap-3">
         <div className="flex items-center mb-7 justify-between">
           <h2 className="text-[1.5rem] uppercase font-semibold mb-2">Bedriftsdetaljer</h2>
-          <Link href="/admin_dashboard/companies" className="bg-[#fff] p-2 rounded-full">
+          <Link href={`/admin_dashboard/${id}/companies`} className="bg-[#fff] p-2 rounded-full">
             <MdOutlineArrowBackIos className="text-[#830e70] text-[1.2rem]" />
           </Link>
         </div>
@@ -147,7 +147,7 @@ const CompanyEdit = ({ id, companyData }) => {
                   <td className="py-4 px-6 text-end">
                     <div className="flex items-center justify-end space-x-3">
                       {/* <button className="text-red-600 hover:text-red-800"> */}
-                        <CandidateDeleteModal companyId={id} candidateEmail = {candidate?.customerInfo?.epost} />
+                        <CandidateDeleteModal companyId={cid} candidateEmail = {candidate?.customerInfo?.epost} />
                       {/* </button> */}
                     </div>
                   </td>

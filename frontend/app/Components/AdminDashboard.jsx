@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import AdminUserIcon from "../Components/AdminUserIcon";
 import { PiUsersThreeLight } from "react-icons/pi";
 import Link from "next/link";
@@ -10,8 +10,30 @@ import Image from "next/image";
 import { FaPlus } from "react-icons/fa";
 import { motion } from "framer-motion";
 import AdminDashboardCompanies from '../Components/AdminDashboardCompanies'
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 
-const AdminDashboard = ({ userData, companies }) => {
+const AdminDashboard = ({ userData, companies, id }) => {
+
+  const router = useRouter()
+
+useEffect(()=> {
+  const token = localStorage.getItem('authToken');
+  if(!token){
+    router.push("/admin_login")
+    return 
+  }
+
+  const tokenData = jwtDecode(token);
+  console.log(tokenData.id);
+  
+  if(tokenData?.id !== id){
+    router.push("/admin_login")
+    return 
+  }
+
+}, [])
+
   return (
     <div className=" font-Montserrat  ">
       <div className=" bg-[#222121] py-4 ">
@@ -53,7 +75,7 @@ const AdminDashboard = ({ userData, companies }) => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.1, duration: 0.8 }}>
               <Link
-                href={"/admin_dashboard/companies"}
+                href={`/admin_dashboard/${id}/companies`}
                 className=" flex flex-col items-center rounded-md bg-[#404040] py-4 cursor-pointer "
               >
                 <PiUsersThreeLight className=" text-[5rem] " />
@@ -64,7 +86,7 @@ const AdminDashboard = ({ userData, companies }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.8 }}>
               <Link
-                href={"/admin_only"}
+                href={`/admin_dashboard/${id}/admin_only`}
                 className=" rounded-md flex flex-col items-center bg-[#404040] py-4 cursor-pointer "
               >
                 <LuFileEdit className=" text-[5rem]  " />
@@ -86,7 +108,7 @@ const AdminDashboard = ({ userData, companies }) => {
             START ANONNSE
           </h2>
           <div className=" ">
-            <AdminDashboardCompanies companies = {companies} />
+            <AdminDashboardCompanies companies = {companies} id={id} />
           </div>
         </div>
       </div>

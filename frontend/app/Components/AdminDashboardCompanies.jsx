@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import CompanyDeleteModal from '../Components/CompanyDeleteModal'
 
 
-export default function AdminDashboardCompanies({companies}) {
+export default function AdminDashboardCompanies({companies, id}) {
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef(null);
   const items = ['React', 'Angular', 'Vue'];
@@ -72,7 +72,7 @@ export default function AdminDashboardCompanies({companies}) {
               <td>
                 <div className="py-4 px-6 text-end flex items-center h-full justify-end gap-5 text-[1.5rem] transition-colors duration-300 ease-in-out">
                   {/* <CompanyDeleteModal companyId={company?.companyId} /> */}
-                  <Link href={`companies/${company?.companyId}/create-job-position`}>
+                  <Link href={`${id}/companies/${company?.companyId}/create-job-position`}>
                     <BsJournalText className="text-[1.3rem] hover:text-[#830e70] transition-colors duration-300 ease-in-out cursor-pointer" />
                   </Link>
                   {/* <Link href={`companies/${company?.companyId}/job-positions`}>

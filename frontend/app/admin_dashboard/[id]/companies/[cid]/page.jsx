@@ -1,9 +1,9 @@
 import React from 'react'
-import CompanyEdit from '../../../Components/CompanyEdit'
+import CompanyEdit from '../../../../Components/CompanyEdit'
 
 const page = async ({params}) => {
 
-  const { id } = await params;
+  const { cid, id } = params;
 let companyData;
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/companydetails`,
@@ -12,7 +12,7 @@ let companyData;
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ companyId: id }),
+      body: JSON.stringify({ companyId: cid }),
       cache: 'no-store'
     }
   );
@@ -33,7 +33,7 @@ let companyData;
 
   return (
     <div className=' px-3 '>
-      <CompanyEdit id={id} companyData={companyData} />
+      <CompanyEdit cid={cid} id={id} companyData={companyData} />
     </div>
   )
 }
