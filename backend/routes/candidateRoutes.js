@@ -6,6 +6,7 @@ const { protect } = require("../middleware/authMiddleware");
 const User = require("../models/user")
 const upload = require("../config/cloudinary");
 const Jobs = require("../models/Jobs");
+const Company = require("../models/Company")
 
 const createTransporter = () => {
   return nodemailer.createTransport({
@@ -223,20 +224,26 @@ router.put("/:id/position", protect, async (req, res) => {
 });
 
 router.post("/send-email", protect, async (req, res) => {
-  const { to, subject, text, candidateId, questions } = req.body;
+  const { to, candidateId, questions } = req.body;
 
-  if (!to || !subject || !text || !candidateId || !questions) {
+  if (!to || !candidateId || !questions) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
   try {
+
+    const cnd = await Candidate.findById(candidateId)
+
+    const company = await Company.findById(cnd?.dashboardId)
+
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: "team@instacruit.no",
+      from: process.env.EMAIL_TEAM,
       to,
-      subject,
-      text,
+      subject: "Vennligst send din CV og svar på noen spørsmål",
+      text: `Kjære ${cnd?.customerInfo?.fulltNavn},\nTakk for din interesse for stillingen hos ${company?.companyName}. For å kunne gå videre med din søknad, ber vi deg om å sende oss din oppdaterte CV og svare på noen spørsmål. Du finner spørsmålene i den følgende lenken:\n${process.env.CLIENT_URL}/questions/${candidateId}\nVennligst send oss din CV og svar på spørsmålene så snart som mulig. Hvis du har noen spørsmål eller trenger ytterligere informasjon, er du velkommen til å ta kontakt med oss.\n\nMed vennlig hilsen\n${company?.companyName}
+          `,
     };
     await transporter.sendMail(mailOptions);
 
@@ -266,21 +273,24 @@ router.post("/send-email", protect, async (req, res) => {
   }
 });
 
-router.get("/:id/get-questions", protect, async (req, res) => {
+router.get("/:id/get-questions", async (req, res) => {
   try {
 
-    const user = await User.findById(req?.user?.id)
+    const {id} = req.params
+    // const user = await User.findById(req?.user?.id)
 
-    if(!user){
-      res
-      .status(404)
-      .json({ message: "User not found" });
-    }
+    // if(!user){
+    //   res
+    //   .status(404)
+    //   .json({ message: "User not found" });
+    // }
 
-    const candidate = await Candidate.findOne({
-      _id: req.params.id,
-      dashboardId: user?.dashboardId,
-    });
+    // const candidate = await Candidate.findOne({
+    //   _id: req.params.id,
+    //   dashboardId: user?.dashboardId,
+    // });
+
+    const candidate = await Candidate.findById(id)
 
     if (!candidate) {
       return res.status(404).json({ message: "Candidate not found" });
@@ -325,7 +335,6 @@ router.get("/:id/screening-answers", protect, async (req, res) => {
 
 router.post(
   "/:id/submit-answers",
-  protect,
   upload.single("resume"),
   async (req, res) => {
     const { questions, answers } = req.body;
@@ -334,17 +343,17 @@ router.post(
     
     try {
       
-      const user = await User.findById(req?.user?.id)
+    //   const user = await User.findById(req?.user?.id)
 
-    if(!user){
-      res
-      .status(404)
-      .json({ message: "User not found" });
-    }
+    // if(!user){
+    //   res
+    //   .status(404)
+    //   .json({ message: "User not found" });
+    // }
 
       const candidate = await Candidate.findOne({
         _id: candidateId,
-        dashboardId: user?.dashboardId,
+        // dashboardId: user?.dashboardId,
       });
 
       if (!candidate) {
@@ -354,8 +363,10 @@ router.post(
       candidate.questions = JSON.parse(questions);
       candidate.answers = JSON.parse(answers);
 
-      if (req.file) {
-        candidate.resumeUrl = req.file.path;
+      if (req?.file) {
+        candidate.resumeUrl = req.file?.path;
+        console.log(req.file?.path);
+        
       }
 
       await candidate.save();

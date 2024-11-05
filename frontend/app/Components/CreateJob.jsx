@@ -10,7 +10,7 @@ const CreateJob = ({ data }) => {
 
   const [answers, setAnswers] = useState([]);
   let questionNo = parseInt(searchParams.get("q"));
-  const [questionIndex, setQuestionIndex] = useState(questionNo - 1);
+  const [questionIndex, setQuestionIndex] = useState(questionNo);
   const [customerInfo, setCustomerInfo] = useState(null)
 
   const questions = data?.questions?.map(item => item.question) || [];
@@ -56,20 +56,21 @@ const CreateJob = ({ data }) => {
   };
 
   const goToNextQuestion = () => {
-    if (questionIndex < data?.questions.length - 1) {
-      router.push(`/jobs/${data?._id}?q=${questionIndex + 2}`);
-      setQuestionIndex(questionIndex + 1);
+    if (questionIndex < data?.questions.length ) {
+      router.push(`/jobs/${data?._id}?q=${questionIndex + 1}`);
+      setQuestionIndex(questionIndex+1);
     }
   };
 
   const goToPreviousQuestion = () => {
     if (questionIndex >= 0) {
-      router.push(`/jobs/${data?._id}?q=${questionIndex}`);
-      setQuestionIndex(questionIndex - 1);
+      router.push(`/jobs/${data?._id}?q=${questionIndex-1}`);
+      setQuestionIndex(questionIndex-1);
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     try {
 
       if(!customerInfo){
@@ -96,8 +97,11 @@ const CreateJob = ({ data }) => {
       
       if(response.ok){
         toast.success("Candidate added successfully")
-        setAnswers([])
-        router.push(`/jobs/${data?._id}?q=0`);
+        setTimeout(() => {
+          router.push(`/jobs/${data?._id}?q=0`);
+          setAnswers([])
+          setQuestionIndex(0)
+        }, 1000);
       }
       else{
         toast.error(fatchedData.message)
@@ -117,7 +121,7 @@ const CreateJob = ({ data }) => {
 
   
 
-  if (questionNo >0 && questionNo <= data?.questions.length ) {
+  if (questionNo >=0 && questionNo < data?.questions.length ) {
     return (
        <div className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
       <div className=" flex flex-col bg-[#363636]/50 border border-[#830e70] shadow-[0px_0px_20px_0px_#830e70] rounded-2xl md:px-8 px-5 lg:px-12 py-7 md:py-12 max-w-[30rem] w-full ">
@@ -134,7 +138,7 @@ const CreateJob = ({ data }) => {
         />
         </div>
         <div className="mt-12 flex  gap-2">
-          {questionIndex >= 0 && (
+          {questionIndex >0 && questionIndex< data?.questions?.length && (
             <button
               onClick={goToPreviousQuestion}
               className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
@@ -142,7 +146,7 @@ const CreateJob = ({ data }) => {
               Forrige
             </button>
           )}
-          {questionIndex < data?.questions.length - 1 ? (
+          {/* {questionIndex <= data?.questions.length - 1 ? ( */}
             <button
               onClick={goToNextQuestion}
               disabled={!answers[questionIndex]}
@@ -150,7 +154,7 @@ const CreateJob = ({ data }) => {
             >
               Neste
             </button>
-          ) : (
+          {/* ) : (
             <button
               onClick={handleSubmit}
               disabled={!answers}
@@ -158,14 +162,14 @@ const CreateJob = ({ data }) => {
             >
               Send inn
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div> 
     );
   }
 
-  if (questionIndex < -1 || questionIndex >= data?.questions.length) {
+  if (questionIndex < 0 || questionIndex > data?.questions.length) {
     return <p>Ugyldig spørsmål</p>;
   }
 
@@ -176,7 +180,7 @@ const CreateJob = ({ data }) => {
           Takk for at du viste interesse for stillingen! Vennligst registrer kontaktinformasjonen din.
           </h3>
 
-          <div className=" mt-5 flex flex-col gap-4 ">
+          <form onSubmit={handleSubmit} className=" mt-5 flex flex-col gap-4 ">
             <div className=" flex flex-col gap-1 text-[1.2rem] ">
               <label htmlFor="">Fullt navn*</label>
               <input
@@ -210,17 +214,18 @@ const CreateJob = ({ data }) => {
                 className=" no-arrows  bg-[#363636]/70 py-3 px-4 hover:border-[#830e70] transition-colors duration-300 ease-in-out rounded-full border outline-none focus:border-[#830e70] "
               />
             </div>
-          </div>
-
           <div className="mt-12 flex justify-between space-x-4">
             <button
-              onClick={goToNextQuestion}
-              disabled={!customerInfo?.fulltNavn || !customerInfo?.epost || !customerInfo?.telefonnummer}
+              // onClick={handleSubmit}
+              disabled={ !answers}
+              // disabled={!answers}
               className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
             >
-              Neste
+              Send inn
             </button>
           </div>
+          </form>
+
         </div>
       </div>
   );

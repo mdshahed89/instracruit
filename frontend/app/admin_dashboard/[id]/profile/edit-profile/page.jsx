@@ -1,14 +1,9 @@
+import AdminProfileModal from '@/app/Components/AdminProfileModal';
 import React from 'react'
-import AdminProfileModal from "../../../Components/AdminProfileModal"
-import jwt from "jsonwebtoken";
-import { cookies } from 'next/headers';
-
-
 
 const page = async ({params}) => {
 
-
-  // const cookieStore = cookies();
+    // const cookieStore = cookies();
   // const token = cookieStore.get("authToken")?.value;
 
 
@@ -40,7 +35,6 @@ let userData;
     redirect("/admin_login")
   }
   userData = userData?.user
-
 
   return (
     <div className=' h-full '>

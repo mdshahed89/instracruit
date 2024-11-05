@@ -80,18 +80,18 @@ export default function CandidateProfile() {
   };
 
   const moveLeadToSelectedColumn = async () => {
-    if (selectedColumn && data && data._id) {
+    if (selectedColumn && data && data?._id) {
       const updatedColumns = { ...columns };
 
       // Find the current column of the candidate
       Object.keys(updatedColumns).forEach((columnId) => {
-        updatedColumns[columnId].items = updatedColumns[columnId].items.filter(
-          (item) => item.id !== data._id
+        updatedColumns[columnId].items = updatedColumns[columnId]?.items.filter(
+          (item) => item?.id !== data?._id
         );
       });
 
       updatedColumns[selectedColumn].items.push({
-        id: data._id,
+        id: data?._id,
         name: candidateName,
         jobMatchProgress: progress,
         screenings: {
@@ -115,7 +115,7 @@ export default function CandidateProfile() {
 
         // Update the candidate's column position on the back-end
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${data._id}/position`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${data?._id}/position`,
           {
             method: "PUT",
             headers: {
@@ -146,8 +146,8 @@ export default function CandidateProfile() {
   };
 
   const navigateToDashboard = () => {
-    if (data && data._id) {
-      router.push(`/dashboard/${data._id}`);
+    if (data && data?._id) {
+      router.push(`/dashboard/${data?._id}`);
     } else {
       console.error("Data is not available or _id is missing");
     }
@@ -172,7 +172,7 @@ export default function CandidateProfile() {
     }
 
     const candidateEmail =
-      customerInfo.find((info) => info.label === "E-post")?.value || "N/A";
+      customerInfo.find((info) => info?.label === "E-post")?.value || "N/A";
 
     if (candidateEmail === "N/A") {
       toast.error("Candidate email not found!");
@@ -181,12 +181,12 @@ export default function CandidateProfile() {
 
     const emailData = {
       to: candidateEmail,
-      subject: "Vennligst send din CV og svar på noen spørsmål",
-      text: `Kjære ${candidateName},
-            Vennligst send din CV ved å klikke på lenken under og besvare følgende spørsmål:
-            ${questions.join("\n")}
-            ${process.env.NEXT_PUBLIC_FRONTEND_URL}/questions/${id}
-          `,
+      // subject: "Vennligst send din CV og svar på noen spørsmål",
+      // text: `Kjære ${candidateName},
+      //       Vennligst send din CV ved å klikke på lenken under og besvare følgende spørsmål:
+      //       ${questions.join("\n")}
+      //       ${process.env.NEXT_PUBLIC_FRONTEND_URL}/questions/${id}
+      //     `,
       candidateId: id,
       questions,
     };
@@ -212,7 +212,7 @@ export default function CandidateProfile() {
     } catch (error) {
       if (error instanceof Error) {
         toast.error(
-          "Error sending email: " + (error.message || "Unknown error")
+          "Error sending email: " + (error?.message || "Unknown error")
         );
       } else {
         toast.error("Unknown error");
@@ -252,20 +252,20 @@ export default function CandidateProfile() {
         setCandidateName(data1.customerInfo.fulltNavn || "Unknown");
 
         setCustomerInfo([
-          { label: "E-post", value: data1.customerInfo.epost || "N/A" },
+          { label: "E-post", value: data1?.customerInfo?.epost || "N/A" },
           {
             label: "Telefon",
-            value: data1.customerInfo.telefonnummer || "N/A",
+            value: data1?.customerInfo?.telefonnummer || "N/A",
           },
-          { label: "By", value: data1.customerInfo.by || "N/A" },
-          { label: "Adresse", value: data1.customerInfo.adresse || "N/A" },
+          { label: "By", value: data1?.customerInfo?.by || "N/A" },
+          { label: "Adresse", value: data1?.customerInfo?.adresse || "N/A" },
           {
             label: "Postnummer",
-            value: data1.customerInfo.postnummer || "N/A",
+            value: data1?.customerInfo?.postnummer || "N/A",
           },
         ]);
 
-        setProgress(data1.jobMatchProgress || 0);
+        setProgress(data1?.jobMatchProgress || 0);
 
         const response2 = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${id}/screening-answers`,
@@ -285,22 +285,22 @@ export default function CandidateProfile() {
 
         setData(data1);
 
-        setResumeUrl(data2.resumeUrl);
+        setResumeUrl(data2?.resumeUrl);
 
         setScreenings([
           {
             title: "Screening del 1",
-            questions: data1.quizzes.length
+            questions: data1?.quizzes?.length
               ? data1.quizzes.map((quiz: any) => ({
-                  question: quiz.question,
-                  answer: quiz.answer || "No answer provided",
+                  question: quiz?.question,
+                  answer: quiz?.answer || "No answer provided",
                 }))
               : [{ question: "No answers added.", answer: "" }],
           },
           {
             title: "Screening del 2",
-            questions: data2.answers.map((answer: string, index: number) => ({
-              question: data2.questions[index],
+            questions: data2?.answers.map((answer: string, index: number) => ({
+              question: data2?.questions[index],
               answer: answer || "No answer provided",
             })),
           },
@@ -519,8 +519,8 @@ export default function CandidateProfile() {
                   key={index}
                   className="flex justify-between py-2 border-b border-gray-200 last:border-none"
                 >
-                  <p className="font-semibold text-black">{info.label}</p>
-                  <p className="text-black">{info.value}</p>
+                  <p className="font-semibold text-black">{info?.label}</p>
+                  <p className="text-black">{info?.value}</p>
                 </div>
               ))}
             </div>
@@ -528,15 +528,15 @@ export default function CandidateProfile() {
 
           <div className="border-4 border-[#830e70] bg-white p-4 rounded-lg shadow-md mb-4 sm:mb-6">
             <h3 className="font-bold text-black text-md sm:text-lg mb-2">
-              {resumeData.title}
+              {resumeData?.title}
             </h3>
             <hr className="mb-2" />
-            <p className="text-gray-500">{resumeData.description}</p>
+            <p className="text-gray-500">{resumeData?.description}</p>
             <button
               className="mt-4 bg-[#830e70] text-white py-2 px-4 rounded-md"
               onClick={openModal}
             >
-              {resumeData.buttonLabel}
+              {resumeData?.buttonLabel}
             </button>
 
             {resumeUrl && (

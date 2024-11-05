@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const crypto = require("crypto");
 const Invitation = require("../models/invitationModel");
 const User = require("../models/user");
+const Company = require("../models/Company")
 const emailService = require("../services/emailService");
 const generateToken = require("../utils/generateTokens");
 dotenv.config();
@@ -28,7 +29,10 @@ exports.sendInvitation = async (req, res) => {
 
     const registrationLink = `${process.env.CLIENT_URL}/invitation/${token}`;
 
-    await emailService.sendInvitationEmail(name, email, registrationLink);
+    const company = await Company.findById(user?.dashboardId)
+    const companyName = company?.companyName
+
+    await emailService.sendInvitationEmail(name, email, companyName, registrationLink);
 
     res.status(200).json({ message: "Invitation sent successfully!" });
   } catch (error) {

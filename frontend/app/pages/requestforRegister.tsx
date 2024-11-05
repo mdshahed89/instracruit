@@ -61,11 +61,13 @@ export default function Register() {
   };
 
   return (
-    <div className="relative bg-black text-white p-10 md:p-20">
+    <div className=" flex items-center w-full justify-center min-h-[100vh] ">
+
+<div className=" bg-black text-white w-full  ">
       <motion.div
-        className="relative flex flex-col justify-center items-center text-center"
+        className=" text-center px-3 "
         style={{
-          backgroundImage: 'url("/path-to-your-background.gif")',
+          // backgroundImage: 'url("/path-to-your-background.gif")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -75,18 +77,18 @@ export default function Register() {
         transition={{ duration: 0.6 }}
         viewport={{ once: false, amount: 0.5 }}
       >
-        <motion.h2 className="text-4xl font-bold mb-6">
+        <motion.h2 className="md:text-4xl text-3xl font-bold mb-6">
           Registrer interesse
         </motion.h2>
-        <motion.p className="text-lg leading-relaxed max-w-lg md:mb-10">
+        <motion.p className="text-lg leading-relaxed mx-auto max-w-lg text-[#a5a5a5] mb-10">
           Fyll inn litt informasjon om bedriften din, og en av Instacruit sine
           rådgivere tar kontakt innen 24 timer.
         </motion.p>
       </motion.div>
 
-      <motion.div className="relative flex items-center justify-center ">
-        <motion.div className="relative z-10 p-8 mx-1 bg-black bg-opacity-90 rounded-lg shadow-lg w-[600] md:w-1/2 border-[#841F84] border-2 mb-20">
-          <motion.h1 className="md:text-4xl text-2xl  font-bold mb-6 text-center">
+      <motion.div className=" w-full px-3 ">
+        <motion.div className=" bg-black bg-opacity-90 rounded-lg shadow-lg w-full lg:px-16 md:px-10 px-5  md:py-12 py-6 mx-auto max-w-[600px] border-[#841F84] border-2">
+          <motion.h1 className="md:text-4xl text-2xl  font-bold mb-12 text-center">
             Registrer her
           </motion.h1>
           <motion.form onSubmit={handleSubmit}>
@@ -103,7 +105,7 @@ export default function Register() {
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-4 py-2 outline-none rounded-md bg-white text-black placeholder-gray-400 border border-gray-700  "
                 placeholder="Skriv inn navn her"
                 required
               />
@@ -118,14 +120,14 @@ export default function Register() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-4 py-2 rounded-md outline-none bg-white text-black placeholder-gray-400 border border-gray-700 "
                 placeholder="E-postadresse"
                 required
               />
             </div>
             <motion.button
               type="submit"
-              className="w-full bg-transparent text-white border border-[#841F84] px-6 py-2 mt-4 rounded-full hover:bg-[#866186] hover:text-black transition duration-300"
+              className="w-full font-semibold bg-transparent text-white border border-[#841F84] px-6 py-3 mt-10 rounded-full hover:bg-[#866186] hover:text-white transition duration-300"
               disabled={loading}
             >
               {loading ? "Sender..." : "Send"}
@@ -133,7 +135,8 @@ export default function Register() {
           </motion.form>
         </motion.div>
       </motion.div>
-      <ToastContainer />
+    </div>
+
     </div>
   );
 }

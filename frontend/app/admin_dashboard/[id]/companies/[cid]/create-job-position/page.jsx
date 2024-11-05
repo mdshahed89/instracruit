@@ -5,7 +5,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
 import { FiTrash } from "react-icons/fi"; // Icon for delete button
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { MdOutlineArrowBackIos } from "react-icons/md";
+import { MdOutlineArrowBackIos, MdOutlineTitle } from "react-icons/md";
 import { toast } from "react-toastify";
 import { redirect, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -36,7 +36,7 @@ useEffect(()=> {
 }, [])
 
   const [loading, setLoading] = useState(false);
-
+  const [title, setTitle] = useState('')
   const [questions, setQuestions] = useState([
     // { id: 1, label: "What's your full name?" },
     // { id: 2, label: "What is your email?" },
@@ -87,13 +87,14 @@ useEffect(()=> {
           body: JSON.stringify({
             questions: questionsData,
             dashboardId: cid,
+            title
           }),
         }
       );
 
       if (response.ok) {
         console.log("Questions saved successfully");
-        toast.success("Questions added successfully");
+        toast.success("Job Created Successfully");
         setQuestions([
           // { id: 1, label: "What's your full name?" },
           // { id: 2, label: "What is your email?" },
@@ -130,6 +131,15 @@ useEffect(()=> {
               <MdOutlineArrowBackIos className="text-[#830e70] text-[1.2rem]" />
             </Link>
           </div>
+          <div className=" flex flex-col gap-1 ">
+            <label htmlFor="">Title*</label>
+            <div className=" relative ">
+            <input onChange={(e)=>setTitle(e.target.value)} type="text" className=" w-full text-black rounded-full font-semibold p-3 pl-12 outline-none drop-shadow-lg bg-white " placeholder="Enter job title" />
+            <div className=" absolute top-0 left-2 h-full flex items-center ">
+            <MdOutlineTitle className=" text-[1.5rem] text-[#454545] font-light " />
+            </div>
+            </div>
+          </div>
           {questions.map((q, index) => (
             <div
               key={q.id}
@@ -143,9 +153,9 @@ useEffect(()=> {
                 onChange={(e) => handleInputChange(q.id, e.target.value)}
                 required
                 placeholder={q.placeholder}
-                className="w-full text-black rounded-full p-3 pl-12 outline-none drop-shadow-lg bg-white"
+                className="w-full text-black rounded-full p-3 pl-12 font-semibold outline-none drop-shadow-lg bg-white"
               />
-              <span className="absolute left-1 flex items-center top-0 h-full text-[#454545] text-[1.1rem]">
+              <span className="absolute left-1 flex items-center font-semibold top-0 h-full text-[#454545] text-[1.1rem]">
                 Q{index + 1}
               </span>
               <button
@@ -164,7 +174,7 @@ useEffect(()=> {
               value={newQuestionLabel}
               onChange={(e) => setNewQuestionLabel(e.target.value)}
               placeholder="Legg til et nytt spørsmål"
-              className="w-full text-black rounded-full p-3 pl-4 outline-none drop-shadow-lg bg-white"
+              className="w-full text-black rounded-full font-semibold p-3 pl-4 outline-none drop-shadow-lg bg-white"
             />
             <button
               type="button"

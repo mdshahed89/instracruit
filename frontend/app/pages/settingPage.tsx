@@ -1,14 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import { FaUsers, FaBuilding, FaBell, FaCommentDots } from "react-icons/fa";
 import Navbar from "../Components/bar";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import CompanyForm from "../Components/companyform";
 import MessageForm from "../Components/message";
 import Forespørselsinformasjonsfelt from "../Components/Forespørselsinformasjonsfelt";
 import { jwtDecode } from "jwt-decode";
-// import { log } from "console";
 
 interface DynamicField {
   value: string;
@@ -65,12 +64,12 @@ export default function SettingsPage() {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success("Form data saved successfully!");
+        toast?.success("Form data saved successfully!");
       } else {
-        toast.error(`Error saving form data: ${data.message}`);
+        toast?.error(`Error saving form data: ${data.message}`);
       }
     } catch (error) {
-      toast.error("Error saving form data.");
+      toast?.error("Error saving form data.");
       console.error("Error:", error);
     }
   };
@@ -85,9 +84,11 @@ export default function SettingsPage() {
     setEmail("");
   };
 
-  const inviteUser = async () => {
+  const inviteUser = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    event.preventDefault()
     if (!name || !email) {
-      toast.error("Please fill out both fields.");
+      toast?.error("Please fill out both fields.");
       return;
     }
 
@@ -106,21 +107,22 @@ export default function SettingsPage() {
       );
 
       const data = await response.json();
-      console.log("Response Status:", response.status);
+      console.log("Response Status:", response?.status);
       console.log("Response Data:", data);
 
       if (response.ok) {
-        toast.success("Invitation sent successfully!");
+        toast?.success("Invitation sent successfully!");
         closePopup();
-      } else if (data.error === "User already invited") {
+      } else if (data?.error === "User already invited") {
         toast.error("User already invited!");
       } else {
-        toast.error(`Error: ${data.error}`);
+        toast.error(`Error: ${data?.error}`);
       }
     } catch (error) {
       toast.error("Failed to send the invitation. Please try again.");
     } finally {
       setLoading(false);
+      toast.error("Failed to send the invitation. Please try again.");
     }
   };
 
@@ -138,11 +140,7 @@ export default function SettingsPage() {
       case "Brukere":
         return (
           <div className="relative text-black p-4 h-48">
-            <h2 onClick={()=>{
-              console.log("working");
-              
-              toast.success("hi")
-            }} className="text-xl font-bold">Brukere og invitere brukere</h2>
+            <h2 className="text-xl cursor-pointer font-bold">Brukere og invitere brukere</h2>
             <p>Inviter nye brukere til bedriften din som rekrutterere.</p>
             <button
               onClick={openPopup}
@@ -155,11 +153,6 @@ export default function SettingsPage() {
               <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
                 <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
                   <h2
-                    onClick={() => {
-                      console.log("hello");
-                      
-                      toast.success("hello");
-                    }}
                     className="text-xl font-bold text-black mb-4"
                   >
                     Inviter bruker
@@ -221,6 +214,7 @@ export default function SettingsPage() {
             )}
           </div>
         );
+        
       case "Varslingsmelding":
         return <MessageForm />;
       case "Forespørselsinformasjonsfelt":
@@ -232,7 +226,7 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
+      <Navbar companyName = "hello" />
       <header className="bg-black text-white p-4 text-center font-bold">
         Innstillinger
       </header>
@@ -259,8 +253,8 @@ export default function SettingsPage() {
 
         <div className="flex-grow bg-white shadow-lg rounded-lg p-6">
           {renderContent()}
-      <ToastContainer />
         </div>
+      <ToastContainer />
       </div>
     </div>
   );

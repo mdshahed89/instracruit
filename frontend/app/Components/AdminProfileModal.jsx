@@ -1,9 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import Logo from "../../public/logo.png";
-import AdminUserIcon from "../Components/AdminUserIcon.jsx";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
@@ -33,8 +30,9 @@ export default function AdminProfileModal({ userData, id }) {
   const [formData, setFormData] = useState({
     name: userData?.name,
     email: userData?.email,
+    address: userData?.address,
+    phoneNo: userData?.phoneNo
   });
-  const [confirmPassword, setconfirmPassword] = useState("");
   const [loading, setloading] = useState(false);
 
   const handleChange = (e) => {
@@ -48,11 +46,6 @@ export default function AdminProfileModal({ userData, id }) {
     e.preventDefault();
     setloading(true);
     try {
-      if ( formData?.password && confirmPassword && formData?.password !== confirmPassword) {
-        toast.error("password and confirm password should be match");
-        setloading(false)
-        return;
-      }
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/update/${userData?._id}`,
         {
@@ -61,6 +54,7 @@ export default function AdminProfileModal({ userData, id }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
+          cache: 'no-store'
         }
       );
 
@@ -68,18 +62,14 @@ export default function AdminProfileModal({ userData, id }) {
 
       if (res.ok) {
         toast.success("Information updated successfully");
-        setFormData({
-          password: ''
-        })
-        setconfirmPassword('')
       } else {
         toast.error(fatchedData.message || "Information updation failed");
         setFormData({
           name: userData?.name,
           email: userData?.email,
-          password: ''
+          address: userData?.address,
+          phoneNo: userData?.phoneNo
         })
-        setconfirmPassword('')
       }
 
       setloading(false);
@@ -91,30 +81,14 @@ export default function AdminProfileModal({ userData, id }) {
   };
 
   return (
-    <div className=" z-[1000000] text-white ">
-      <div className=" bg-[#222121] py-4 ">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, duration: 0.8 }}
-          className=" max-w-[1000px] mx-auto flex items-center justify-between px-3 "
-        >
-          <Image
-            src={Logo}
-            alt="Logo"
-            loading="lazy"
-            className=" w-[6rem] object-cover "
-          />
-
-          <AdminUserIcon id={userData?._id} profile={true} />
-        </motion.div>
-      </div>
+    <div className=" z-[1000000] text-white h-full ">
+      
 
       <motion.div initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1, duration: 1 }} className=" max-w-[600px] mx-auto border border-[#830e70] rounded-2xl lg:px-14 md:px-7 px4 lg:py-12 py-6 mt-20 font-Montserrat ">
+        transition={{ delay: 0.1, duration: 1 }} className=" w-full  min-h-[80vh] border-[#830e70] rounded-r-2xl lg:px-14 md:px-7 px-4 py-10  font-Montserrat ">
         <h3 className=" text-[1.8rem] font-semibold uppercase ">
-          Admin Profile
+          Edit Admin Profile
         </h3>
         <form onSubmit={handleSubmit} className=" text-[1.2rem] mt-5 flex flex-col gap-5 ">
           <div className=" flex flex-col gap-1 ">
@@ -136,6 +110,7 @@ export default function AdminProfileModal({ userData, id }) {
             <input
               type="email"
               id="email"
+              readOnly
               onChange={handleChange}
               value={formData?.email}
               className=" outline-none border focus:border-[#830e70] hover:border-[#830e70] transition-colors duration-300 ease-in-out bg-transparent py-2 px-4 rounded-full "
@@ -143,25 +118,26 @@ export default function AdminProfileModal({ userData, id }) {
           </div>
           <div className=" flex flex-col gap-1 ">
             <label htmlFor="" className=" ml-2 ">
-              Password
+              Address
             </label>
             <input
-              type="password"
-              id="password"
-              value={formData?.password}
+              type="text"
+              id="address"
+              value={formData?.address}
               onChange={handleChange}
               className=" outline-none border focus:border-[#830e70] hover:border-[#830e70] transition-colors duration-300 ease-in-out bg-transparent py-2 px-4 rounded-full "
             />
           </div>
           <div className=" flex flex-col gap-1 ">
             <label htmlFor="" className=" ml-2 ">
-              Confirm Password
+              Phone No.
             </label>
             <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setconfirmPassword(e.target.value)}
-              className=" outline-none border focus:border-[#830e70] hover:border-[#830e70] transition-colors duration-300 ease-in-out bg-transparent py-2 px-4 rounded-full "
+              type="number"
+              id="phoneNo"
+              value={formData?.phoneNo}
+              onChange={handleChange}
+              className=" no-arrows outline-none border focus:border-[#830e70] hover:border-[#830e70] transition-colors duration-300 ease-in-out bg-transparent py-2 px-4 rounded-full "
             />
           </div>
 

@@ -4,21 +4,21 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
-  host: "send.one.com", // one.com SMTP server
-  port: 587, // Secure port for SSL
-  secure: false, // SSL for encryption
+  host: "send.one.com", 
+  port: 587, 
+  secure: false, 
   auth: {
-    user: process.env.EMAIL_TEAM, // Your one.com email
-    pass: process.env.EMAIL_TEAM_PASS, // Your one.com password (from environment variables)
+    user: process.env.EMAIL_TEAM, 
+    pass: process.env.EMAIL_TEAM_PASS, 
   },
 });
 
-const sendInvitationEmail = async (name, email, registrationLink) => {
+const sendInvitationEmail = async (name, email, companyName, registrationLink) => {
   const mailOptions = {
     from: "team@instacruit.no",
     to: email,
-    subject: "You are invited to join!",
-    text: `Hi ${name},\n\nYou have been invited to join. Please click on the link below to complete your registration:\n${registrationLink}`,
+    subject: `Invitasjon til å bli med på Instarecruit-dashbordet for ${companyName || "N/A"}`,
+    text: `Hi ${name || "Sir"},\n\nSå hyggelig at du har blitt invitert til å samarbeide på Instarecruit-dashbordet for ${companyName || "N/A"}!\n Du kan nå enkelt aktivere brukerkontoen din og få tilgang til alle funksjonene ved å logge inn her:\n ${registrationLink}\n\nSer frem til samarbeidet!\nVennlig hilsen,\nInstarecruit-teamet`,
   };
 
   try {
@@ -39,17 +39,19 @@ const sendContactEmail = async (
 ) => {
   try {
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      host: "send.one.com", 
+      port: 587, 
+      secure: false, 
       auth: {
-        user: process.env.EMAIL_CONTACT,
-        pass: process.env.EMAIL_CONTACT_PASS,
+        user: process.env.EMAIL_ONE_CONTACT, 
+        pass: process.env.EMAIL_TEAM_PASS, 
       },
     });
     const mailOptions = {
-      from: email,
+      from: process.env.EMAIL_ONE_CONTACT,
       // from: process.env.EMAIL_CONTACT,
-      to: "kontakt@instacruit.no",
-      subject: "Ny innsendelse av kontaktskjema",
+      to: process.env.EMAIL_ONE_CONTACT,
+      subject: `Ny henvendelse mottatt fra ${companyName}`,
       text: `
         Bedriftsnavn: ${companyName}
         E-post: ${email}

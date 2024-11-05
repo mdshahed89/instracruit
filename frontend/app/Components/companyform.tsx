@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 interface FormDataState {
   companyName: string;
@@ -94,7 +94,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({id}) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/company", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company`, {
         method: "POST",
         body: formDataToSend,
       });

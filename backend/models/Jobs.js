@@ -17,6 +17,10 @@ const jobSchema = new mongoose.Schema(
       ref: "Company",
       required: true,
     },
+    title: {
+      type: String,
+      required: true
+    }
   },
   { timestamps: true }
 );

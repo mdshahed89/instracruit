@@ -5,7 +5,7 @@ import { LuCopy } from 'react-icons/lu';
 
 export default function JobPosition({data}) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState("Spørsmål")
+    const [selectedValue, setSelectedValue] = useState(data?.title || 'N/A')
     console.log(data?.questions);
     // const router = useRouter()
 

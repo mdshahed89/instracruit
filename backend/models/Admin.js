@@ -14,6 +14,14 @@ const adminSchema = new mongoose.Schema({
   password: {
     type: String,
     // required: true,
+  },
+  address: {
+    type: String,
+    // required: true,
+  },
+  phoneNo: {
+    type: Number,
+    // required: true,
   }
 });
 

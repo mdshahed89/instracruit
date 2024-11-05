@@ -4,17 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { RiUserSettingsLine } from "react-icons/ri";
 import { toast } from "react-toastify";
-import AdminProfileModal from "../Components/AdminProfileModal.jsx";
 import Link from "next/link";
 
 export default function FadeUpBoxDropDown({ id, profile }) {
+  
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef(null);
-  const items = ["React", "Angular", "Vue"];
-
   const router = useRouter();
-  console.log(profile);
-  
 
   useEffect(() => {
     const close = (e) => {
@@ -55,9 +51,12 @@ export default function FadeUpBoxDropDown({ id, profile }) {
 
   return (
     <div ref={dropDownRef} className="relative z-40 text-white">
-      <button onClick={() => setOpen((prev) => !prev)} className="">
-        <RiUserSettingsLine className=" text-[#830e70] text-[2.4rem] cursor-pointer " />
-      </button>
+      <div onClick={() => setOpen((prev) => !prev)} className="">
+      
+           <RiUserSettingsLine className=" text-[#830e70] text-[2.4rem] cursor-pointer " />
+
+        
+      </div>
       <ul
         className={`${
           open ? "visible" : "invisible"

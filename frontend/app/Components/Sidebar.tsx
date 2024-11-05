@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaCog, FaSignOutAlt, FaUserCircle, FaUserPlus } from "react-icons/fa";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
-import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import { closestCorners, DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { closestCenter, DragEndEvent } from "@dnd-kit/core";
 import { ToastContainer, toast } from "react-toastify";
 import { CiCircleCheck } from "react-icons/ci";
@@ -127,9 +127,9 @@ const Sidebar: React.FC = () => {
 
   return (
     <div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <motion.div
-        animate={{ width: isOpen ? 280 : 80 }}
+        animate={{ width: isOpen ? "auto" : 80 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="bg-black h-screen border-r border-gray-700 text-white shadow-lg flex flex-col justify-between relative"
         style={{ zIndex: 50 }}
@@ -143,13 +143,13 @@ const Sidebar: React.FC = () => {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="flex items-center"
           >
-           <Link href={'/'} >
-           <img
-              src="/logo.png"
-              alt="InstaCruit Logo"
-              className="h-12 md:h-16"
-            />
-           </Link>
+            <Link href={"/"}>
+              <img
+                src="/logo.png"
+                alt="InstaCruit Logo"
+                className="h-12 md:h-16"
+              />
+            </Link>
           </motion.div>
 
           {isAnimationComplete && isOpen && (
@@ -365,37 +365,66 @@ const fetchCandidates = async (): Promise<Candidate[] | undefined> => {
   }
 };
 
-const DraggableItem = (props: { id: string; children: React.ReactNode }) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
+interface DraggableItemProps {
+  id: string;
+  children: React.ReactNode;
+  onClick?: (event: MouseEvent<HTMLDivElement>) => void; // Make onClick optional
+}
 
-  const style = {
-    transform: `translate3d(${transform?.x ?? 0}px, ${transform?.y ?? 0}px, 0)`,
+const DraggableItem: React.FC<DraggableItemProps> = ({ id, children, onClick }) => {
+  const { attributes, listeners, setNodeRef, transform, active,   } = useDraggable({
+    id: id,
+  });
+  const isDraggingRef = useRef(false);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const style: React.CSSProperties = {
+    transform: `translate3d(${transform?.x || 0}px, ${transform?.y || 0}px, 0)`,
+    cursor: isDraggingRef.current ? 'grabbing' : 'grab',
+    backgroundColor: 'lightblue',
+    borderRadius: '4px',
+  };
+ 
+  const handleMouseDown = (event: MouseEvent<HTMLDivElement>) => {
+    // Prevent click event on drag
+    clickTimeoutRef.current = setTimeout(() => {
+      isDraggingRef.current = true; // Indicate dragging started
+      listeners?.onMouseDown?.(event as unknown as Event); // Call drag start
+    }, 150); // Adjust delay as necessary
   };
 
- 
+  const handleMouseUp = (event: MouseEvent<HTMLDivElement>) => {
+    clearTimeout(clickTimeoutRef.current!); // Clear the timeout if mouse is released
+    if (!isDraggingRef.current) {
+      onClick?.(event); // Call onClick if it was a click
+    }
+    isDraggingRef.current = false; // Reset dragging state
+  };
 
+  const handleDragEnd = () => {
+    isDraggingRef.current = false; // Reset dragging state when drag ends
+  };
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      {props.children}
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}
+    onMouseDown={handleMouseDown}
+    onMouseUp={handleMouseUp}
+    onDragEnd={handleDragEnd}
+    >
+      {children}
     </div>
   );
 };
 
 const DroppableColumn = (props: { id: string; children: React.ReactNode }) => {
-  const { setNodeRef, isOver } = useDroppable({
+  const { setNodeRef, isOver, active } = useDroppable({
     id: props.id,
   });
-
   const style = {
     backgroundColor: isOver ? "#cbd5e1" : "gray",
     transition: "background-color 0.3s ease",
+    PointerEvent: 'none'
   };
-
   return (
     <div
-    
       ref={setNodeRef}
       className="rounded-lg p-2 min-h-[500px]"
       style={style}
@@ -646,13 +675,16 @@ const DroppableColumn = (props: { id: string; children: React.ReactNode }) => {
 //     </DndContext>
 //   );
 // };
-
+import { useParams } from "next/navigation";
 const MainDashboard = () => {
+  const { id } = useParams();
+  console.log("hi", id);
+
   const router = useRouter();
 
   const handleCandidateClick = (candidateId: string) => {
-    console.log('clicked');
-    
+    console.log("clicked");
+
     router.push(`/candidate/${candidateId}`);
   };
 
@@ -757,7 +789,7 @@ const MainDashboard = () => {
   };
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
       <div className="min-h-screen bg-black text-white overflow-x-hidden flex-grow">
         <div className="container mx-auto px-4 py-8">
           <div className="flex justify-between items-center mb-8">
@@ -768,13 +800,13 @@ const MainDashboard = () => {
               </p>
             </div>
             <div className="ml-auto">
-              <a
-                href="/candidate_details"
+              <Link
+                href={`${id}/candidate_details`}
                 className="flex items-center bg-[#830e70] text-white px-6 py-2 rounded-lg hover:bg-[#6b0d5b] whitespace-nowrap"
               >
                 <FaUserPlus className="mr-2" />
                 Legg til ny kandidat
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -782,110 +814,127 @@ const MainDashboard = () => {
             <div className="overflow-x-auto ">
               <div className="flex gap-4">
                 {Object.entries(columns).map(([columnId, column], index) => (
-                  <DroppableColumn  key={columnId} id={columnId}>
+                  <DroppableColumn key={columnId} id={columnId}>
                     <div
-                     onClick={()=> {
-                      console.log("column clicking");
-                      
-                     }}
-                      className={`rounded-lg p-2 min-h-[500px] min-w-[220px] z-30 ${
+                    aria-disabled
+                      onClick={() => {
+                        console.log("column clicking");
+                      }}
+                      className={` pointer-events-none rounded-lg p-2 min-h-[500px] min-w-[220px] -z-30 ${
                         index < Object.entries(columns).length - 1 ? " " : ""
                       }`}
                     >
-                      <h2 onClick={()=>{console.log("column name clicking");
-                      }} className="font-semibold mb-4 text-center">
+                      <h2
+                        onClick={() => {
+                          console.log("column name clicking");
+                        }}
+                        className="font-semibold mb-4 text-center"
+                      >
                         {column.name}
                       </h2>
                       {column.items.map((item) => (
-                        <DraggableItem   key={item.id} id={item.id}>
-                          <div 
-                          style={{ zIndex: 9999999999999, pointerEvents: 'auto', }}
-                           onClick={(e) => {
-                            e.stopPropagation();
-                            e.preventDefault();
-                            console.log("cicking");
-                            
-                            handleCandidateClick(item.id);
-                          }}  className="relative bg-white text-black p-2 rounded-lg mb-4 cursor-pointer">
+                        <DraggableItem key={item.id} id={item.id} onClick={() => handleCandidateClick(item.id)}>
+                          <div>
                             <div
-                              className={`bg-white ${
-                                columnId === "ikke-kvalifisert" ? "p-1" : "p-2"
-                              } rounded-lg w-full`}
-                              
-                              
-                              
-                            >
-                              <div
-                                className={`flex items-center ${
-                                  columnId === "ikke-kvalifisert"
-                                    ? "mb-2"
-                                    : "mb-4"
-                                }`}
-                              >
-                                <div className="bg-teal-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-2">
-                                  {item.name.charAt(0).toUpperCase()}
-                                </div>
+                              style={{
+                                pointerEvents: "auto",
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                console.log("cicking");
 
-                                <span
-                                  className={`text-gray-200 text-md font-semibold ${
+                                // handleCandidateClick(item.id);
+                              }}
+                              className="relative z-10 bg-white text-black p-2 rounded-lg mb-4 cursor-pointer "
+                            >
+                              <div onClick={()=>{console.log("happening");
+                              }} className=" pointer-events-auto absolute z-[10000000] top-0 left-0 w-full h-full ">
+                                
+                              </div>
+                              <div
+                                className={`bg-white ${
+                                  columnId === "ikke-kvalifisert"
+                                    ? "p-1"
+                                    : "p-2"
+                                } rounded-lg w-full`}
+                              >
+                                <div
+                                  className={`flex items-center ${
                                     columnId === "ikke-kvalifisert"
-                                      ? "text-sm"
-                                      : "text-md"
+                                      ? "mb-2"
+                                      : "mb-4"
                                   }`}
                                 >
-                                  {item.name}
-                                </span>
-                              </div>
-
-                              {columnId !== "ikke-kvalifisert" && (
-                                <>
-                                  <div className="border-l-4 border-gray-900 rounded-lg pl-2 mb-2">
-                                    <ul className="list-none text-gray-500 space-y-1">
-                                      <li className="flex items-center justify-start">
-                                        <span onClick={()=>{console.log("clicking on ss");
-                                        }} className="mr-2">
-                                          Screening Part 1
-                                        </span>
-                                        {item.screenings &&
-                                        item.screenings.part1Completed ? (
-                                          <CiCircleCheck className="text-blue-500" />
-                                        ) : (
-                                          <CiCircleCheck className="text-gray-400" />
-                                        )}
-                                      </li>
-
-                                      <li className="flex items-center justify-start">
-                                        <span className="mr-2">
-                                          Screening Part 2
-                                        </span>
-                                        {item.screenings &&
-                                        item.screenings.part2Completed ? (
-                                          <CiCircleCheck className="text-blue-500" />
-                                        ) : (
-                                          <CiCircleCheck className="text-gray-400" />
-                                        )}
-                                      </li>
-                                    </ul>
+                                  <div className="bg-teal-500 text-white rounded-full h-8 w-8 flex items-center justify-center mr-2">
+                                    {item.name.charAt(0).toUpperCase()}
                                   </div>
 
-                                  <div className="flex items-center justify-between">
-                                    <div className="relative w-1/4 h-1.5 p-1 bg-gray-300 rounded-full overflow-hidden">
-                                      <div
-                                        className="absolute pl-4 top-0 left-0 h-full bg-teal-500 text-white text-xs text-center flex items-center justify-center"
-                                        style={{
-                                          width: `${item.jobMatchProgress}%`,
-                                        }}
-                                      >
-                                        {item.jobMatchProgress}%
+                                  <span
+                                    className={`text-gray-200 text-md font-semibold ${
+                                      columnId === "ikke-kvalifisert"
+                                        ? "text-sm"
+                                        : "text-md"
+                                    }`}
+                                  >
+                                    {item.name}
+                                  </span>
+                                </div>
+
+                                {columnId !== "ikke-kvalifisert" && (
+                                  <>
+                                    <div className="border-l-4 border-gray-900 rounded-lg pl-2 mb-2">
+                                      <ul className="list-none text-gray-500 space-y-1">
+                                        <li className="flex items-center justify-start">
+                                          <span
+                                            onClick={() => {
+                                              console.log("clicking on ss");
+                                            }}
+                                            className="mr-2"
+                                          >
+                                            Screening Part 1
+                                          </span>
+                                          {item.screenings &&
+                                          item.screenings.part1Completed ? (
+                                            <CiCircleCheck className="text-blue-500" />
+                                          ) : (
+                                            <CiCircleCheck className="text-gray-400" />
+                                          )}
+                                        </li>
+
+                                        <li className="flex items-center justify-start">
+                                          <span className="mr-2">
+                                            Screening Part 2
+                                          </span>
+                                          {item.screenings &&
+                                          item.screenings.part2Completed ? (
+                                            <CiCircleCheck className="text-blue-500" />
+                                          ) : (
+                                            <CiCircleCheck className="text-gray-400" />
+                                          )}
+                                        </li>
+                                      </ul>
+                                    </div>
+
+                                    <div className="flex items-center justify-between">
+                                      <div className="relative w-1/4 h-1.5 p-1 bg-gray-300 rounded-full overflow-hidden">
+                                        <div
+                                          className="absolute pl-4 top-0 left-0 h-full bg-teal-500 text-white text-xs text-center flex items-center justify-center"
+                                          style={{
+                                            width: `${item.jobMatchProgress}%`,
+                                          }}
+                                        >
+                                          {item.jobMatchProgress}%
+                                        </div>
+                                      </div>
+
+                                      <div className="ml-2 text-gray-500 text-xs">
+                                        No attachment
                                       </div>
                                     </div>
-
-                                    <div className="ml-2 text-gray-500 text-xs">
-                                      No attachment
-                                    </div>
-                                  </div>
-                                </>
-                              )}
+                                  </>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </DraggableItem>
@@ -902,7 +951,7 @@ const MainDashboard = () => {
   );
 };
 
-const ProtectedDashboard = () => {
+const ProtectedDashboard = ({}) => {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 

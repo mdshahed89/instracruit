@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/dashboard/[id]/candidate_details/page.jsx", "app/Components/DragAbleItem.jsx"  ],
   "exclude": [
     "node_modules"
   ]

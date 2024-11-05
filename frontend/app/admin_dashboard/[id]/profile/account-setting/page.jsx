@@ -1,12 +1,7 @@
 import React from 'react'
-import AdminProfileModal from "../../../Components/AdminProfileModal"
-import jwt from "jsonwebtoken";
-import { cookies } from 'next/headers';
-
-
+import AccountSetting from '../../../../Components/AccountSetting'
 
 const page = async ({params}) => {
-
 
   // const cookieStore = cookies();
   // const token = cookieStore.get("authToken")?.value;
@@ -41,10 +36,9 @@ let userData;
   }
   userData = userData?.user
 
-
   return (
-    <div className=' h-full '>
-        <AdminProfileModal  userData ={userData} id={id}  />
+    <div>
+        <AccountSetting  userData ={userData} id={id} />
     </div>
   )
 }

@@ -42,8 +42,14 @@ const customerInfoFields: Array<{
   { placeholder: "Postnummer", field: "postnummer" },
 ];
 
-export default function CandidateForm() {
+interface CandidateFormProps {
+  companyName: string | null | undefined;
+}
+
+export default function CandidateForm({ companyName }: CandidateFormProps) {
   // State to hold form data
+  console.log("companyName",companyName);
+  
   const [formData, setFormData] = useState<{
     campaignInfo: CampaignInfo;
     customerInfo: CustomerInfo;
@@ -166,8 +172,8 @@ export default function CandidateForm() {
 
   return (
     <div className="min-h-screen bg-black">
-      <ToastContainer />
-      <Navbar />
+      {/* <ToastContainer /> */}
+      <Navbar companyName = {companyName} />
       <div className="flex flex-col justify-center items-center p-4 mt-8">
         <div className="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8 mb-8">
           <h2 className="text-xl text-black font-bold mb-4">Campaign Info</h2>

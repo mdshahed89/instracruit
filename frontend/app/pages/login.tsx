@@ -3,7 +3,7 @@ import React, { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const router = useRouter();
@@ -33,9 +33,9 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("authToken", data?.token);
 
-        toast.success("Login successful!", {
+        toast?.success("Login successful!", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -52,15 +52,15 @@ export default function Login() {
           router.push(`/dashboard/${data?.dashboardId}`);
         }, 1000);
       } else {
-        setError(data.message || "Login failed.");
-        toast.error("Login failed! Please try again.", {
+        setError(data?.message || "Login failed.");
+        toast?.error("Login failed! Please try again.", {
           position: "top-right",
           autoClose: 2000,
         });
       }
     } catch (error) {
       setError("Something went wrong. Please try again.");
-      toast.error("Something went wrong! Please try again.", {
+      toast?.error("Something went wrong! Please try again.", {
         position: "top-right",
         autoClose: 3000,
       });
@@ -83,7 +83,7 @@ export default function Login() {
       transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.5 }}
     >
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <motion.div
         className="relative z-10 p-8 bg-black bg-opacity-90 rounded-lg shadow-lg max-w-sm border-[#841F84] border-2"
         initial={{ opacity: 0, scale: 0.9 }}
@@ -118,7 +118,7 @@ export default function Login() {
               type="text"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e?.target?.value)}
               className="w-full px-4 py-2 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               placeholder="E-post eller brukernavn"
               required
@@ -136,7 +136,7 @@ export default function Login() {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e?.target?.value)}
               className="w-full px-4 py-2 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               placeholder="Passord"
               required

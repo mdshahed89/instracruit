@@ -34,6 +34,10 @@ export const InviteAdminModal = () => {
               const data = await res.json();
               if(data.success){
                 toast.success("Email sent successfully")
+                setFormData({
+                  name: "",
+                  email: ""
+              })
               }
               else{
                 toast.error(data?.message || "Email sent failed")
@@ -69,7 +73,7 @@ export const InviteAdminModal = () => {
                   Name
                 </label>
                 <div className="relative">
-                  <input id="name" onChange={handleChange} type="text" required placeholder="Enter your name" className="block w-full text-black rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white " />
+                  <input id="name" value={formData?.name} onChange={handleChange} type="text" required placeholder="Enter your name" className="block w-full text-black rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white " />
                   <span className="absolute left-2 flex items-center top-0 h-full  text-[1.2rem]  ">
                   <FaRegUser className=' text-[#000] ' />
 
@@ -81,7 +85,7 @@ export const InviteAdminModal = () => {
                   Email
                 </label>
                 <div className="relative">
-                  <input id="email" onChange={handleChange} type="email" required placeholder="Enter your email" className="block text-black w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white" />
+                  <input id="email" value={formData?.email} onChange={handleChange} type="email" required placeholder="Enter your email" className="block text-black w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white" />
                   <span className="absolute left-2 flex items-center top-0 h-full  text-[1.2rem]">
                   <AiOutlineMail className=' text-[#000] ' />
 

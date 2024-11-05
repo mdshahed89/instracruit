@@ -4,7 +4,10 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { FaRegUser } from "react-icons/fa";
+import { RiLockPasswordFill } from "react-icons/ri";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+
 
 const Page = () => {
   const [name, setName] = useState("");
@@ -77,16 +80,16 @@ const Page = () => {
   console.log(formData);
 
   return (
-    <div className="mx-auto flex w-72 items-center justify-center">
+    <div className="mx-auto flex items-center justify-center">
       <div
-        className={`fixed z-[100] flex items-center justify-center $ inset-0 h-full w-full  bg-black/20 backdrop-blur-sm duration-100`}
+        className={` z-[100] flex items-center justify-center  min-h-[100vh] w-full px-3  bg-black/20 backdrop-blur-sm duration-100`}
       >
         <div
-          className={`absolute w-full rounded-lg text-white  bg-[#454545] drop-shadow-2xl sm:w-[500px] `}
+          className={` w-full rounded-lg text-white  bg-[#000] drop-shadow-2xl sm:w-[700px] border-2 border-[#830e70] `}
         >
-          <form onSubmit={handleSubmit} className="px-5 pb-5 pt-3 lg:pb-10 lg:pt-5 lg:px-10">
-            <div className=" mb-8 flex items-center justify-between ">
-              <h1 className=" text-4xl backdrop-blur-sm">
+          <form onSubmit={handleSubmit} className="px-5 md:px-10 lg:py-12 py-6 lg:px-16">
+            <div className=" mb-12 flex items-center justify-between ">
+              <h1 className=" text-2xl sm:text-3xl md:text-4xl backdrop-blur-sm">
                 Active Admin Account
               </h1>
             </div>
@@ -152,7 +155,7 @@ const Page = () => {
                     className="block text-black w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white"
                   />
                   <span className="absolute left-2 flex items-center top-0 h-full  text-[1.2rem]">
-                    <AiOutlineMail className=" text-[#000] " />
+                    <RiLockPasswordFill className=" text-[#454545] " />
                   </span>
                 </div>
               </div>
@@ -173,7 +176,7 @@ const Page = () => {
                     className="block text-black w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white"
                   />
                   <span className="absolute left-2 flex items-center top-0 h-full  text-[1.2rem]">
-                    <AiOutlineMail className=" text-[#000] " />
+                    <RiLockPasswordFill className=" text-[#454545] " />
                   </span>
                 </div>
               </div>

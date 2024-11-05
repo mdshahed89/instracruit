@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /internal/           # Disallow this private section (if you have it)
+Disallow: /settings/           # Disallow account settings area (if you have it)
+Allow: /                       # Allow access to all other public areas
+
+Sitemap: https://instacruit.no/sitemap.xml

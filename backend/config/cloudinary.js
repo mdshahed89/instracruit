@@ -11,8 +11,13 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "resumes",
-    allowed_formats: ["pdf", "doc", "docx"],
-    public_id: (req, file) => `${Date.now()}-${file.originalname}`,
+    allowed_formats: ["pdf", "doc", "docx","jpg", "jpeg", "png",],
+    resource_type: "raw",
+    public_id: (req, file) =>{
+      // Extract the original file name without the extension
+      // const originalName = file.originalname.split('.').slice(0, -1).join('.'); // Remove the last extension
+      return `${Date.now()}-${file.originalname}`; // Create a unique public ID
+    },
   },
 });
 

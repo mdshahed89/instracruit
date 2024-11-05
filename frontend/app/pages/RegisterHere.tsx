@@ -55,7 +55,7 @@ export default function ContactUsPage() {
       }
 
       const data = await response.json();
-      setResponseMessage(data.message);
+      setResponseMessage(data?.message);
       toast.success("Email sent successfully!");
 
       setFormData({
@@ -78,7 +78,7 @@ export default function ContactUsPage() {
       <motion.div
         className="relative flex flex-col justify-center items-center text-center py-16"
         style={{
-          backgroundImage: 'url("/path-to-your-background.gif")',
+          // backgroundImage: 'url("/path-to-your-background.gif")',
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -97,7 +97,7 @@ export default function ContactUsPage() {
         </motion.p>
       </motion.div>
 
-      <motion.div className="relative flex items-center justify-center py-16">
+      <motion.div className="relative flex items-center justify-center">
         <motion.div className="relative z-10 p-8 mx-4 bg-black bg-opacity-90 rounded-lg shadow-lg max-w-2xl border-[#841F84] border-2 mb-20">
           <motion.h1 className="text-4xl font-bold mb-6 text-center">
             Kontakt oss
@@ -119,7 +119,7 @@ export default function ContactUsPage() {
                 type="text"
                 id="companyName"
                 name="companyName"
-                value={formData.companyName}
+                value={formData?.companyName}
                 onChange={handleChange}
                 className="w-full px-4 py-2 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 placeholder="Skriv inn navn her"
@@ -134,7 +134,7 @@ export default function ContactUsPage() {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
+                value={formData?.email}
                 onChange={handleChange}
                 className="w-full px-4 py-2 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 placeholder="E-postadresse"
@@ -152,7 +152,7 @@ export default function ContactUsPage() {
                 type="number"
                 id="phoneNumber"
                 name="phoneNumber"
-                value={formData.phoneNumber}
+                value={formData?.phoneNumber}
                 onChange={handleChange}
                 className="w-full px-4 py-2 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 placeholder="Mobilnummer"
@@ -169,7 +169,7 @@ export default function ContactUsPage() {
               <textarea
                 id="message"
                 name="message"
-                value={formData.message}
+                value={formData?.message}
                 onChange={handleChange}
                 className="w-full px-4 py-2 h-20 rounded-md bg-white text-black placeholder-gray-400 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 placeholder="Din melding..."
@@ -181,7 +181,7 @@ export default function ContactUsPage() {
                 <input
                   type="checkbox"
                   name="subscribe"
-                  checked={formData.subscribe}
+                  checked={formData?.subscribe}
                   onChange={handleChange}
                   className="form-checkbox text-yellow-500 bg-gray-800 border-gray-700 rounded focus:ring-yellow-500"
                 />

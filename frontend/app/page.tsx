@@ -13,12 +13,14 @@ export default function Home() {
       <Navbar />
       <Hero />
 
+      <div className=" bg-black ">
       <FeaturesSection />
       <Automatisering />
 
       <AboutXcruiter />
       <SectionOne />
       <Footer />
+      </div>
     </div>
   );
 }

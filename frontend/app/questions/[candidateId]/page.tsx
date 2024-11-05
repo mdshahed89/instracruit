@@ -7,6 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function CandidateQuestions() {
   const { candidateId } = useParams();
+  console.log("candidateId", candidateId);
+  
   const [questions, setQuestions] = useState<string[]>([]);
   const [answers, setAnswers] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,27 +18,27 @@ export default function CandidateQuestions() {
   useEffect(() => {
     if (!candidateId) return;
     const fetchQuestions = async () => {
-      const token = localStorage.getItem("authToken");
+      // const token = localStorage.getItem("authToken");
 
-      if (!token) {
-        toast.error("No auth token found. Please log in.");
-        return;
-      }
+      // if (!token) {
+      //   toast.error("No auth token found. Please log in.");
+      //   return;
+      // }
 
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/${candidateId}/get-questions`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+          // {
+          //   headers: {
+          //     Authorization: `Bearer ${token}`,
+          //     "Content-Type": "application/json",
+          //   },
+          // }
         );
         const data = await res.json();
-        console.log("Fetched questions:", data.questions);
-        setQuestions(data.questions);
-        setAnswers(new Array(data.questions.length).fill(""));
+        console.log("Fetched questions:", data?.questions);
+        setQuestions(data?.questions);
+        setAnswers(new Array(data?.questions?.length).fill(""));
       } catch (error) {
         console.error("Error fetching questions:", error);
       } finally {
@@ -111,34 +113,35 @@ export default function CandidateQuestions() {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-5xl px-4 md:px-8 space-y-4">
+    <div className="flex justify-center items-center min-h-screen px-3 ">
+      <div className="bg-[#841F84] text-[#fff] lg:px-16 md:px-12 px-6 lg:py-12 py-6 rounded-lg shadow-lg w-full max-w-5xl">
         <ToastContainer />{" "}
-        <h2 className="text-2xl font-bold text-center mb-4 text-black">
+        <h2 className="text-3xl font-bold text-center mb-16 ">
           Answer the questions and upload your CV
         </h2>
-        {questions.map((question, index) => (
+        {questions?.map((question, index) => (
           <div key={index} className="mb-4">
-            <label className="block font-semibold text-black">{question}</label>
+            <label className="block font-semibold mb-2 ">{question}</label>
             <input
               type="text"
-              className="border border-gray-300 rounded p-2 w-full text-black"
+              className="border border-gray-300 rounded p-2 outline-none w-full text-black"
+              placeholder="Write your answer"
               value={answers[index]}
               onChange={(e) => handleAnswerChange(e, index)}
             />
           </div>
         ))}
-        <div className="mb-4">
-          <label className="block font-semibold text-black">Upload CV</label>
+        <div className="mt-11">
+          <label className="block font-semibold mb-2 ">Upload CV</label>
           <input
             type="file"
-            className="w-full text-black"
+            className="w-full "
             onChange={handleResumeChange}
           />
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-10 ">
           <button
-            className="bg-purple-700 text-white py-2 px-8 rounded"
+            className="bg-[#000] w-full font-semibold text-white py-2 px-8 rounded"
             onClick={handleSubmit}
           >
             {submitLoadingStatus ? "Loading..." : "Submit"}

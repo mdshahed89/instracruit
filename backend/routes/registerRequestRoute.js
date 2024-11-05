@@ -3,22 +3,22 @@ const nodemailer = require("nodemailer");
 const router = express.Router();
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-      port: 587, // typically 587 for TLS
-      secure: false, // true for port 465, false for other ports
-      auth: {
-        user: process.env.EMAIL_CONTACT,
-        pass: process.env.EMAIL_CONTACT_PASS,
-      },
+  host: "send.one.com", 
+  port: 587, 
+  secure: false, 
+  auth: {
+    user: process.env.EMAIL_ONE_CONTACT, 
+    pass: process.env.EMAIL_TEAM_PASS, 
+  },
 });
 
 router.post("/send-email", async (req, res) => {
   const { companyName, email } = req.body;
 
   const mailOptions = {
-    from: email,
-    to: "kontakt@instacruit.no",
-    subject: "New Contact Form Submission",
+    from: process.env.EMAIL_ONE_CONTACT,
+    to: process.env.EMAIL_ONE_CONTACT,
+    subject: `${companyName}  registrert interesse for å bli instacruiter!`,
     text: `Company Name: ${companyName}\nEmail: ${email}`,
   };
 
