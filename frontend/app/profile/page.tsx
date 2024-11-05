@@ -5,7 +5,7 @@ import Navbar from "../Components/bar";
 function Page() {
   return (
     <div>
-      <Navbar />
+      <Navbar companyName={"N/A"} />
       <Profile />
     </div>
   );
