@@ -84,7 +84,7 @@ const ContactForm = () => {
             </h1>
 
             <div className="flex items-center mb-4 justify-between">
-              <img src="/logo.png" alt="Instacruit" className="w-28" />
+              <img src="/images/logo.png" alt="Instacruit" className="w-28" />
               <span className="text-2xl">+</span>
               <img
                 src="/new-darker-logo-300x50.png"

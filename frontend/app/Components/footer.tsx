@@ -1,4 +1,7 @@
-import { FaFacebookF, FaInstagram } from "react-icons/fa";
+import Image from "next/image";
+import Link from "next/link";
+import { BsTwitterX } from "react-icons/bs";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -6,13 +9,16 @@ export default function Footer() {
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-32 items-center">
         {/* Contact Section */}
         <div className="flex flex-col space-y-4 items-center md:items-start md:col-span-2">
-          <a href="/">
-            <img
-              src="https___9c2322e2a82d25ea1ce487b6d7489f25.cdn.bubble.io_f1724417740048x801364741370541300_b1f0f62f-d527-4869-baf5-f3eb38684829-removebg-preview.png"
-              alt="Logo"
+          <Link href="/">
+            <Image
+              src="/https___9c2322e2a82d25ea1ce487b6d7489f25.cdn.bubble.io_f1724417740048x801364741370541300_b1f0f62f-d527-4869-baf5-f3eb38684829-removebg-preview.png"
+              alt="Instacruit"
+              width={80}
+              height={80}
               className="h-20 w-20 mb-4 mx-auto md:mx-0"
+              loading="lazy"
             />
-          </a>
+          </Link>
           <a href="Kontakt_oss">
             <h3 className="font-bold text-xl">Kontakt</h3>
           </a>
@@ -24,33 +30,44 @@ export default function Footer() {
             </a>
             <li>
               Copyright © 2024 Alle rettigheter reservert -{" "}
-              <a
+              <Link
                 href="https://sidesone.no/"
+                target="_blank"
                 aria-label="Facebook"
                 className="hover:text-gray-400"
               >
                 <span className="text-green-400">
                   Nettside drevet av sidesone
                 </span>
-              </a>
+              </Link>
             </li>
           </ul>
           {/* Social Media Icons */}
           <div className="flex space-x-4 mt-4 justify-center md:justify-start">
-            <a
+            <Link
               href="https://www.facebook.com/Instacallas"
+              target="_blank"
               aria-label="Facebook"
-              className="hover:text-gray-400"
+              className=" hover:bg-[#830e70]/70 transition-colors duration-300 ease-in-out  bg-[#830e70] p-2 rounded-full  "
             >
               <FaFacebookF size={24} />
-            </a>
-            <a
-              href="https://www.instagram.com/instacalloslo?igsh=czc5dThtNTZmZmU1"
+            </Link>
+            <Link
+              href="https://www.instagram.com/instacalloslo/"
+              target="_blank"
               aria-label="Instagram"
-              className="hover:text-gray-400"
+              className=" hover:bg-[#830e70]/70 transition-colors duration-300 ease-in-out  bg-[#830e70] p-2 rounded-full "
             >
               <FaInstagram size={24} />
-            </a>
+            </Link>
+            <Link
+              href="https://no.linkedin.com/company/instacalltm"
+              target="_blank"
+              aria-label="Instagram"
+              className=" hover:bg-[#830e70]/70 transition-colors duration-300 ease-in-out  bg-[#830e70] p-2 rounded-full "
+            >
+              <FaLinkedinIn size={24} />
+            </Link>
           </div>
         </div>
 
@@ -61,19 +78,19 @@ export default function Footer() {
             <h3 className="font-bold text-xl">Meny</h3>
             <ul className="space-y-2 mt-2 text-lg text-center md:text-left">
               <li>
-                <a href="/Om_oss" className="hover:underline">
-                  Om oss
-                </a>
+                <Link href="/Om_Oss" className="hover:underline">
+                Hvem vi er
+                </Link>
               </li>
               <li>
-                <a href="/Kontakt_oss" className="hover:underline">
-                  Kontakt oss
-                </a>
+                <Link href="/Kontakt_oss" className="hover:underline">
+                Nå oss
+                </Link>
               </li>
               <li>
-                <a href="/tjenester" className="hover:underline">
-                  Tjenester
-                </a>
+                <Link href="/tjenester" className="hover:underline">
+                Hva vi tilbyr
+                </Link>
               </li>
             </ul>
           </div>
@@ -83,9 +100,9 @@ export default function Footer() {
             <h3 className="font-bold text-xl">Bruker</h3>
             <ul className="space-y-2 mt-2 text-lg text-center md:text-left">
               <li>
-                <a href="/login" className="hover:underline">
-                  Logg inn
-                </a>
+                <Link href="/login" className="hover:underline">
+                Tilgang
+                </Link>
               </li>
             </ul>
           </div>

@@ -7,6 +7,7 @@ import Footer from "../Components/footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import Image from "next/image";
 
 
 interface FormData {
@@ -86,9 +87,10 @@ const ContactForm = () => {
             </h1>
 
             <div className="flex items-center mb-4 justify-between">
-              <img src="/logo.png" alt="Instacruit" className="w-28" />
+              <Image loading="lazy" src="/images/logo.png" alt="Instacruit" className="w-28" />
               <span className="text-2xl">+</span>
-              <img
+              <Image
+              loading="lazy"
                 src="/new-darker-logo-300x50.png"
                 alt="Sidesone"
                 className="w-28"
@@ -147,7 +149,8 @@ const ContactForm = () => {
               background: "linear-gradient(180deg, #007f64 0%, #4caf50 100%)",
             }}
           >
-            <img
+            <Image
+            loading="lazy"
               src="/DSC00580.png"
               alt="Sidesone Profile"
               className="w-44 h-44 rounded-full mb-4 transform transition-transform duration-300 hover:scale-110"
@@ -161,18 +164,18 @@ const ContactForm = () => {
             <div className="flex flex-col items-center text-sm mb-6">
               <div className="flex items-center mb-2">
                 <CiGlobe className="mr-2" size={18} />
-                <a href="https://Sidesone.no" className="text-white">
+                <Link href="https://Sidesone.no" className="text-white">
                   Sidesone.no
-                </a>
+                </Link>
               </div>
               <div className="flex items-center mb-2">
                 <FaEnvelope className="mr-2" />
-                <a
+                <Link
                   href="mailto:kontakt@sidesone.no"
                   className="text-white text-lg"
                 >
                   kontakt@sidesone.no
-                </a>
+                </Link>
               </div>
               <div className="flex items-center">
                 <FaPhoneAlt className="mr-2" />

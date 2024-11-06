@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Logo from "../../public/logo.png"
+import Logo from "../../public/images/logo.png"
 
 interface CandidateNavProps {
   companyName: string | null | undefined;

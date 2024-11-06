@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import Logo from '../../public/logo.png'
+import Logo from '../../public/images/logo.png'
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

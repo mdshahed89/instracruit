@@ -13,7 +13,7 @@ import { FaGear } from "react-icons/fa6";
 import { PiSquaresFour } from "react-icons/pi";
 import { CgOrganisation } from "react-icons/cg";
 import { RxExit } from "react-icons/rx";
-import Logo from "../../public/logo.png"
+import Logo from "../../public/images/logo.png"
 
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";

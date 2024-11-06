@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminUserIcon from "../Components/AdminUserIcon";
 import { motion } from "framer-motion";
-import Logo from "../../public/logo.png";
+import Logo from "../../public/images/logo.png";
 import Image from 'next/image';
 
 
