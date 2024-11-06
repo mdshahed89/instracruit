@@ -22,6 +22,9 @@ dotenv.config();
 const app = express();
 // app.use(cors());
 
+// Disable 'X-Powered-By' header
+app.disable('x-powered-by');
+
 // Set up CORS globally for all routes
 app.use((req, res, next) => {
   res.header(

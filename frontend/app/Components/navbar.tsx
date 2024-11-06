@@ -1,7 +1,9 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import Logo from '../../public/logo.png'
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +17,7 @@ const Navbar: React.FC = () => {
   <div className="max-w-[1400px] mx-auto flex justify-between items-center h-[80px] px-4">
     {/* Logo */}
     <Link href={'/'} className="text-2xl font-bold">
-      <img src="/logo.png" alt="InstaCruit Logo" className="h-12 md:h-16" />
+      <Image src={Logo} alt="Instacruit"  className="h-12 md:h-16" />
     </Link>
 
     {/* Mobile Menu Icon */}

@@ -13,6 +13,7 @@ import { FaGear } from "react-icons/fa6";
 import { PiSquaresFour } from "react-icons/pi";
 import { CgOrganisation } from "react-icons/cg";
 import { RxExit } from "react-icons/rx";
+import Logo from "../../public/logo.png"
 
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
@@ -144,9 +145,9 @@ const Sidebar: React.FC = () => {
             className="flex items-center"
           >
             <Link href={"/"}>
-              <img
-                src="/logo.png"
-                alt="InstaCruit Logo"
+              <Image
+                src={Logo}
+                alt="Instacruit"
                 className="h-12 md:h-16"
               />
             </Link>
@@ -676,6 +677,7 @@ const DroppableColumn = (props: { id: string; children: React.ReactNode }) => {
 //   );
 // };
 import { useParams } from "next/navigation";
+import Image from "next/image";
 const MainDashboard = () => {
   const { id } = useParams();
   console.log("hi", id);

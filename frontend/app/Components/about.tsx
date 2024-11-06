@@ -12,7 +12,7 @@ const AboutXcruiter = () => {
       viewport={{ once: false, amount: 0.5 }}
     >
       <motion.h2
-        className="text-3xl md:text-4xl lg:text-5xl font-bold text-center"
+        className="text-3xl md:text-4xl lg:text-5xl font-bold text-center "
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -23,7 +23,7 @@ const AboutXcruiter = () => {
       </motion.h2>
       <a href="/Om_Oss">
         <motion.button
-          className="mt-8 py-4 px-10 bg-[#830e70] text-white font-semibold rounded-xl hover:bg-[#bd99bd] transition"
+          className="mt-10 py-4 px-10 bg-[#830e70] text-white font-semibold rounded-xl hover:bg-[#bd99bd] transition"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}

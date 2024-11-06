@@ -11,8 +11,8 @@ export default function SectionOne() {
       transition={{ duration: 0.6 }}
       viewport={{ once: false, amount: 0.5 }}
     >
-      <div className="max-w-5xl mx-auto">
-        <motion.h1
+      <div className="max-w-5xl text-center mx-auto">
+        <motion.h2
           className="text-3xl sm:text-4xl font-bold mb-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -20,9 +20,9 @@ export default function SectionOne() {
           viewport={{ once: true, amount: 0.5 }}
         >
           Vi presenterer en nyskapende tilnærming til rekruttering.
-        </motion.h1>
+        </motion.h2>
         <motion.p
-          className="text-base sm:text-lg mb-6"
+          className="text-base sm:text-lg mb-6 text-[#c2c2c2] "
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}

@@ -92,16 +92,15 @@ const Hero: React.FC = () => {
             })}
           </motion.h1>
 
-          <motion.h3
+          <motion.p
             className="w-full mb-10 md:text-[1.3rem] text-sm sm:text-[1rem] lg:text-[1.5rem] max-w-[20rem] sm:max-w-[30rem] leading-8 md:max-w-[50rem] "
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             viewport={{ once: false, amount: 0.2 }}
           >
-            InstaCruit: Sikre deg kvalifiserte kandidater med 
-            InstaCruiter - ditt pålitelige verktøy for rekruttering!
-          </motion.h3>
+           Instacruit: Sikre deg de beste, kvalifiserte kandidatene med Instacruiter - ditt pålitelige verktøy for effektiv rekruttering. Oppdag hvordan vi kan hjelpe deg!
+          </motion.p>
 
           <div className="flex justify-end gap-3 md:text-[1.2rem] text-[1rem] lg:text-[1.4rem] ">
             <motion.a

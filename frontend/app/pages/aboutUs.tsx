@@ -43,7 +43,7 @@ const AboutUs = () => {
               Vår visjon
             </h2>
             <p className="text-base leading-relaxed text-center">
-              Vår ambisjon hos InstaCruiter er å revolusjonere
+              Vår ambisjon hos Instacruiter er å revolusjonere
               rekrutteringslandskapet ved å tilby en sømløs og intelligent
               plattform som forenkler møtet mellom selskaper og kandidater. Vi
               streber etter å være en nøkkelfaktor for suksess, både for

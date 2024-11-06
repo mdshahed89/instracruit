@@ -4,12 +4,12 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export const metadata: Metadata = {
-  title: "InstaCruit - Få Kvalifiserte Kandidater med Vårt Rekrutteringsverktøy",
-  description: "InstaCruit: Sikre deg de beste, kvalifiserte kandidatene med InstaCruiter - ditt pålitelige verktøy for effektiv rekruttering. Oppdag hvordan vi kan hjelpe deg!",
+  title: "Instacruit - Finn Pålitelige Kvalifiserte Kandidater",
+  description: "Instacruit: Sikre deg de beste, kvalifiserte kandidatene med Instacruiter - ditt pålitelige verktøy for effektiv rekruttering. Oppdag hvordan vi kan hjelpe deg!",
   
   openGraph: {
-    title: "InstaCruit - Få Kvalifiserte Kandidater med Vårt Rekrutteringsverktøy",
-    description: "InstaCruit: Sikre deg de beste, kvalifiserte kandidatene med InstaCruiter - ditt pålitelige verktøy for effektiv rekruttering. Oppdag hvordan vi kan hjelpe deg!",
+    title: "Instacruit - Finn Pålitelige Kvalifiserte Kandidater",
+    description: "Instacruit: Sikre deg de beste, kvalifiserte kandidatene med Instacruiter - ditt pålitelige verktøy for effektiv rekruttering. Oppdag hvordan vi kan hjelpe deg!",
     url: "https://instacruit.no/", 
     images: [
       {
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image', 
-    title: "InstaCruit - Få Kvalifiserte Kandidater med Vårt Rekrutteringsverktøy",
-    description: "InstaCruit: Sikre deg de beste, kvalifiserte kandidatene med InstaCruiter - ditt pålitelige verktøy for effektiv rekruttering. Oppdag hvordan vi kan hjelpe deg!",
+    title: "Instacruit - Finn Pålitelige Kvalifiserte Kandidater",
+    description: "Instacruit: Sikre deg de beste, kvalifiserte kandidatene med Instacruiter - ditt pålitelige verktøy for effektiv rekruttering. Oppdag hvordan vi kan hjelpe deg!",
     images: [
       "/twitterCard.png", 
     ],
@@ -37,9 +37,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="no">
       <head>
       <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"></link>
       </head>
       <body className={`font-Montserrat antialiased`}>
         <div style={{ position: 'relative', zIndex: 15 }}>

@@ -4,6 +4,8 @@ import { HiChevronDown } from "react-icons/hi";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Logo from "../../public/logo.png"
 
 interface CandidateNavProps {
   companyName: string | null | undefined;
@@ -23,7 +25,7 @@ export default function Navbar({companyName}:CandidateNavProps) {
     <nav className="bg-black text-white py-4 px-8 flex justify-between items-center">
       <div className="flex items-center">
         <div className="flex items-center">
-          <img src="/logo.png" alt="InstaCruit Logo" className="h-12 md:h-16" />
+          <Image src={Logo} alt="Instacruit" className="h-12 md:h-16" />
         </div>
 
         <div className="ml-10">
