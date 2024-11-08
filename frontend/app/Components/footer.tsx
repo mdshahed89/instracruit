@@ -6,24 +6,24 @@ import ComapnyIcon from '../../public/icons/CompanyIcon.png'
 
 export default function Footer() {
   return (
-    <footer className="bg-[#222121] px-5 text-white py-8">
-      <div className="max-w-[1250px] w-full mx-auto grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-32 items-center">
+    <footer className="bg-[#222121] px-3 text-white py-8">
+      <div className="max-w-[1250px] w-full mx-auto grid grid-cols-2  ">
         {/* Contact Section */}
-        <div className="flex flex-col space-y-4 items-center md:items-start md:col-span-2">
+        <div className="">
           <Link href="/">
             <Image
               src={ComapnyIcon}
               alt="Instacruit"
               width={80}
               height={80}
-              className="h-20 w-20 mb-4 mx-auto md:mx-0"
+              className="h-20 w-20"
               loading="lazy"
             />
           </Link>
           <Link href="Kontakt_oss">
             <span className="font-bold text-xl">Kontakt</span>
           </Link>
-          <ul className="space-y-2 mt-2 text-lg text-center md:text-left">
+          <ul className="space-y-2 mt-2 text-lg text-left">
             <li>Org.nr: 94099566</li>
             <li>Ole Deviks vei 4, 0666 Oslo</li>
             <Link href="mailto:kontakt@instacruit.no">
@@ -44,7 +44,7 @@ export default function Footer() {
             </li>
           </ul>
           {/* Social Media Icons */}
-          <div className="flex space-x-4 mt-4 justify-center md:justify-start">
+          <div className="flex space-x-4 mt-4 justify-start">
             <Link
               href="https://www.facebook.com/Instacallas"
               target="_blank"
@@ -73,14 +73,14 @@ export default function Footer() {
         </div>
 
         {/* Right Section: Menu & User */}
-        <div className="flex flex-row gap-16 md:flex-col md:col-span-1 items-start justify-center ">
+        <div className=" flex items-end lg:items-center justify-center text-center flex-col gap-10 ">
           {/* Menu Section */}
-          <div className="flex flex-col items-center md:items-start">
+          <div className="f">
             <h3 className="font-bold text-xl">Meny</h3>
-            <ul className="space-y-2 mt-2 text-lg text-center md:text-left">
+            <ul className="space-y-2 mt-2 text-lg text-center">
               <li>
                 <Link href="/Om_Oss" className="hover:underline">
-                Hvem vi er
+                Hvem vi er?
                 </Link>
               </li>
               <li>
@@ -90,14 +90,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/tjenester" className="hover:underline">
-                Hva vi tilbyr
+                Hva vi tilbyr?
                 </Link>
               </li>
             </ul>
           </div>
 
           {/* User Section */}
-          <div className="flex flex-col items-start">
+          <div className=" ">
             <h3 className="font-bold text-xl">Bruker</h3>
             <ul className="space-y-2 mt-2 text-lg text-center md:text-left">
               <li>

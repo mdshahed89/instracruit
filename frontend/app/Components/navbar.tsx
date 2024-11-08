@@ -14,18 +14,18 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="bg-[#222121] py-2 text-white fixed top-0  w-full z-[10000000000] shadow-md">
-  <div className="max-w-[1400px] mx-auto flex justify-between items-center h-[70px] px-4">
+  <div className="max-w-[1400px] mx-auto flex justify-between items-center h-[60px] md:h-[70px] px-4">
     {/* Logo */}
     <Link href={'/'} className="text-2xl font-bold ">
-      <Image src={Logo} alt="Instacruit"  className="h-auto" />
+      <Image src={Logo} alt="Instacruit"  className=" object-cover w-20 md:w-full " />
     </Link>
 
     {/* Mobile Menu Icon */}
-    <div className="md:hidden" onClick={toggleMenu}>
+    <div className="md:hidden block text-xl " onClick={toggleMenu}>
       {isOpen ? (
-        <FaTimes className="w-6 h-6" />
+        <FaTimes className="" />
       ) : (
-        <FaBars className="w-6 h-6" />
+        <FaBars className="" />
       )}
     </div>
 

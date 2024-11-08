@@ -45,7 +45,7 @@ const FeaturesSection: React.FC = () => {
         playsInline
         preload="auto"
         poster="/preloader2.png"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="absolute top-[20%] md:top-0 left-0 w-full h-[60vh] md:h-full object-cover z-0"
       >
         <source src="/gg.mp4" type="video/mp4" />
         Your browser does not support the video tag.
