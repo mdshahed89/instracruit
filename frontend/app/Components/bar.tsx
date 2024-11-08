@@ -22,13 +22,13 @@ export default function Navbar({companyName}:CandidateNavProps) {
   //   }, 1000);
   // };
   return (
-    <nav className="bg-black text-white py-4 px-8 flex justify-between items-center">
+    <nav className="bg-black text-white py-4 px-4 md:px-8 flex justify-between gap-2 items-center">
       <div className="flex items-center">
         <div className="flex items-center">
-          <Image src={Logo} alt="Instacruit" className="h-12 md:h-16" />
+          <Image src={Logo} alt="Instacruit" loading="lazy" className=" object-cover h-auto" />
         </div>
 
-        <div className="ml-10">
+        <div className=" md:block hidden ml-10">
           <span className="text-white font-semibold mr-6 cursor-pointer">
             Leads
           </span>
@@ -36,7 +36,7 @@ export default function Navbar({companyName}:CandidateNavProps) {
         </div>
       </div>
       <div className="flex items-center">
-        <div className="flex items-center text-white space-x-2">
+        <div className="flex items-center text-white ">
           <select
             className="bg-[#830e70] text-white border border-gray-300 px-4 py-2 outline-none rounded-md"
             name="organization"
@@ -47,8 +47,8 @@ export default function Navbar({companyName}:CandidateNavProps) {
               {companyName}
             </option>
           </select>
-          <FaCog className="text-[#830e70] cursor-pointer" size={24} />
-          <HiChevronDown className="text-[#830e70] cursor-pointer" size={24} />
+          <FaCog className="text-[#830e70] md:block hidden cursor-pointer" size={24} />
+          <HiChevronDown className="text-[#830e70] md:block hidden cursor-pointer" size={24} />
         </div>
       </div>
     </nav>

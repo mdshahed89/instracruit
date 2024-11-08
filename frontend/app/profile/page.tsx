@@ -2,7 +2,7 @@ import React from "react";
 import Profile from "../pages/profile";
 import Navbar from "../Components/bar";
 
-function Page() {
+async function Page() {
   return (
     <div>
       <Navbar companyName={"N/A"} />

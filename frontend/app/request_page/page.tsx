@@ -1,7 +1,7 @@
 import React from "react";
 import Register from "../pages/requestforRegister";
 
-function Page() {
+async function Page() {
   return (
     <div>
       <Register />

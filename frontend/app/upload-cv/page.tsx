@@ -1,7 +1,7 @@
 import React from "react";
 import UploadCVPage from "../pages/uploadCv";
 
-function Page() {
+async function Page() {
   return (
     <div>
       <UploadCVPage />

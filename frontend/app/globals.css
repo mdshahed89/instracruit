@@ -64,6 +64,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@media (max-width: 768px) {
+  /* Your styles here */
+  .dashboardSidebarOpen{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .dashboardSidebarClose{
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  }
+}
+
+
 /* Hide arrows in Chrome, Safari, Edge, and Opera */
 .no-arrows::-webkit-outer-spin-button,
 .no-arrows::-webkit-inner-spin-button {

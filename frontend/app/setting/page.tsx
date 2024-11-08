@@ -1,7 +1,7 @@
 import React from "react";
 import SettingsPage from "../pages/settingPage";
 
-function Page() {
+async function Page() {
   return (
     <div>
       <SettingsPage />

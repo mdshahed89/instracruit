@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Automatisering = () => {
   return (
-    <div className=" bg-black pt-10 ">
+    <div className=" bg-black pt-10 px-3 ">
       <motion.div
       className="   text-center border-[#830e70] border py-10 rounded-xl  "
       initial={{ opacity: 0, y: 50 }}

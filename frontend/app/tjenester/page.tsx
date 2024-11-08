@@ -3,7 +3,7 @@ import Tjenester from "../pages/tjenester";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 
-function Page() {
+async function Page() {
   return (
     <div>
       <Navbar />

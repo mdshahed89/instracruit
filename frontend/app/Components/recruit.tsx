@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function SectionOne() {
   return (
     <motion.div
-      className="bg-black text-white py-16 px-4"
+      className="bg-black text-white py-16 px-3"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
@@ -13,7 +13,7 @@ export default function SectionOne() {
     >
       <div className="max-w-5xl text-center mx-auto">
         <motion.h2
-          className="text-3xl sm:text-4xl font-bold mb-4"
+          className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}

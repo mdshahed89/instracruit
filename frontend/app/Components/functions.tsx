@@ -16,8 +16,8 @@ const revealVariant = {
 
 const FeaturesSection: React.FC = () => {
   return (
-    <section className="relative bg-black z-[100000000000] py-16 overflow-hidden">
-      <div className="absolute top-0 z-[100000000000] w-full h-20 md:h-24 bg-[#830e70] ">
+    <section className="relative bg-black z-[10000] py-16 overflow-hidden">
+      <div className="absolute top-0 z-[10000] w-full h-20 md:h-24 bg-[#830e70] ">
         <motion.h2
           className="text-3xl font-bold text-center mb-4 text-white mt-4 md:mt-6"
           initial="hidden"

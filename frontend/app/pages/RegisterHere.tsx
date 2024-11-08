@@ -2,7 +2,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 interface FormData {
   companyName: string;
@@ -201,7 +201,7 @@ export default function ContactUsPage() {
           </motion.form>
         </motion.div>
       </motion.div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }

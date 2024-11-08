@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
 import BackgroundEffect from '../Components/BackgroundEffect'
+import Link from "next/link";
 
 const sentence = {
   hidden: { opacity: 1 },
@@ -92,7 +93,7 @@ const Hero: React.FC = () => {
           </motion.h1>
 
           <motion.p
-            className="w-full mb-10 md:text-[1.3rem] text-sm sm:text-[1rem] lg:text-[1.4rem] text-[#f3f3f3] max-w-[20rem] sm:max-w-[30rem] leading-8 md:max-w-[52rem] "
+            className="w-full mb-10 md:text-[1.2rem] text-sm sm:text-[1rem] lg:text-[1.4rem] text-[#f3f3f3] max-w-[20rem] sm:max-w-[30rem] md:leading-7 lg:leading-8 md:max-w-[40rem] lg:max-w-[52rem] "
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -101,20 +102,22 @@ const Hero: React.FC = () => {
            Instacruit: Sikre deg de beste, kvalifiserte kandidatene med Instacruiter - ditt pålitelige, effektive verktøy for rask og enkel rekruttering. Oppdag hvordan vi kan hjelpe deg å finne topptalenter og lykkes med ansettelsen
           </motion.p>
 
-          <div className="flex justify-end gap-3 md:text-[1.2rem] text-[1rem] lg:text-[1.4rem] ">
-            <motion.a
-              href="/request_page"
-              className="bg-[#830e70] hover:bg-[#bd99bd] text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 md:px-10 rounded-md transition duration-300"
+          <div className="flex justify-end gap-3 md:text-[1.2rem] text-[1rem] transition-colors duration-500 ease-in-out lg:text-[1.4rem] ">
+            <motion.div
+              
+              className="bg-[#830e70] hover:bg-[#fff] hover:text-[#830e70] text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 md:px-10 rounded-md transition-all duration-300"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
               viewport={{ once: false, amount: 0.2 }}
             >
+              <Link href="/request_page">
               Registrer Interesse
-            </motion.a>
+              </Link>
+            </motion.div>
             <motion.button
               onClick={handleDashboardClick}
-              className="bg-white text-center cursor-pointer hover:bg-[#bd99bd] text-[#830e70] font-semibold py-2 sm:py-3 px-4 sm:px-6 md:px-10 rounded-md transition duration-300"
+              className="bg-white text-center cursor-pointer hover:bg-[#830e70] text-[#830e70] hover:text-white font-semibold py-2 sm:py-3 px-4 sm:px-6 md:px-10 rounded-md transition-all duration-300 ease-in-out "
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}

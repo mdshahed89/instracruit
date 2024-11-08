@@ -8,6 +8,8 @@ import CompanyForm from "../Components/companyform";
 import MessageForm from "../Components/message";
 import Forespørselsinformasjonsfelt from "../Components/Forespørselsinformasjonsfelt";
 import { jwtDecode } from "jwt-decode";
+import { IoIosArrowBack } from "react-icons/io";
+
 
 interface DynamicField {
   value: string;
@@ -24,6 +26,7 @@ export default function SettingsPage() {
     { value: "" },
   ]);
   const [askForCV, setAskForCV] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const addNewDynamicField = () => {
     setDynamicFields((prevFields) => [...prevFields, { value: "" }]);
@@ -226,13 +229,13 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar companyName = "hello" />
+      <Navbar companyName = "N/A" />
       <header className="bg-black text-white p-4 text-center font-bold">
         Innstillinger
       </header>
 
-      <div className="flex p-6 space-x-8">
-        <div className="bg-gray-900 text-white shadow-lg rounded-lg w-68 p-6 h-64">
+      <div className="flex py-6 space-x-4 lg:space-x-8">
+        <div className={`${ isSidebarOpen? "dashboardSidebarOpen" : "dashboardSidebarClose"} ml-4 transition-all duration-300 ease-linear bg-gray-900 text-white md:relative z-50 absolute shadow-lg rounded-lg w-68 px-3 lg:px-6 py-8  h-[80vh] overflow-y-auto `}>
           <ul className="space-y-4">
             {menuItems.map((item) => (
               <li
@@ -240,9 +243,12 @@ export default function SettingsPage() {
                 className={`flex items-center p-2 cursor-pointer transition-colors duration-300 ${
                   selectedMenu === item.name
                     ? "bg-[#830e70] rounded-lg"
-                    : "hover:bg-gray-700"
+                    : "hover:bg-gray-700 rounded-lg "
                 }`}
-                onClick={() => setSelectedMenu(item.name)}
+                onClick={() => {
+                  setSelectedMenu(item.name)
+                  setIsSidebarOpen(false)
+                }}
               >
                 <item.icon className="mr-2" />
                 {item.name}
@@ -251,7 +257,11 @@ export default function SettingsPage() {
           </ul>
         </div>
 
-        <div className="flex-grow bg-white shadow-lg rounded-lg p-6">
+        <div className="flex-grow relative bg-white shadow-lg rounded-lg p-6 h-[80vh] overflow-y-auto ">
+          <div onClick={()=>{setIsSidebarOpen(!isSidebarOpen)}} className=" cursor-pointer md:hidden block absolute z-50 top-4 right-4 text-white p-2 text-xl rounded-full  bg-[#830e70] ">
+          <IoIosArrowBack className={` ${isSidebarOpen ? "" : "rotate-180"} transition-all duration-300 ease-linear `} />
+
+          </div>
           {renderContent()}
         </div>
       <ToastContainer />

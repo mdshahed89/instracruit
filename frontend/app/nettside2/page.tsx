@@ -5,9 +5,12 @@ import { CiGlobe } from "react-icons/ci";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import Image from "next/image";
+import Clogo from '../../public/images/logo.png'
+import Image1 from '../../public/new-darker-logo-300x50.png'
+import Image2 from '../../public/images/SidesoneProfile.webp'
 
 
 interface FormData {
@@ -87,11 +90,11 @@ const ContactForm = () => {
             </h1>
 
             <div className="flex items-center mb-4 justify-between">
-              <Image loading="lazy" src="/images/logo.png" alt="Instacruit" className="w-28" />
+              <Image loading="lazy" src={Clogo} alt="Instacruit" className="w-28" />
               <span className="text-2xl">+</span>
               <Image
               loading="lazy"
-                src="/new-darker-logo-300x50.png"
+                src={Image1}
                 alt="Sidesone"
                 className="w-28"
               />
@@ -151,7 +154,7 @@ const ContactForm = () => {
           >
             <Image
             loading="lazy"
-              src="/DSC00580.png"
+              src={Image2}
               alt="Sidesone Profile"
               className="w-44 h-44 rounded-full mb-4 transform transition-transform duration-300 hover:scale-110"
             />
@@ -164,7 +167,7 @@ const ContactForm = () => {
             <div className="flex flex-col items-center text-sm mb-6">
               <div className="flex items-center mb-2">
                 <CiGlobe className="mr-2" size={18} />
-                <Link href="https://Sidesone.no" className="text-white">
+                <Link target="_blank" href="https://Sidesone.no" className="text-white">
                   Sidesone.no
                 </Link>
               </div>
@@ -192,7 +195,7 @@ const ContactForm = () => {
         </div>
       </div>
       <Footer />
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import RegisterInterest from "../pages/RegisterHere";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 
-function Register() {
+async function Register() {
   return (
     <div>
       <Navbar />

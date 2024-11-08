@@ -132,7 +132,7 @@ const Sidebar: React.FC = () => {
       <motion.div
         animate={{ width: isOpen ? "auto" : 80 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="bg-black h-screen border-r border-gray-700 text-white shadow-lg flex flex-col justify-between relative"
+        className="bg-black h-screen border-r border-gray-700 text-white shadow-lg flex flex-col justify-between fixed md:relative"
         style={{ zIndex: 50 }}
         onAnimationComplete={() => setIsAnimationComplete(isOpen)}
       >
@@ -177,9 +177,9 @@ const Sidebar: React.FC = () => {
                   <ul className="pl-2">
                     <li className="py-1 cursor-pointer pl-2 hover:bg-white bg-[#830e70] hover:text-black rounded">
                       {/* Show the userName as a dropdown option */}
-                      <a href="#" className="block w-full h-full">
+                      <Link href="#" className="block w-full h-full">
                         {userName || "User Name"}
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </motion.div>
@@ -792,24 +792,29 @@ const MainDashboard = () => {
 
   return (
     <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-      <div className="min-h-screen bg-black text-white overflow-x-hidden flex-grow">
+      <div className="min-h-screen bg-black text-white overflow-x-hidden md:ml-0 ml-[80px] flex-grow">
         <div className="container mx-auto px-4 py-8">
-          <div className="flex justify-between items-center mb-8">
-            <div className="pl-10">
-              <h1 className="text-3xl font-bold">Kandidat</h1>
-              <p className="text-white">
-                Dette er alle kandidatene for stillingen hos Instacall AS.
-              </p>
+          <div className=" flex flex-col gap-2 mb-10  ">
+
+          <div className="flex justify-between items-center gap-2">
+            <div className=" flex flex-col gap-3">
+              <h1 className="  text-2xl md:text-3xl font-bold">Kandidat</h1>
+              
             </div>
-            <div className="ml-auto">
+            <div className="">
               <Link
                 href={`${id}/candidate_details`}
-                className="flex items-center bg-[#830e70] text-white px-6 py-2 rounded-lg hover:bg-[#6b0d5b] whitespace-nowrap"
+                className="flex items-center md:text-base text-sm bg-[#830e70] text-white md:px-6 px-3 lg:px-12 py-2 rounded-lg hover:bg-[#6b0d5b] whitespace-nowrap"
               >
                 <FaUserPlus className="mr-2" />
                 Legg til ny kandidat
               </Link>
             </div>
+          </div>
+            <p className="text-[#ccc] ">
+                Dette er alle kandidatene for stillingen hos Instacall AS.
+              </p>
+
           </div>
 
           <div className="overflow-x-hidden">

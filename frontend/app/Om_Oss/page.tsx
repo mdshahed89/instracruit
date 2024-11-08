@@ -3,7 +3,7 @@ import AboutUs from "../pages/aboutUs";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 
-function About() {
+async function About() {
   return (
     <div>
       <Navbar />

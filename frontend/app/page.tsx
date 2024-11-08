@@ -7,7 +7,7 @@ import SectionOne from "./Components/recruit";
 import Navbar from "./Components/navbar";
 import Footer from "./Components/footer";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="">
       <Navbar />

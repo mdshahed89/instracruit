@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "../pages/login";
 
-function Page() {
+async function Page() {
   return (
     <div>
       <Login />

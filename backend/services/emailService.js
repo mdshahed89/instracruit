@@ -78,26 +78,32 @@ const sideOneContact = async (
   subscribe
 ) => {
   try {
-    const transporter = nodemailer.createTransport({
-      service: "Gmail",
+    const sidesoneTransporter = nodemailer.createTransport({
+      host: "send.one.com", 
+      port: 587, 
+      secure: false, 
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL_ONE_ADMIN, 
+        pass: process.env.EMAIL_TEAM_PASS, 
       },
     });
 
+    console.log(process.env.EMAIL_ONE_ADMIN, process.env.EMAIL_TEAM_PASS);
+    
+
     const mailOptions = {
-      from: email,
-      to: process.env.EMAIL_USER,
+      from: process.env.EMAIL_ONE_ADMIN,
+      to: process.env.EMAIL_SIDESONE,
       subject: "New Contact Form Submission",
       text: `
         Bedriftsnavn: ${companyName}
         E-post: ${email}
         Melding: ${message}
       `,
+      reaplyTo: email
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    const info = await sidesoneTransporter.sendMail(mailOptions);
     console.log("Email sent: " + info.response);
   } catch (error) {
     console.error("Error sending email:", error.message);

@@ -5,8 +5,11 @@ import { CiGlobe } from "react-icons/ci";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import Image from "next/image";
+import Clogo from "../../public/images/logo.png"
+import SidesoneImg from "../../public/images/SidesoneProfile.webp"
 
 interface FormData {
   companyName: string;
@@ -84,7 +87,7 @@ const ContactForm = () => {
             </h1>
 
             <div className="flex items-center mb-4 justify-between">
-              <img src="/images/logo.png" alt="Instacruit" className="w-28" />
+              <Image loading="lazy" src={Clogo} alt="Instacruit" className="w-28" />
               <span className="text-2xl">+</span>
               <img
                 src="/new-darker-logo-300x50.png"
@@ -145,8 +148,9 @@ const ContactForm = () => {
               background: "linear-gradient(180deg, #007f64 0%, #4caf50 100%)",
             }}
           >
-            <img
-              src="/DSC00580.png"
+            <Image
+              src={SidesoneImg}
+              loading="lazy"
               alt="Sidesone Profile"
               className="w-44 h-44 rounded-full mb-4 transform transition-transform duration-300 hover:scale-110"
             />
@@ -187,7 +191,6 @@ const ContactForm = () => {
         </div>
       </div>
       <Footer />
-      <ToastContainer />
     </div>
   );
 };

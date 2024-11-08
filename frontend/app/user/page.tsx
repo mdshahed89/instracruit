@@ -1,7 +1,7 @@
 import React from "react";
 import UserProfile from "../pages/UserProfile";
 
-function User() {
+async function User() {
   return (
     <div>
       <UserProfile />
