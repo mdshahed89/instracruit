@@ -28,6 +28,9 @@ useEffect(()=> {
 
 }, [])
 
+console.log("adminId", id);
+
+
   return (
     <div className=" flex items-center justify-center min-h-[100vh] py-10 ">
       <motion.div
@@ -51,7 +54,7 @@ useEffect(()=> {
         <div className=" flex flex-col gap-3 mt-14 ">
           {data.map((dt, idx) => (
             <div key={idx}>
-              <JobPosition data={dt} />
+              <JobPosition data={dt} adminId = {id} />
             </div>
           ))}
         </div>

@@ -87,9 +87,12 @@ export default function AdminProfileModal({ userData, id }) {
       <motion.div initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.1, duration: 1 }} className=" w-full  min-h-[80vh] border-[#830e70] rounded-r-2xl lg:px-14 md:px-7 px-4 py-10  font-Montserrat ">
-        <h3 className=" text-[1.8rem] font-semibold uppercase ">
+        <div className=" flex items-center justify-between ">
+        <h3 className=" text-[1.5rem] md:text-[1.8rem] font-semibold uppercase ">
           Edit Admin Profile
         </h3>
+        
+        </div>
         <form onSubmit={handleSubmit} className=" text-[1.2rem] mt-5 flex flex-col gap-5 ">
           <div className=" flex flex-col gap-1 ">
             <label htmlFor="" className=" ml-2 ">

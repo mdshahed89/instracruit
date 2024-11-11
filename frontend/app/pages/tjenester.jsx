@@ -9,13 +9,13 @@ const services = [
     title: "Rekruttering",
     description: "Vi hjelper deg med å finne de beste talentene til ditt team.",
     icon: FaUsers,
-    route: "/Kontakt_oss",
+    route: "/Kontakt_oss?query=Rekruttering"
   },
   {
     title: "Markedsføring",
     description: "Øk synligheten din med våre markedsføringstjenester.",
     icon: FaBullhorn,
-    route: "/Kontakt_oss",
+    route: "/Kontakt_oss?query=Markedsføring",
   },
   {
     title: "Nettside",

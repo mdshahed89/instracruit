@@ -134,7 +134,7 @@ useEffect(()=> {
           <div className=" flex flex-col gap-1 ">
             <label htmlFor="">Title*</label>
             <div className=" relative ">
-            <input onChange={(e)=>setTitle(e.target.value)} type="text" className=" w-full text-black rounded-full font-semibold p-3 pl-12 outline-none drop-shadow-lg bg-white " placeholder="Enter job title" />
+            <input onChange={(e)=>setTitle(e.target.value)} type="text" required className=" w-full text-black rounded-full font-semibold p-3 pl-12 outline-none drop-shadow-lg bg-white " placeholder="Enter job title" />
             <div className=" absolute top-0 left-2 h-full flex items-center ">
             <MdOutlineTitle className=" text-[1.5rem] text-[#454545] font-light " />
             </div>

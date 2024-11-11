@@ -3,6 +3,7 @@ import React, { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import Link from "next/link";
 // import "react-toastify/dist/ReactToastify.css";
 
 export default function AdminLogin() {
@@ -84,6 +85,13 @@ export default function AdminLogin() {
       transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.5 }}
     >
+
+<motion.div initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+           className=" absolute top-[5%] left-[5%] " >
+        <Link href={'/'} className="  rounded-full px-10 py-2 border-[#841F84] border ">Tilbake</Link>
+      </motion.div>
       {/* <ToastContainer /> */}
       <motion.div
         className="relative z-10 p-8 bg-black bg-opacity-90 rounded-lg shadow-lg max-w-sm border-[#841F84] border-2"

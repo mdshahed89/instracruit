@@ -2,6 +2,7 @@ import Link from 'next/link';
 import AdminProfileNav from '../../../Components/AdminProfileNav'
 import AdminProfileLeft from '../../../Components/AdminProfileLeft'
 import { redirect } from 'next/navigation';
+import WrapProfileComponent from '@/app/Components/WrapProfileComponent'
 
 export const metadata = {
   title: "admin profile",
@@ -34,17 +35,13 @@ let userData;
   }
   userData = userData?.user
 
+  let toggle = false
+
   return (
     <>
         <AdminProfileNav userData = {userData} />
 
-            <div className=' border border-[#830e70] rounded-md mt-10 flex items-center justify-center max-w-[1300px] mx-auto '>
-                <AdminProfileLeft id={id} />
-
-          <div className=' w-full h-[780px] overflow-y-scroll  '>
-          {children}
-          </div>
-            </div>
+            <WrapProfileComponent children={children} id = {id} />
      
       </>
   );

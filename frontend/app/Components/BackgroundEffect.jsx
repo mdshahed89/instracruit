@@ -52,7 +52,7 @@ const Particles = () => {
           },
           move: {
             enable: true,
-            speed: 6,
+            speed: 2,
             direction: "none",
             out_mode: "out",
           },

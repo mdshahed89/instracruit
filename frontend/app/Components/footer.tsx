@@ -7,7 +7,7 @@ import ComapnyIcon from '../../public/icons/CompanyIcon.png'
 export default function Footer() {
   return (
     <footer className="bg-[#222121] px-3 text-white py-8">
-      <div className="max-w-[1250px] w-full mx-auto grid grid-cols-2  ">
+      <div className="max-w-[1000px] w-full mx-auto grid grid-cols-2  ">
         {/* Contact Section */}
         <div className="">
           <Link href="/">
@@ -73,9 +73,10 @@ export default function Footer() {
         </div>
 
         {/* Right Section: Menu & User */}
-        <div className=" flex items-end lg:items-center justify-center text-center flex-col gap-10 ">
+        <div className=" flex items-end  justify-center text-center flex-col ">
           {/* Menu Section */}
-          <div className="f">
+          <div>
+          <div>
             <h3 className="font-bold text-xl">Meny</h3>
             <ul className="space-y-2 mt-2 text-lg text-center">
               <li>
@@ -97,15 +98,16 @@ export default function Footer() {
           </div>
 
           {/* User Section */}
-          <div className=" ">
+          <div className=" mt-8 ">
             <h3 className="font-bold text-xl">Bruker</h3>
-            <ul className="space-y-2 mt-2 text-lg text-center md:text-left">
+            <ul className="space-y-2 mt-2 text-lg ">
               <li>
                 <Link href="/login" className="hover:underline">
                 Tilgang
                 </Link>
               </li>
             </ul>
+          </div>
           </div>
         </div>
       </div>

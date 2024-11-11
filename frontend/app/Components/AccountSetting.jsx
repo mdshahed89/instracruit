@@ -216,8 +216,8 @@ const AccountSetting = ({userData, id}) => {
         
 
 
-        <form className=" text-[1.2rem] mt-5 flex flex-col gap-5 ">
-        <h3 className=" text-[1.8rem] font-semibold uppercase ">
+        <form className=" text-[1.2rem] flex flex-col gap-5 ">
+        <h3 className=" text-[1.6rem] md:text-[1.8rem] font-semibold uppercase ">
           Change Email
         </h3>
           <div className=" flex flex-col gap-1 ">
@@ -270,7 +270,7 @@ const AccountSetting = ({userData, id}) => {
 
 
         <form onSubmit={handlePasswordChangeSubmission} className=" text-[1.2rem] mt-20 flex flex-col gap-5 ">
-        <h3 className=" text-[1.8rem] font-semibold uppercase ">
+        <h3 className=" text-[1.6rem] md:text-[1.8rem] font-semibold uppercase ">
           Change Password
         </h3>
           <div className=" flex flex-col gap-1 ">
@@ -323,7 +323,7 @@ const AccountSetting = ({userData, id}) => {
         </form>
 
         <form onSubmit={handleAccountDeletionSubmission} className=" text-[1.2rem] mt-20 flex flex-col gap-5 ">
-        <h3 className=" text-[1.8rem] font-semibold uppercase ">
+        <h3 className=" text-[1.4rem] md:text-[1.8rem] font-semibold uppercase ">
           Delete your account
         </h3>
 

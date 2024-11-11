@@ -2,6 +2,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 
 const CreateJob = ({ data }) => {
@@ -15,7 +16,14 @@ const CreateJob = ({ data }) => {
 
   const questions = data?.questions?.map(item => item.question) || [];
 
-  console.log("questions", questions);
+  console.log("job", data);
+
+
+  if(!data){
+    return <div className=" flex items-center justify-center min-h-screen ">
+      <div className=" px-8 py-3 rounded-lg shadow-[0px_0px_20px_0px_#830e70] font-semibold ">Jobben eksisterer ikke</div>
+    </div>
+  }
   
 
   useEffect(() => {
@@ -74,7 +82,7 @@ const CreateJob = ({ data }) => {
     try {
 
       if(!customerInfo){
-        toast.error("Candidate Information is required!")
+        toast.error("Kandidatinformasjon er påkrevd!")
         return
       }
 
@@ -96,7 +104,7 @@ const CreateJob = ({ data }) => {
       console.log(fatchedData);
       
       if(response.ok){
-        toast.success("Candidate added successfully")
+        toast.success("Kandidat lagt til vellykket")
         setTimeout(() => {
           router.push(`/jobs/${data?._id}?q=0`);
           setAnswers([])
@@ -119,62 +127,16 @@ const CreateJob = ({ data }) => {
   console.log("ans", answers);
 
 
-  
-
-  if (questionNo >=0 && questionNo < data?.questions.length ) {
-    return (
-       <div className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
-      <div className=" flex flex-col bg-[#363636]/50 border border-[#830e70] shadow-[0px_0px_20px_0px_#830e70] rounded-2xl md:px-8 px-5 lg:px-12 py-7 md:py-12 max-w-[30rem] w-full ">
-        <h2 className=" text-[1.8rem] ">
-          {data?.questions[questionIndex]?.question}
-        </h2>
-        <div className=" mt-6 text-[1.2rem] ">
-        <input
-          type="text"
-          value={answers[questionIndex] || ""}
-          onChange={handleAnswerChange}
-          placeholder="Skriv inn svaret ditt"
-          className=" w-full  bg-[#363636]/70 py-3 px-4 hover:border-[#830e70] transition-colors duration-300 ease-in-out rounded-full border outline-none focus:border-[#830e70] "
-        />
-        </div>
-        <div className="mt-12 flex  gap-2">
-          {questionIndex >0 && questionIndex< data?.questions?.length && (
-            <button
-              onClick={goToPreviousQuestion}
-              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
-            >
-              Forrige
-            </button>
-          )}
-          {/* {questionIndex <= data?.questions.length - 1 ? ( */}
-            <button
-              onClick={goToNextQuestion}
-              disabled={!answers[questionIndex]}
-              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
-            >
-              Neste
-            </button>
-          {/* ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={!answers}
-              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
-            >
-              Send inn
-            </button>
-          )} */}
-        </div>
-      </div>
-    </div> 
-    );
-  }
-
   if (questionIndex < 0 || questionIndex > data?.questions.length) {
     return <p>Ugyldig spørsmål</p>;
   }
+  
 
-  return (
-    <div className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
+  
+
+  if (questionNo === data?.questions.length ) {
+    return (
+       <div className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
         <div className=" flex flex-col bg-[#363636]/50 border border-[#830e70] shadow-[0px_0px_20px_0px_#830e70] rounded-2xl md:px-8 px-5 lg:px-12 py-7 md:py-12 max-w-[30rem] w-full ">
           <h3 className=" text-[1.3rem] ">
           Takk for at du viste interesse for stillingen! Vennligst registrer kontaktinformasjonen din.
@@ -228,6 +190,62 @@ const CreateJob = ({ data }) => {
 
         </div>
       </div>
+    );
+  }
+
+  
+
+  return (
+    <motion.div initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ delay:  0.1, duration: 1 }} className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
+      <div className=" flex flex-col bg-[#363636]/50 border border-[#830e70] shadow-[0px_0px_20px_0px_#830e70] rounded-2xl md:px-8 px-5 lg:px-12 py-7 md:py-12 max-w-[30rem] w-full ">
+
+        {
+          data?.title && <h2 className={` text-[2rem] font-semibold mb-5 text-[#830e70] ${questionNo === 0 ? "block" : "hidden"} `}>{data?.title}</h2>
+        }
+
+        <h2 className=" text-[1.8rem] ">
+          {data?.questions[questionIndex]?.question}
+        </h2>
+        <div className=" mt-6 text-[1.2rem] ">
+        <input
+          type="text"
+          value={answers[questionIndex] || ""}
+          onChange={handleAnswerChange}
+          placeholder="Skriv inn svaret ditt"
+          className=" w-full  bg-[#363636]/70 py-3 px-4 hover:border-[#830e70] transition-colors duration-300 ease-in-out rounded-full border outline-none focus:border-[#830e70] "
+        />
+        </div>
+        <div className="mt-12 flex  gap-2">
+          {questionIndex >0 && questionIndex< data?.questions?.length && (
+            <button
+              onClick={goToPreviousQuestion}
+              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
+            >
+              Forrige
+            </button>
+          )}
+          {/* {questionIndex <= data?.questions.length - 1 ? ( */}
+            <button
+              onClick={goToNextQuestion}
+              disabled={!answers[questionIndex]}
+              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
+            >
+              Neste
+            </button>
+          {/* ) : (
+            <button
+              onClick={handleSubmit}
+              disabled={!answers}
+              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
+            >
+              Send inn
+            </button>
+          )} */}
+        </div>
+      </div>
+    </motion.div> 
   );
 };
 

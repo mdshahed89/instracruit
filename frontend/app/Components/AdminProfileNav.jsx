@@ -16,7 +16,7 @@ const AdminProfileNav = ({userData}) => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1, duration: 0.8 }}
-          className=" max-w-[1000px] mx-auto flex items-center justify-between px-3 "
+          className=" max-w-[1300px] mx-auto flex items-center justify-between px-3 "
         >
             
           <Image

@@ -519,4 +519,48 @@ router.get("/company/:id/job-positions", async (req, res) => {
   }
 });
 
+router.delete("/company/job/:id", async (req, res) => {
+  try {
+    
+    const {id} = req.params
+    const {adminId}  = req.body
+    console.log("adminId", adminId);
+    
+    const admin = await Admin.findById(adminId)
+
+    if(!admin){
+      return res.status(404).json({
+        success: false,
+        message: "Only admin can delete job"
+      })
+    }
+
+    const deletedJob  = await Job.findByIdAndDelete(id)
+    if(deletedJob){
+      return res.status(200).json({
+        success: true,
+        message: "Job deleted successfully"
+      })
+    }
+    else{
+      return res.status(404).json({
+        success: "false",
+        message: "Job does not exist"
+      })
+    }
+
+
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Server error in deleting job",
+      });
+  }
+})
+
+
+
 module.exports = router;

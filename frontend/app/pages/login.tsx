@@ -3,6 +3,7 @@ import React, { useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import Link from "next/link";
 // import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
@@ -72,17 +73,17 @@ export default function Login() {
   return (
     <motion.div
       className="relative flex items-center justify-center min-h-screen bg-black text-white"
-      style={{
-        // backgroundImage: 'url("/path-to-your-gif.gif")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.5 }}
     >
+      <motion.div initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+           className=" absolute top-[5%] left-[5%] " >
+        <Link href={'/'} className="  rounded-full px-10 py-2 border-[#841F84] border ">Tilbake</Link>
+      </motion.div>
       {/* <ToastContainer /> */}
       <motion.div
         className="relative z-10 p-8 bg-black bg-opacity-90 rounded-lg shadow-lg max-w-sm border-[#841F84] border-2"
@@ -125,7 +126,7 @@ export default function Login() {
             />
           </div>
 
-          <div className="mb-4">
+          <div className=" mb-4 ">
             <label
               htmlFor="password"
               className="block text-sm font-medium mb-2"
@@ -143,17 +144,19 @@ export default function Login() {
             />
           </div>
 
+          
+
           <motion.button
             type="submit"
             disabled={loading || isLoginSuccessful} // Disable after success
-            className={`w-full px-6 py-2 rounded-full border ${
+            className={`w-full px-6 py-2 mt-6 rounded-full border ${
               isLoginSuccessful
                 ? "bg-gray-500 text-gray-300 cursor-not-allowed"
                 : "bg-transparent text-white border-[#841F84] hover:bg-[#866186] hover:text-black"
             } transition duration-300`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.4, delay: 0.6 }}
             viewport={{ once: true, amount: 0.5 }}
           >
             {loading
@@ -164,11 +167,19 @@ export default function Login() {
           </motion.button>
         </motion.form>
 
-        <div className="mt-4 text-center">
-          <a href="#" className="text-sm text-yellow-500 hover:underline">
+              {/* <motion.div initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true, amount: 0.5 }} className=" text-sm mt-6 ">
+              Don't want to continue? Go to <Link href={'/'} className=" text-yellow-500 ">Home</Link>
+              </motion.div> */}
+
+<div className=" text-center mt-5 ">
+          <span className="text-sm text-yellow-500 hover:underline">
             Glemt passord?
-          </a>
+          </span>
         </div>
+        
       </motion.div>
     </motion.div>
   );

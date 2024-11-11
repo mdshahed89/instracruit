@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +23,22 @@ export default function ContactUsPage() {
 
   const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string>("");
+
+
+  const [queryValue, setQueryValue] = useState<string>('');
+
+  useEffect(() => {
+    // Check if window is available
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const value = params.get('query');
+      setQueryValue(value || '');
+    }
+  }, []);
+
+  console.log("qvallue", queryValue);
+  
+
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -92,8 +108,9 @@ export default function ContactUsPage() {
           Registrer interesse
         </motion.h2>
         <motion.p className="text-lg leading-relaxed max-w-lg">
-          Oppgi litt informasjon om din bedrift, og en av våre rådgivere fra
-          InstaCruit vil kontakte deg innen 24 timer.
+          {
+            queryValue === "Rekruttering" ? "Vi hjelper din bedrift med rekruttering, slik at du får de rette kandidatene på laget - kontakt oss for å styrke teamet ditt!" : queryValue === "Markedsføring" ? "Øk synligheten og nå ut til flere kunder med målrettet markedsføring og annonsering - kontakt oss i dag for å skape resultater som merkes!" : "Oppgi litt informasjon om din bedrift, og en av våre rådgivere fra InstaCruit vil kontakte deg innen 24 timer."
+          }
         </motion.p>
       </motion.div>
 

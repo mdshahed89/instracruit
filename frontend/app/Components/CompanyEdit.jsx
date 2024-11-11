@@ -82,9 +82,9 @@ const CompanyEdit = ({ cid, id, companyData }) => {
       };
   
   return (
-    <motion.div initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ delay:  0.1, duration: 1 }} className="max-w-[800px] my-[5%] mx-auto lg:px-12 md:px-7 font-Montserrat px-4 md:py-12 py-6 shadow-[0px_0px_20px_0px_#830e70] bg-[#000] text-white rounded-lg ">
+    <motion.div initial={{ opacity: 0, y: 40 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay:  0.2, duration: 1 }} className="max-w-[800px] my-[5%] mx-auto lg:px-12 md:px-7 font-Montserrat px-4 md:py-12 py-6 shadow-[0px_0px_20px_0px_#830e70] bg-[#000] text-white rounded-lg ">
       {/* Company Details Form */}
       <form onSubmit={handleSubmitCompanyDetails} className="mb-10 flex flex-col gap-3">
         <div className="flex items-center mb-7 justify-between">
