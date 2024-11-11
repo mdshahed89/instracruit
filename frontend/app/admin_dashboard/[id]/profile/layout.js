@@ -41,7 +41,7 @@ let userData;
     <>
         <AdminProfileNav userData = {userData} />
 
-            <WrapProfileComponent children={children} id = {id} />
+        <WrapProfileComponent id={id}>{children}</WrapProfileComponent>
      
       </>
   );

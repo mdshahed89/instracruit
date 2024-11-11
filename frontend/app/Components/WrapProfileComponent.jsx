@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import AdminProfileLeft from '../Components/AdminProfileLeft'
 import { IoIosArrowForward } from 'react-icons/io'
 
-const WrapProfileComponent = ({children, id}) => {
+const WrapProfileComponent = ({ children ,id}) => {
 
     const [isOpen, setIsOpen] = useState(false)
 

@@ -19,11 +19,7 @@ const CreateJob = ({ data }) => {
   console.log("job", data);
 
 
-  if(!data){
-    return <div className=" flex items-center justify-center min-h-screen ">
-      <div className=" px-8 py-3 rounded-lg shadow-[0px_0px_20px_0px_#830e70] font-semibold ">Jobben eksisterer ikke</div>
-    </div>
-  }
+  
   
 
   useEffect(() => {
@@ -55,7 +51,7 @@ const CreateJob = ({ data }) => {
     if (answers.length === 0) {
       setAnswers(Array(data?.questions?.length).fill(""));
     }
-  }, [data, answers.length]);
+  }, [data, answers?.length]);
 
   const handleAnswerChange = (e) => {
     const newAnswers = [...answers];
@@ -125,6 +121,12 @@ const CreateJob = ({ data }) => {
   console.log("qindex", questionIndex);
 
   console.log("ans", answers);
+
+  if(!data){
+    return <div className=" flex items-center justify-center min-h-screen ">
+      <div className=" px-8 py-3 rounded-lg shadow-[0px_0px_20px_0px_#830e70] font-semibold ">Jobben eksisterer ikke</div>
+    </div>
+  }
 
 
   if (questionIndex < 0 || questionIndex > data?.questions.length) {
