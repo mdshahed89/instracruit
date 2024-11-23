@@ -9,6 +9,7 @@ import MessageForm from "../Components/message";
 import Forespørselsinformasjonsfelt from "../Components/Forespørselsinformasjonsfelt";
 import { jwtDecode } from "jwt-decode";
 import { IoIosArrowBack } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 
 interface DynamicField {
@@ -27,7 +28,7 @@ export default function SettingsPage() {
   ]);
   const [askForCV, setAskForCV] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
+  const router = useRouter();
   const addNewDynamicField = () => {
     setDynamicFields((prevFields) => [...prevFields, { value: "" }]);
   };
@@ -230,7 +231,8 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar companyName = "N/A" />
-      <header className="bg-black text-white p-4 text-center font-bold">
+      <header className="bg-black text-white p-4 text-center relative font-bold">
+        <button onClick={()=> router.back()} className=" absolute bottom-4 left-5 md:left-10 px-6 md:px-8 py-1 border-[#830e70] border rounded-full ">Tilbake</button>
         Innstillinger
       </header>
 

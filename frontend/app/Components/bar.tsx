@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png"
+import Link from "next/link";
 
 interface CandidateNavProps {
   companyName: string | null | undefined;
@@ -22,11 +23,11 @@ export default function Navbar({companyName}:CandidateNavProps) {
   //   }, 1000);
   // };
   return (
-    <nav className="bg-black text-white py-4 px-4 md:px-8 flex justify-between gap-2 items-center">
+    <nav className="bg-black relative text-white py-4 px-4 md:px-8 flex justify-between gap-2 items-center">
       <div className="flex items-center">
-        <div className="flex items-center">
+        <Link href='/' className="flex items-center">
           <Image src={Logo} alt="Instacruit" loading="lazy" className=" object-cover h-auto" />
-        </div>
+        </Link>
 
         <div className=" md:block hidden ml-10">
           <span className="text-white font-semibold mr-6 cursor-pointer">

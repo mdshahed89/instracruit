@@ -14,7 +14,7 @@ import { PiSquaresFour } from "react-icons/pi";
 import { CgOrganisation } from "react-icons/cg";
 import { RxExit } from "react-icons/rx";
 import Logo from "../../public/images/logo.png"
-
+import { MdOutlineHome } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 
@@ -148,7 +148,7 @@ const Sidebar: React.FC = () => {
               <Image
                 src={Logo}
                 alt="Instacruit"
-                className="h-12 md:h-16"
+                className="h-auto md:h-16"
               />
             </Link>
           </motion.div>
@@ -196,6 +196,18 @@ const Sidebar: React.FC = () => {
                     <span>Kontrollpanel</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          )}
+          {isAnimationComplete && isOpen && (
+            <div className="mt-2">
+              <div className="cursor-pointer">
+                <Link href={'/'} className="flex items-center justify-between text-[#d3d3d3] border border-gray-700 bg-[#830e70] p-2 rounded w-full">
+                  <div className="flex items-center">
+                    <MdOutlineHome className="mr-2" size={24} />{" "}
+                    <span className=" text-[#fff] ">Hjem</span>
+                  </div>
+                </Link>
               </div>
             </div>
           )}
