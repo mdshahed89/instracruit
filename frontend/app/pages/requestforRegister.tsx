@@ -3,6 +3,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 interface FormData {
   companyName: string;
@@ -77,6 +78,12 @@ export default function Register() {
         transition={{ duration: 0.6 }}
         viewport={{ once: false, amount: 0.5 }}
       >
+        <motion.div initial={{ opacity: 0, y: 5 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+           className=" absolute top-[5%] left-[5%] " >
+        <Link href={'/'} className="  rounded-full px-10 py-2 border-[#841F84] border ">Tilbake</Link>
+      </motion.div>
         <motion.h2 className="md:text-4xl text-3xl font-bold mb-6">
           Registrer interesse
         </motion.h2>

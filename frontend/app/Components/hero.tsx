@@ -43,7 +43,7 @@ const Hero: React.FC = () => {
     }
   }, []);
 
-  console.log(userId);
+  // console.log(userId);
   
 
   const handleDashboardClick = () => {

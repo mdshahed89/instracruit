@@ -1,12 +1,41 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import Logo from '../../public/images/logo.png'
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>('')
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      setIsAuthenticated(true);
+      const decodedToken = jwtDecode<{ id: string }>(token);
+      setUserId(decodedToken?.id)
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  console.log(userId);
+  
+
+  const handleDashboardClick = () => {
+    if (isAuthenticated) {
+      // console.log("not authenticated");
+      
+      router.push(`/dashboard/${userId}`);
+    } else {
+      router.push("/login");
+    }
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -33,22 +62,27 @@ const Navbar: React.FC = () => {
     <ul
       className={`  px-5 py-8 transform ${
         isOpen ? "translate-x-0 fixed left-0 top-[70px] bg-[#222121] w-full flex flex-col gap-5 " : "hidden"
-      }  md:flex md:flex-row md:items-center md:space-x-16  transition-all duration-300 ease-in-out z-50`}
+      }  md:flex md:flex-row md:items-center md:space-x-12  transition-all duration-300 ease-in-out z-50`}
     >
       <li className="my-4 md:my-0">
-        <a href="/Om_Oss" className="block text-lg hover:text-[#830e70] transition-all duration-300 ease-in-out whitespace-nowrap">
+        <Link href="/Om_Oss" className="block text-lg hover:text-[#830e70] transition-all duration-300 ease-in-out whitespace-nowrap">
           Om Oss
-        </a>
+        </Link>
       </li>
       <li className="my-4 md:my-0">
-        <a href="/tjenester" className="block text-lg hover:text-[#830e70] transition-all duration-300 ease-in-out whitespace-nowrap">
+        <Link href="/tjenester" className="block text-lg hover:text-[#830e70] transition-all duration-300 ease-in-out whitespace-nowrap">
           Tjenester
-        </a>
+        </Link>
       </li>
       <li className="my-4 md:my-0">
-        <a href="/Kontakt_oss" className="block text-lg hover:text-[#830e70] transition-all duration-300 ease-in-out whitespace-nowrap">
+        <Link href="/Kontakt_oss" className="block text-lg hover:text-[#830e70] transition-all duration-300 ease-in-out whitespace-nowrap">
           Kontakt Oss
-        </a>
+        </Link>
+      </li>
+      <li className={` ${isAuthenticated ? "" : "hidden"} my-4 md:my-0`}>
+        <button onClick={handleDashboardClick} className="block text-lg hover:bg-[#830e70]/90 bg-[#830e70] px-5 py-2 rounded-md shadow-inner transition-all duration-300 ease-in-out whitespace-nowrap">
+        Kontrollpanel
+        </button>
       </li>
     </ul>
   </div>
