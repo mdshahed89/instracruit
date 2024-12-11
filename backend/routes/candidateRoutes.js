@@ -79,7 +79,7 @@ console.log(req.user);
   }
 });
 
-router.post("/create-job", async (req, res) => {
+router.post("/create-job", upload.single("resume"), async (req, res) => {
   try {
     const {customerInfo, questions, answers, dashboardId} = req.body
     if(!customerInfo || !questions || !answers || !dashboardId){
@@ -88,12 +88,22 @@ router.post("/create-job", async (req, res) => {
         message: "Required field missing"
       })
     }
+
+    console.log("info", customerInfo);
+
+    const parsedCustomerInfo = JSON.parse(req.body.customerInfo);
+    
     const newCandidate = new Candidate({
-      customerInfo,
+      customerInfo: parsedCustomerInfo,
       questions,
       answers,
       dashboardId
     })
+
+    if (req?.file) {
+      newCandidate.resumeUrl = req.file?.path;
+      console.log(req.file?.path);
+    }
 
     newCandidate.save()
 

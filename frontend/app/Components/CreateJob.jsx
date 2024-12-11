@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { motion } from "framer-motion";
 
-
 const CreateJob = ({ data }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -12,39 +11,43 @@ const CreateJob = ({ data }) => {
   const [answers, setAnswers] = useState([]);
   let questionNo = parseInt(searchParams.get("q"));
   const [questionIndex, setQuestionIndex] = useState(questionNo);
-  const [customerInfo, setCustomerInfo] = useState(null)
+  const [customerInfo, setCustomerInfo] = useState(null);
+  const [resumeFile, setResumeFile] = useState(null);
+  const questions = data?.questions?.map((item) => item.question) || [];
 
-  const questions = data?.questions?.map(item => item.question) || [];
+  // console.log("job", data);
 
-  console.log("job", data);
-
-
-  
-  
+  console.log("file", resumeFile);
 
   useEffect(() => {
     const url = new URL(window.location.href);
-    const qParam = url.searchParams.get('q');
+    const qParam = url.searchParams.get("q");
 
     // Check if 'q' is not set to '0'
-    if (qParam !== '0') {
+    if (qParam !== "0") {
       // Update the 'q' parameter to '0' and replace the state
-      url.searchParams.set('q', '0');
-      window.history.replaceState({}, '', url);
-      questionNo = 0
-      window.location.reload()
+      url.searchParams.set("q", "0");
+      window.history.replaceState({}, "", url);
+      questionNo = 0;
+      window.location.reload();
     }
   }, []);
+
+  const handleResumeChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setResumeFile(e.target.files[0]);
+      console.log("Selected file:", e.target.files[0]);
+    }
+  };
 
   const handleInformationChange = (e) => {
     setCustomerInfo({
       ...customerInfo,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   console.log(customerInfo);
-  
 
   useEffect(() => {
     // Initialize the answers array once based on data length
@@ -60,60 +63,78 @@ const CreateJob = ({ data }) => {
   };
 
   const goToNextQuestion = () => {
-    if (questionIndex < data?.questions.length ) {
+    if (questionIndex < data?.questions.length) {
       router.push(`/jobs/${data?._id}?q=${questionIndex + 1}`);
-      setQuestionIndex(questionIndex+1);
+      setQuestionIndex(questionIndex + 1);
     }
   };
 
   const goToPreviousQuestion = () => {
     if (questionIndex >= 0) {
-      router.push(`/jobs/${data?._id}?q=${questionIndex-1}`);
-      setQuestionIndex(questionIndex-1);
+      router.push(`/jobs/${data?._id}?q=${questionIndex - 1}`);
+      setQuestionIndex(questionIndex - 1);
     }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-
-      if(!customerInfo){
-        toast.error("Kandidatinformasjon er påkrevd!")
-        return
+      if (!customerInfo) {
+        toast.error("Kandidatinformasjon er påkrevd!");
+        return;
       }
 
-      const ansIsFilled = answers.every(str => str);
+      const ansIsFilled = answers.every((str) => str);
 
-      if(!ansIsFilled){
-        toast.error("Alle spørsmålssvar er påkrevd")
-        return
+      if (!ansIsFilled) {
+        toast.error("Alle spørsmålssvar er påkrevd");
+        return;
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/create-job`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ customerInfo, questions, answers, dashboardId: data?.dashboardId }),
-      });
-      const fatchedData = await response.json()
+      if (!resumeFile) {
+        toast.error("Please upload your resume.");
+        return;
+      }
+
+      const formData = new FormData();
+formData.append("questions", JSON.stringify(questions)); // Append JSON stringified data
+formData.append("answers", JSON.stringify(answers));
+formData.append("customerInfo", JSON.stringify(customerInfo)); // Assuming `customerInfo` is an object
+formData.append("dashboardId", data?.dashboardId); // Append primitive data
+formData.append("resume", resumeFile);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/candidates/create-job`,
+        {
+          method: "POST",
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+          body: formData
+          // JSON.stringify({
+          //   customerInfo,
+          //   questions,
+          //   answers,
+          //   dashboardId: data?.dashboardId,
+          // }),
+        }
+      );
+      const fatchedData = await response.json();
       console.log(fatchedData);
-      
-      if(response.ok){
-        toast.success("Kandidat lagt til vellykket")
+
+      if (response.ok) {
+        toast.success("Kandidat lagt til vellykket");
         setTimeout(() => {
           router.push(`/jobs/${data?._id}?q=0`);
-          setAnswers([])
-          setQuestionIndex(0)
+          setAnswers([]);
+          setQuestionIndex(0);
         }, 1000);
+      } else {
+        toast.error(fatchedData.message);
       }
-      else{
-        toast.error(fatchedData.message)
-      }
-
     } catch (error) {
       console.log(error);
-      toast.error(error.message)
+      toast.error(error.message);
     }
   };
 
@@ -122,26 +143,27 @@ const CreateJob = ({ data }) => {
 
   console.log("ans", answers);
 
-  if(!data){
-    return <div className=" flex items-center justify-center min-h-screen ">
-      <div className=" px-8 py-3 rounded-lg shadow-[0px_0px_20px_0px_#830e70] font-semibold ">Jobben eksisterer ikke</div>
-    </div>
+  if (!data) {
+    return (
+      <div className=" flex items-center justify-center min-h-screen ">
+        <div className=" px-8 py-3 rounded-lg shadow-[0px_0px_20px_0px_#830e70] font-semibold ">
+          Jobben eksisterer ikke
+        </div>
+      </div>
+    );
   }
-
 
   if (questionIndex < 0 || questionIndex > data?.questions.length) {
     return <p>Ugyldig spørsmål</p>;
   }
-  
 
-  
-
-  if (questionNo === data?.questions.length ) {
+  if (questionNo === data?.questions.length) {
     return (
-       <div className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
+      <div className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
         <div className=" flex flex-col bg-[#363636]/50 border border-[#830e70] shadow-[0px_0px_20px_0px_#830e70] rounded-2xl md:px-8 px-5 lg:px-12 py-7 md:py-12 max-w-[30rem] w-full ">
           <h3 className=" text-[1.3rem] ">
-          Takk for at du viste interesse for stillingen! Vennligst registrer kontaktinformasjonen din.
+            Takk for at du viste interesse for stillingen! Vennligst registrer
+            kontaktinformasjonen din.
           </h3>
 
           <form onSubmit={handleSubmit} className=" mt-5 flex flex-col gap-4 ">
@@ -178,49 +200,77 @@ const CreateJob = ({ data }) => {
                 className=" no-arrows  bg-[#363636]/70 py-3 px-4 hover:border-[#830e70] transition-colors duration-300 ease-in-out rounded-full border outline-none focus:border-[#830e70] "
               />
             </div>
-          <div className="mt-12 flex justify-between space-x-4">
-            <button
-              // onClick={handleSubmit}
-              disabled={ !answers}
-              // disabled={!answers}
-              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
-            >
-              Send inn
-            </button>
-          </div>
-          </form>
 
+            <div className=" flex flex-col gap-2 ">
+              <h4>Last opp CV*</h4>
+              <label htmlFor="type3-1" className="flex  w-full">
+                <p className="w-full truncate rounded-full shadow-[0px_0px_4px_0.5px] border-[3px] border-[#830e70] px-4 py-3 cursor-pointer text-sm font-medium text-[#830e70] hover:shadow-md">
+                  {resumeFile?.name ? resumeFile.name : "VELG FIL"}
+                </p>
+              </label>
+              <input
+                // onChange={(e) => {
+                //   if (e.target.files && e.target.files[0]) {
+                //     const imageFile = e.target.files[0];
+                //     setShowName1(imageFile);
+                //   }
+                // }}
+                onChange={handleResumeChange}
+                className="hidden"
+                type="file"
+                name=""
+                id="type3-1"
+              />
+            </div>
+
+            <div className="mt-12 flex justify-between space-x-4">
+              <button
+                // onClick={handleSubmit}
+                disabled={!answers}
+                // disabled={!answers}
+                className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
+              >
+                Send inn
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     );
   }
 
-  
-
   return (
-    <motion.div initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ delay:  0.1, duration: 1 }} className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat ">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.1, duration: 1 }}
+      className="flex  items-center justify-center min-h-screen bg-transparent p-4 font-Montserrat "
+    >
       <div className=" flex flex-col bg-[#363636]/50 border border-[#830e70] shadow-[0px_0px_20px_0px_#830e70] rounded-2xl md:px-8 px-5 lg:px-12 py-7 md:py-12 max-w-[30rem] w-full ">
-
-        {
-          data?.title && <h2 className={` text-[2rem] font-semibold mb-5 text-[#830e70] ${questionNo === 0 ? "block" : "hidden"} `}>{data?.title}</h2>
-        }
+        {data?.title && (
+          <h2
+            className={` text-[2rem] font-semibold mb-5 text-[#830e70] ${
+              questionNo === 0 ? "block" : "hidden"
+            } `}
+          >
+            {data?.title}
+          </h2>
+        )}
 
         <h2 className=" text-[1.8rem] ">
           {data?.questions[questionIndex]?.question}
         </h2>
         <div className=" mt-6 text-[1.2rem] ">
-        <input
-          type="text"
-          value={answers[questionIndex] || ""}
-          onChange={handleAnswerChange}
-          placeholder="Skriv inn svaret ditt"
-          className=" w-full  bg-[#363636]/70 py-3 px-4 hover:border-[#830e70] transition-colors duration-300 ease-in-out rounded-full border outline-none focus:border-[#830e70] "
-        />
+          <input
+            type="text"
+            value={answers[questionIndex] || ""}
+            onChange={handleAnswerChange}
+            placeholder="Skriv inn svaret ditt"
+            className=" w-full  bg-[#363636]/70 py-3 px-4 hover:border-[#830e70] transition-colors duration-300 ease-in-out rounded-full border outline-none focus:border-[#830e70] "
+          />
         </div>
         <div className="mt-12 flex  gap-2">
-          {questionIndex >0 && questionIndex< data?.questions?.length && (
+          {questionIndex > 0 && questionIndex < data?.questions?.length && (
             <button
               onClick={goToPreviousQuestion}
               className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
@@ -229,13 +279,13 @@ const CreateJob = ({ data }) => {
             </button>
           )}
           {/* {questionIndex <= data?.questions.length - 1 ? ( */}
-            <button
-              onClick={goToNextQuestion}
-              disabled={!answers[questionIndex]}
-              className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
-            >
-              Neste
-            </button>
+          <button
+            onClick={goToNextQuestion}
+            disabled={!answers[questionIndex]}
+            className="px-4 py-3 bg-transparent hover:bg-[#830e70] transition-colors duration-300 ease-in-out focus:bg-[#830e70] border  border-[#830e70] rounded-full w-full text-white"
+          >
+            Neste
+          </button>
           {/* ) : (
             <button
               onClick={handleSubmit}
@@ -247,10 +297,8 @@ const CreateJob = ({ data }) => {
           )} */}
         </div>
       </div>
-    </motion.div> 
+    </motion.div>
   );
 };
 
 export default CreateJob;
-
-
