@@ -401,6 +401,9 @@ export default function CandidateProfile() {
     return <p>{error}</p>;
   }
 
+  console.log("resume",resumeUrl);
+  
+
   return (
     <div className="min-h-screen bg-gray-100">
       <ToastContainer />
@@ -527,11 +530,11 @@ export default function CandidateProfile() {
           </div>
 
           <div className="border-4 border-[#830e70] bg-white p-4 rounded-lg shadow-md mb-4 sm:mb-6">
-            <h3 className="font-bold text-black text-md sm:text-lg mb-2">
+            <h3 className="font-bold text-[#000] text-md sm:text-lg mb-2">
               {resumeData?.title}
             </h3>
             <hr className="mb-2" />
-            <p className="text-gray-500">{resumeData?.description}</p>
+            <p className="text-gray-500 font-medium ">{resumeUrl ? "CV lastet opp" : "Ingen CV lastet opp"}</p>
             <button
               className="mt-4 bg-[#830e70] text-white py-2 px-4 rounded-md"
               onClick={openModal}
@@ -544,9 +547,9 @@ export default function CandidateProfile() {
                 <a
                   href={resumeUrl.replace("/upload/", "/upload/fl_attachment/")}
                   download={resumeUrl.split("/").pop()?.split("?")[0]}
-                  className="bg-[#830e70] text-white py-2 px-4 rounded hover:bg-blue-700"
+                  className="bg-[#830e70] text-white py-2 px-6 rounded hover:bg-blue-700"
                 >
-                  Download Resume
+                  Last ned CV
                 </a>
               </div>
             )}
